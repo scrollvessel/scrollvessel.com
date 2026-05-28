@@ -1,0 +1,22 @@
+{
+  "name": "scrollvessel.com",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "latest",
+    "vite": "latest",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "latest",
+    "autoprefixer": "latest",
+    "tailwindcss": "latest"
+  }
+}
