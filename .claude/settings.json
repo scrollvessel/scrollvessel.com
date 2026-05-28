@@ -1,0 +1,5 @@
+{
+  "enabledRules": [
+    ".claude/rules/must-read-claude.md"
+  ]
+}
