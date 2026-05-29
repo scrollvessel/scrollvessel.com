@@ -22,6 +22,7 @@ pnpm-debug.log*
 # Editor and project files
 .idea/
 .vscode/
+.superpowers/
 
 # OS files
 .DS_Store
