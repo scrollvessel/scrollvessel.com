@@ -29,6 +29,14 @@
 - [单一权威](../../knowledge/principles/single-authority.md)
 - [逐步细化](../../knowledge/principles/progressive-refinement.md)
 
+## UI 适用性字段
+
+`ui.md` 必须先记录 UI 适用性：
+
+- 是否 UI story
+- 若跳过 UI，跳过原因
+- `ui-ux-pro-max` 的输入摘要或产物来源
+
 ## UI 索引字段
 
 `ui.md` 的产物索引至少记录：

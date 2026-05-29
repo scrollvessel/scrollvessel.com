@@ -4,6 +4,12 @@
 
 - [`story.md`](story.md)
 
+## UI 适用性
+
+- 是否 UI story：待确认
+- 跳过原因：若非 UI story，在此说明
+- 产物来源：若使用 `ui-ux-pro-max`，在此记录输入摘要或产物来源
+
 ## UI 产物目录
 
 - [`ui/`](ui/)

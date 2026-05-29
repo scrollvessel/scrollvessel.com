@@ -25,22 +25,41 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 | 状态变化 | 更新进度 | [`skills/progress-update.md`](skills/progress-update.md) | `plans/progress.md` |
 | 出现可复用知识 | 知识沉淀 | [`skills/knowledge-capture.md`](skills/knowledge-capture.md) | `knowledge/` 下合适文件 |
 
+## 就绪门槛
+
+| 阶段 | 最小输入 | 必要输出 | 跳过条件 |
+|---|---|---|---|
+| MVP | `references/wips/` | `mvp.md` | 用户明确指定已有 MVP |
+| 用户旅程 | `mvp.md` | `user-journey.md` | 用户明确只处理已有旅程 |
+| 故事 | `user-journey.md` | `story.md` | 用户明确只处理已有 story |
+| UI | 涉及界面的 `story.md` | `ui.md` 和必要 `ui/` 产物 | 非 UI story，在后续计划中记录原因 |
+| 测试 | `story.md`；UI story 还需要 `ui.md` 或 UI 跳过说明 | `tests.md` | 不跳过 |
+| 计划 | `story.md`、`tests.md`、UI 状态 | `plans/plan.md` | 不跳过 |
+| 实现 | `plans/plan.md` | 代码变更 | 不跳过 |
+| QA | 代码变更、`tests.md` | `plans/qa.md` | 不跳过 |
+| Review | diff、`plans/qa.md` | `plans/review.md` | 不跳过 |
+| Progress | 阶段切换、阻塞、偏离计划或交接 | `plans/progress.md` | routine 日志不写 |
+
 ## 阶段说明
 
-- UI story 先通过 `story-to-ui.md` 生成 UI 索引和产物，再进入测试和计划。
+- UI story 先通过 `story-to-ui.md` 生成 UI 索引和产物，再进入 UI 相关测试和计划。
 - 非 UI story 可跳过 UI 产物，但 `story-to-plan.md` 必须记录不需要 UI 产物的原因。
-- `story-to-tests.md` 可在 `story.md` 后启动；若 UI 产物存在，应纳入测试分析。
+- `story-to-tests.md` 可在 `story.md` 后先生成验收和逻辑测试；若 UI 产物存在，再补充 UI 可观察检查。
 
 ## 回流规则
 
 ```text
 QA 失败或 review 存在必须修复项
+→ 判断是否需要修正 story/ui/tests/plan
+→ 若规格或计划错误，回到对应 skill 修正
 → implementation.md 修复
 → qa-verification.md 复验受影响范围
 → code-review.md 复审受影响 diff
 → progress-update.md 更新状态
 ```
 
+- `story.md`、`ui.md`、`tests.md` 是规格权威。
+- `plans/plan.md` 是静态实施计划权威。
 - `plans/qa.md` 是验证证据权威。
 - `plans/review.md` 是审查发现、修复动作和复审结论权威。
 - `plans/progress.md` 是任务状态和交接状态权威。

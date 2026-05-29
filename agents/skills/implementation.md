@@ -7,7 +7,8 @@
 ## 输入
 
 - `plans/plan.md`。
-- 同一 story 下的 `story.md`、`ui.md`、`tests.md`。
+- 同一 story 下的 `story.md`、`tests.md`。
+- UI story 需要 `ui.md`；非 UI story 需要计划中的 UI 跳过说明。
 - 相关知识链接和现有代码。
 
 ## 输出
@@ -18,7 +19,7 @@
 
 ## 步骤
 
-1. 以 SDD（Spec-Driven Development）思维执行：先把 `story.md`、`ui.md`、`tests.md`、`plans/plan.md` 作为实现前规格理解清楚，再做最小可验证变更。
+1. 以 SDD（Spec-Driven Development）思维执行：先把 `story.md`、`tests.md`、`plans/plan.md` 以及适用的 `ui.md` 作为实现前规格理解清楚，再做最小可验证变更。
 2. 借鉴 OpenSpec-style 的 change/spec/tasks 纪律：明确变更意图（change）、规格约束（spec）和任务状态（tasks），但放入现有权威文件，不创建新权威系统。
 3. 不引入独立 OpenSpec 权威系统；`story.md`、`ui.md`、`tests.md` 和 `plans/plan.md` 是本 story 的规格和计划权威，`plans/progress.md` 是任务状态权威。
 4. 按 `plans/plan.md` 顺序实现，避免扩大范围。
@@ -34,7 +35,7 @@
 
 ## 完成标准
 
-- 代码变更满足 `story.md`、`ui.md`、`tests.md` 和 `plans/plan.md`。
+- 代码变更满足 `story.md`、`tests.md`、`plans/plan.md`，以及适用的 `ui.md`。
 - 已运行计划要求的验证，或在 `plans/progress.md` 记录未运行原因。
 - 未引入独立规格权威，未超出 story 范围。
 

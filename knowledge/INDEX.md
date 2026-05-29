@@ -7,6 +7,11 @@
 - [`SOUL.md`](SOUL.md)：价值观和方法论。
 - [`principles/`](principles/README.md)：知识工程工作原则。
 
+## 执行流程
+
+- [`../agents/orchestrator.md`](../agents/orchestrator.md)：智能体执行编排入口。
+- [`../agents/skills/README.md`](../agents/skills/README.md)：流程阶段能力单元索引。
+
 ## 产品知识
 
 - [`user-journeys/`](user-journeys/README.md)：用户旅程知识。
