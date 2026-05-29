@@ -15,7 +15,7 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 |---|---|---|---|
 | `references/wips/` 草案 | 提炼 MVP | [`skills/wip-to-mvp.md`](skills/wip-to-mvp.md) | `products/*/mvp.md` |
 | `products/*/mvp.md` | 拆用户旅程 | [`skills/mvp-to-user-journey.md`](skills/mvp-to-user-journey.md) | `products/*/user-journey-*/user-journey.md` |
-| `user-journey.md` | 拆故事 | [`skills/user-journey-to-story.md`](skills/user-journey-to-story.md) | `story-*/story.md` |
+| `user-journey.md` | 拆故事并初始化 story 工作区 | [`skills/user-journey-to-story.md`](skills/user-journey-to-story.md) | `story-*/story.md`、`ui.md`、`tests.md`、`plans/` 初始文件 |
 | `story.md` | 分析 UI | [`skills/story-to-ui.md`](skills/story-to-ui.md) | `story-*/ui.md` 和 `story-*/ui/` |
 | `story.md` + UI 状态 | 分析测试 | [`skills/story-to-tests.md`](skills/story-to-tests.md) | `story-*/tests.md` |
 | `story.md` + `ui.md` + `tests.md` | 生成计划 | [`skills/story-to-plan.md`](skills/story-to-plan.md) | `story-*/plans/plan.md` |
@@ -31,7 +31,7 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 |---|---|---|---|
 | MVP | `references/wips/` | `mvp.md` | 用户明确指定已有 MVP |
 | 用户旅程 | `mvp.md` | `user-journey.md` | 用户明确只处理已有旅程 |
-| 故事 | `user-journey.md` | `story.md` | 用户明确只处理已有 story |
+| 故事 | `user-journey.md` | `story.md`、`ui.md`、`tests.md`、`plans/` 初始文件 | 用户明确只处理已有 story；若缺少派生入口，先补齐 story 工作区 |
 | UI | `story.md` | `ui.md`；UI story 还需要必要 `ui/` 产物 | 不跳过；非 UI story 在 `ui.md` 记录跳过原因 |
 | 测试 | `story.md`；`ui.md` 中的 UI 适用性状态 | `tests.md` | 不跳过 |
 | 计划 | `story.md`、`tests.md`、UI 状态 | `plans/plan.md` | 不跳过 |
@@ -42,6 +42,7 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 
 ## 阶段说明
 
+- `user-journey-to-story.md` 创建 story 工作区入口；后续 UI、测试、计划、QA、审查和进度阶段更新这些入口，不再临时发明新位置。
 - UI story 先通过 `story-to-ui.md` 生成 UI 索引和产物，再进入 UI 相关测试和计划。
 - `ui.md` 是 UI 适用性和 UI 产物索引的单一权威；非 UI story 也要在 `ui.md` 记录跳过原因。
 - `story-to-tests.md` 可在 `story.md` 后先生成验收和逻辑测试；若 UI 产物存在，再补充 UI 可观察检查。

@@ -25,6 +25,7 @@
 4. 按 `plans/plan.md` 顺序实现，避免扩大范围。
 5. 只在阶段切换、阻塞、偏离计划或需要交接时更新 `plans/progress.md`，避免把进度文件变成噪音日志。
 6. 保留可审查 diff，避免把临时调试、无关重构或未请求文件混入。
+7. 实现完成后进入 `qa-verification.md`；若无法验证，先在 `plans/progress.md` 记录阻塞原因，不得声明交付完成。
 
 ## 权威知识引用
 
@@ -36,7 +37,7 @@
 ## 完成标准
 
 - 代码变更满足 `story.md`、`tests.md`、`plans/plan.md`，以及适用的 `ui.md`。
-- 已运行计划要求的验证，或在 `plans/progress.md` 记录未运行原因。
+- 已触发 `qa-verification.md`，或在 `plans/progress.md` 记录阻塞原因和下一步。
 - 未引入独立规格权威，未超出 story 范围。
 
 ## 提示词模板

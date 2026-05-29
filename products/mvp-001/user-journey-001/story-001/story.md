@@ -21,6 +21,9 @@
 - [`ui.md`](ui.md)
 - [`tests.md`](tests.md)
 - [`plans/plan.md`](plans/plan.md)
+- [`plans/qa.md`](plans/qa.md)
+- [`plans/review.md`](plans/review.md)
+- [`plans/progress.md`](plans/progress.md)
 
 ## 知识引用
 

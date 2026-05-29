@@ -24,6 +24,7 @@
 5. 修复后重新运行相关验证，并重新审查受影响 diff。
 6. 循环执行“review → fix → re-verify/re-review → update review.md”，直到无阻塞问题或明确记录阻塞原因。
 7. `plans/review.md` 记录审查发现、修复和结论，并链接或摘要 QA 证据；`plans/qa.md` 仍是验证证据权威，避免把 QA 证据复制成第二权威。
+8. 审查无阻塞后触发 `progress-update.md` 记录阶段状态，并按 `knowledge-capture.md` 判断是否需要沉淀知识。
 
 ## 权威知识引用
 
@@ -36,6 +37,7 @@
 - `plans/review.md` 记录审查结论、问题、修复和复验结果，并链接或摘要 `plans/qa.md` 的证据。
 - 所有必须修复项已修复并复验，或有清晰 BLOCKED 原因。
 - diff 未超出 story 范围，且可进入交付或下一轮处理。
+- 已触发进度更新，并完成是否需要知识沉淀的判断。
 
 ## 提示词模板
 

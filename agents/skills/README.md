@@ -13,14 +13,14 @@
 
 ## 流程阶段
 
-- [`wip-to-mvp.md`](wip-to-mvp.md)
-- [`mvp-to-user-journey.md`](mvp-to-user-journey.md)
-- [`user-journey-to-story.md`](user-journey-to-story.md)
-- [`story-to-ui.md`](story-to-ui.md)
-- [`story-to-tests.md`](story-to-tests.md)
-- [`story-to-plan.md`](story-to-plan.md)
-- [`implementation.md`](implementation.md)
-- [`qa-verification.md`](qa-verification.md)
-- [`code-review.md`](code-review.md)
-- [`progress-update.md`](progress-update.md)
-- [`knowledge-capture.md`](knowledge-capture.md)
+- [`wip-to-mvp.md`](wip-to-mvp.md)：草案收敛为 MVP。
+- [`mvp-to-user-journey.md`](mvp-to-user-journey.md)：MVP 拆为用户旅程。
+- [`user-journey-to-story.md`](user-journey-to-story.md)：用户旅程拆为 story，并初始化 story 工作区入口。
+- [`story-to-ui.md`](story-to-ui.md)：判断 UI 适用性，必要时生成 story-specific UI 产物。
+- [`story-to-tests.md`](story-to-tests.md)：生成验收、逻辑和 UI 可观察测试。
+- [`story-to-plan.md`](story-to-plan.md)：生成可执行实现计划。
+- [`implementation.md`](implementation.md)：按计划实现代码变更。
+- [`qa-verification.md`](qa-verification.md)：验证并记录证据。
+- [`code-review.md`](code-review.md)：审查、修复并复验阻塞问题。
+- [`progress-update.md`](progress-update.md)：记录阶段切换、阻塞、偏离计划或交接状态。
+- [`knowledge-capture.md`](knowledge-capture.md)：沉淀可复用知识。
