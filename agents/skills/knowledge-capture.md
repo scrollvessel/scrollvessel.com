@@ -4,6 +4,8 @@
 
 当执行中出现可复用学习、规则、模式或决策，需要从 story-specific 内容沉淀到 `knowledge/`。
 
+每次 review 和 progress 更新后，都应显式判断一次是否需要知识沉淀；如果不需要，在当前 story 的 `plans/progress.md` 记录“无需沉淀”的原因。
+
 ## 输入
 
 - 可复用学习或决策。

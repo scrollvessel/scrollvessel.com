@@ -8,7 +8,7 @@
 
 - `plans/plan.md`。
 - 同一 story 下的 `story.md`、`tests.md`。
-- UI story 需要 `ui.md`；非 UI story 需要计划中的 UI 跳过说明。
+- `ui.md` 中的 UI 适用性状态；UI story 还需要相关 UI 产物。
 - 相关知识链接和现有代码。
 
 ## 输出

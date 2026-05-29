@@ -17,7 +17,7 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 | `products/*/mvp.md` | 拆用户旅程 | [`skills/mvp-to-user-journey.md`](skills/mvp-to-user-journey.md) | `products/*/user-journey-*/user-journey.md` |
 | `user-journey.md` | 拆故事 | [`skills/user-journey-to-story.md`](skills/user-journey-to-story.md) | `story-*/story.md` |
 | `story.md` | 分析 UI | [`skills/story-to-ui.md`](skills/story-to-ui.md) | `story-*/ui.md` 和 `story-*/ui/` |
-| `story.md` + UI 产物 | 分析测试 | [`skills/story-to-tests.md`](skills/story-to-tests.md) | `story-*/tests.md` |
+| `story.md` + UI 状态 | 分析测试 | [`skills/story-to-tests.md`](skills/story-to-tests.md) | `story-*/tests.md` |
 | `story.md` + `ui.md` + `tests.md` | 生成计划 | [`skills/story-to-plan.md`](skills/story-to-plan.md) | `story-*/plans/plan.md` |
 | `plans/plan.md` | 实现 | [`skills/implementation.md`](skills/implementation.md) | 代码变更和必要的 `plans/progress.md` 更新 |
 | 实现完成 | 验证 | [`skills/qa-verification.md`](skills/qa-verification.md) | `plans/qa.md` |
@@ -32,8 +32,8 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 | MVP | `references/wips/` | `mvp.md` | 用户明确指定已有 MVP |
 | 用户旅程 | `mvp.md` | `user-journey.md` | 用户明确只处理已有旅程 |
 | 故事 | `user-journey.md` | `story.md` | 用户明确只处理已有 story |
-| UI | 涉及界面的 `story.md` | `ui.md` 和必要 `ui/` 产物 | 非 UI story，在后续计划中记录原因 |
-| 测试 | `story.md`；UI story 还需要 `ui.md` 或 UI 跳过说明 | `tests.md` | 不跳过 |
+| UI | `story.md` | `ui.md`；UI story 还需要必要 `ui/` 产物 | 不跳过；非 UI story 在 `ui.md` 记录跳过原因 |
+| 测试 | `story.md`；`ui.md` 中的 UI 适用性状态 | `tests.md` | 不跳过 |
 | 计划 | `story.md`、`tests.md`、UI 状态 | `plans/plan.md` | 不跳过 |
 | 实现 | `plans/plan.md` | 代码变更 | 不跳过 |
 | QA | 代码变更、`tests.md` | `plans/qa.md` | 不跳过 |
@@ -43,7 +43,7 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 ## 阶段说明
 
 - UI story 先通过 `story-to-ui.md` 生成 UI 索引和产物，再进入 UI 相关测试和计划。
-- 非 UI story 可跳过 UI 产物，但 `story-to-plan.md` 必须记录不需要 UI 产物的原因。
+- `ui.md` 是 UI 适用性和 UI 产物索引的单一权威；非 UI story 也要在 `ui.md` 记录跳过原因。
 - `story-to-tests.md` 可在 `story.md` 后先生成验收和逻辑测试；若 UI 产物存在，再补充 UI 可观察检查。
 
 ## 回流规则
@@ -58,7 +58,7 @@ QA 失败或 review 存在必须修复项
 → progress-update.md 更新状态
 ```
 
-- `story.md`、`ui.md`、`tests.md` 是规格权威。
+- `story.md` 是故事权威，`ui.md` 是 UI 适用性和 UI 产物索引权威，`tests.md` 是测试规格权威。
 - `plans/plan.md` 是静态实施计划权威。
 - `plans/qa.md` 是验证证据权威。
 - `plans/review.md` 是审查发现、修复动作和复审结论权威。

@@ -2,7 +2,7 @@
 
 ## 触发条件
 
-当已有 `story.md`，且 story 涉及界面、交互、信息架构或视觉表达。
+当已有 `story.md`，需要判断 UI 适用性；若 story 涉及界面、交互、信息架构或视觉表达，则继续生成 UI 产物。
 
 ## 输入
 
@@ -12,16 +12,18 @@
 
 ## 输出
 
-- `story-*/ui.md` 作为 UI 索引。
-- `story-*/ui/` 下的 story-specific UI 产物。
+- `story-*/ui.md` 作为 UI 适用性和 UI 产物索引的单一权威。
+- UI story 还输出 `story-*/ui/` 下的 story-specific UI 产物。
 
 ## 步骤
 
-1. 直接使用 `ui-ux-pro-max` skill 进行 UI/UX 分析和产物生成。
-2. 接受 `ui-ux-pro-max` 的原生产物形态，包括线框、流程、组件说明、视觉建议或其他交付物。
-3. 将本 story 专属 UI 产物存放在该 story 的 `ui/` 目录。
-4. 用 `ui.md` 建立索引，说明每个 UI 产物的路径、类型、状态、用途、关联验收标准和是否可复用。
-5. 如果 `ui-ux-pro-max` 产出可复用 UI 规则或模式，通过 `knowledge-capture` 抽取到 `knowledge/uis/`；story-specific 产物仍留在本 story 的 `ui/` 目录。
+1. 先判断 story 是否需要 UI，并把结论写入 `ui.md`。
+2. 若是非 UI story，在 `ui.md` 记录跳过原因，后续阶段以该状态为准。
+3. 若是 UI story，直接使用 `ui-ux-pro-max` skill 进行 UI/UX 分析和产物生成。
+4. 接受 `ui-ux-pro-max` 的原生产物形态，包括线框、流程、组件说明、视觉建议或其他交付物。
+5. 将本 story 专属 UI 产物存放在该 story 的 `ui/` 目录。
+6. 用 `ui.md` 建立索引，说明每个 UI 产物的路径、类型、状态、用途、关联验收标准和是否可复用。
+7. 如果 `ui-ux-pro-max` 产出可复用 UI 规则或模式，通过 `knowledge-capture` 抽取到 `knowledge/uis/`；story-specific 产物仍留在本 story 的 `ui/` 目录。
 
 ## 权威知识引用
 
@@ -50,8 +52,9 @@
 
 ## 完成标准
 
-- 已明确使用 `ui-ux-pro-max`。
-- `ui.md` 能索引所有 story-specific UI 产物。
+- `ui.md` 已明确 UI 适用性状态。
+- UI story 已明确使用 `ui-ux-pro-max`。
+- UI story 的 `ui.md` 能索引所有 story-specific UI 产物。
 - UI 产物与 `story.md` 的验收标准对齐。
 - 没有把一次性 UI 决策误放进 `knowledge/`。
 

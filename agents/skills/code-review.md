@@ -7,7 +7,7 @@
 ## 输入
 
 - 当前 diff。
-- `story.md`、`ui.md`、`tests.md`、`plans/plan.md`。
+- `story.md`、`ui.md`、`tests.md`、`plans/plan.md`；非 UI story 以 `ui.md` 的跳过说明为准。
 - `plans/qa.md`，若已存在。
 
 ## 输出
