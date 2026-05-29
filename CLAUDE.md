@@ -22,7 +22,7 @@ hook
 - 本项目是纯前端项目。
 - 原始草案只放在 `references/wips/`。
 - 工作必须逐步细化：草案 → MVP → 用户旅程 → 故事 → UI/测试 → 计划 → 实现 → 验证 → 审查/进度更新。
-- 使用单一权威模式：每条规则、提示词或知识对象都放在最合适的文件中，其他地方只引用它。
+- 必须遵循 [`knowledge/principles/single-authority.md`](knowledge/principles/single-authority.md) 的唯一单一权威原则：可复用知识进 `knowledge/`，其他文件只引用，不重复正文。
 
 ## 必读文件
 

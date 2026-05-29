@@ -29,6 +29,7 @@ Orchestrator 是智能体执行编排入口。它承接 [`../CLAUDE.md`](../CLAU
 
 | 阶段 | 最小输入 | 必要输出 | 跳过条件 |
 |---|---|---|---|
+| 任意写入 | 待写入内容 | 权威归属判断；必要时先更新 `knowledge/` | 不跳过 |
 | MVP | `references/wips/` | `mvp.md` | 用户明确指定已有 MVP |
 | 用户旅程 | `mvp.md` | `user-journey.md` | 用户明确只处理已有旅程 |
 | 故事 | `user-journey.md` | `story.md`、`ui.md`、`tests.md`、`plans/` 初始文件 | 用户明确只处理已有 story；若缺少派生入口，先补齐 story 工作区 |
@@ -69,7 +70,9 @@ QA 失败或 review 存在必须修复项
 ## 执行规则
 
 - 不跳过用户明确要求的阶段。
-- 不把 `knowledge/` 的权威正文复制到 skill 或 product 文件。
+- 执行任何写入前，先按 [`../knowledge/principles/single-authority.md`](../knowledge/principles/single-authority.md) 判断内容权威归属。
+- 能放进 `knowledge/` 的可复用知识，必须先沉淀到 `knowledge/`；`products/`、skills 和其他文件只引用，不复制正文。
+- 若外部工具或通用 skill 给出默认产物路径，必须让位于本仓库调度表和 [`../knowledge/principles/single-authority.md`](../knowledge/principles/single-authority.md)。
 - 不把 story-specific 产物长期沉淀到 `knowledge/`，除非它已经成为可复用知识。
 - UI 规则由 [`skills/story-to-ui.md`](skills/story-to-ui.md) 作为阶段权威；Orchestrator 只负责调度。
 - `implementation.md` 使用 SDD 思路，并借鉴 OpenSpec 的 change/spec/tasks 纪律，但不引入独立 OpenSpec 权威系统。

@@ -20,4 +20,12 @@
 - [`qas/`](qas/README.md)：质量和验证标准。
 - [`architectures/`](architectures/README.md)：架构和建模标准。
 
+## 当前产品权威
+
+- [`domains/scroll-vessel.md`](domains/scroll-vessel.md)：卷书成船 / Scroll Vessel 的品牌定位和表达原则。
+- [`domains/article-frontmatter.md`](domains/article-frontmatter.md)：文章 Front Matter 字段和结构化数据规则。
+- [`architectures/static-markdown-content.md`](architectures/static-markdown-content.md)：静态 Markdown 内容架构。
+- [`uis/scroll-vessel-experience.md`](uis/scroll-vessel-experience.md)：Scroll Vessel 体验标准。
+- [`qas/content-site-quality.md`](qas/content-site-quality.md)：静态内容站质量标准。
+
 通过链接连接知识对象。不要把权威正文复制到产品文件中。

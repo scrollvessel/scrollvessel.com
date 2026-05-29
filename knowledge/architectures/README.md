@@ -2,7 +2,11 @@
 
 本目录负责可复用的架构和建模标准。
 
-当前标准：
+## 当前知识
+
+- [`static-markdown-content.md`](static-markdown-content.md)：仓库内 Markdown 内容源到静态站点的构建架构。
+
+## 当前标准
 
 - 使用 DDD 思路处理命名、边界和领域语言。
 - 在 Vue 中尽量分离 model/state/logic 与 template/view。

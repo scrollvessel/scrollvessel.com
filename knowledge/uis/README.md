@@ -4,7 +4,11 @@
 
 故事的 `ui.md` 应引用本目录，而不是复制 UI 标准。
 
-当前标准：
+## 当前知识
+
+- [`scroll-vessel-experience.md`](scroll-vessel-experience.md)：Scroll Vessel 的首页、Atlas、分类页、文章页和导航体验标准。
+
+## 当前标准
 
 - 优先使用 Tailwind CSS 进行样式实现。
 - 当边界职责清晰时，应组件化 UI。
