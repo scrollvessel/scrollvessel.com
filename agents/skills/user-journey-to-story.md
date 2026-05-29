@@ -1,0 +1,44 @@
+# 用户旅程到故事
+
+## 触发条件
+
+当已有 `user-journey.md`，需要选择其中一段转成一个可实现 story。
+
+## 输入
+
+- `products/*/user-journey-*/user-journey.md`。
+- 相关 MVP 和知识链接。
+
+## 输出
+
+- `products/*/user-journey-*/story-*/story.md`。
+
+## 步骤
+
+1. 读取用户旅程，选择一个连续、可交付、可验证的切片。
+2. 明确 story 的用户价值、前置条件、范围和非范围。
+3. 写出验收标准、主要场景、边界场景和依赖。
+4. 保留与上游 MVP、用户旅程、知识文件的相对链接。
+5. 写入 `story.md`，供 UI、测试和计划阶段使用。
+
+## 权威知识引用
+
+- [逐步细化](../../knowledge/principles/progressive-refinement.md)
+- [单一权威](../../knowledge/principles/single-authority.md)
+- [知识索引](../../knowledge/INDEX.md)
+
+## 完成标准
+
+- `story.md` 只表达一个可实现 story。
+- 验收标准可被测试阶段直接转为测试点。
+- 范围足够小，能进入 UI、测试、计划阶段。
+
+## 提示词模板
+
+```text
+请基于以下输入拆出一个可实现 story：<输入路径：user-journey.md、MVP 链接、knowledge 链接>。
+产品/故事标识：<产品/故事标识，例如 mvp-001 / user-journey-001 / story-001>。
+预期输出路径：<输出路径：story.md>。
+输出包含用户价值、范围、非范围、验收标准、场景、边界和依赖链接。
+约束：<约束：不要复制权威知识正文；使用相对链接；不要扩大 story 范围>。
+```
