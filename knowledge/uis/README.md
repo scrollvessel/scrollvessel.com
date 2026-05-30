@@ -7,6 +7,7 @@
 ## 当前知识
 
 - [`scroll-vessel-experience.md`](scroll-vessel-experience.md)：Scroll Vessel 的首页、Atlas、分类页、文章页和导航体验标准。
+- [`atlas-nautical-map.md`](atlas-nautical-map.md)：Atlas 航海星图隐喻、信息结构、交互和可访问性规则。
 
 ## 当前标准
 
