@@ -6,27 +6,28 @@
 
 ## UI 适用性
 
-- 状态：未分析
-- 是否 UI story：未判定
-- 跳过原因：未分析时为空；若非 UI story，在此说明
-- 产物来源：未分析时为空；若使用 `ui-ux-pro-max`，在此记录输入摘要或产物来源
+- 状态：已分析
+- 是否 UI story：否
+- 跳过原因：本故事处理内容目录扫描、Front Matter 校验和错误报告，属于内容构建能力；不产生面向读者或作者的页面、组件、交互或视觉产物。
+- 产物来源：不使用 `ui-ux-pro-max`，无 story-specific UI 产物。
 
 ## UI 产物目录
 
 - [`ui/`](ui/)
 
-本故事的 UI 设计说明、线框、截图、HTML 或其他 story-specific 产物放在 `ui/` 下。
+本故事不生成 UI 产物；目录仅保留为工作区入口。
 
 ## 单一权威
 
-可复用 UI 规则和模式属于 `knowledge/uis/`，不要复制到本故事中。本文件 `ui.md` 是索引，用于链接本故事的 UI 产物与权威知识，只引用权威知识，不复制正文。
+可复用 UI 规则和模式属于 `knowledge/uis/`。本故事没有新增 UI 知识；内容架构和 Front Matter 规则分别引用 `knowledge/architectures/` 与 `knowledge/domains/` 的权威文件。
 
 ## 产物索引
 
-暂无 story-specific UI 产物。
+无 story-specific UI 产物。
 
 ## 知识引用
 
+- [`../../../../knowledge/architectures/static-markdown-content.md`](../../../../knowledge/architectures/static-markdown-content.md)
+- [`../../../../knowledge/domains/article-frontmatter.md`](../../../../knowledge/domains/article-frontmatter.md)
 - [`../../../../knowledge/uis/README.md`](../../../../knowledge/uis/README.md)
-- [`../../../../knowledge/architectures/README.md`](../../../../knowledge/architectures/README.md)
 - [`../../../../knowledge/principles/single-authority.md`](../../../../knowledge/principles/single-authority.md)

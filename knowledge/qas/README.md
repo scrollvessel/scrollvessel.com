@@ -1,8 +1,12 @@
 # QA 知识
 
-本目录负责质量和验证标准。
+本目录负责质量、验证链路和验收标准。
 
-故事的 `tests.md` 在定义验收检查时，应引用本目录。故事的 `plans/qa.md` 记录该故事的具体验证结果。
+`knowledge/qas/` 按测试视角组织可复用 QA 链路，不按 story 维度拆分。故事的 `tests.md` 只引用相关 QA 链路并声明覆盖节点；故事的 `plans/qa.md` 记录实施后的具体验证证据和结果。
+
+## QA 链路
+
+- [`chains/content-source-chain.md`](chains/content-source-chain.md)：Markdown 内容源扫描、Front Matter 校验、分类上下文和内容索引入口的验收链路。
 
 ## 当前知识
 
