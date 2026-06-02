@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { buildCategories, scanContent, type ArticleRecord, type CategoryMetadataRecord, type CategoryRecord } from '../src/content/index.js'
 
 interface ArticlePageRecord extends ArticleRecord {
@@ -18,22 +19,42 @@ interface StaticSiteIndex {
   categoryMetadata: CategoryMetadataRecord[]
 }
 
-const contentIndex = await scanContent('content')
-const publishedArticles = contentIndex.articles.filter(isPublishedArticle)
-const siteIndex: StaticSiteIndex = {
-  articles: publishedArticles,
-  categories: buildCategories(publishedArticles, contentIndex.categoryMetadata),
-  categoryMetadata: contentIndex.categoryMetadata,
+export interface GenerateStaticPagesOptions {
+  contentRoot?: string
+  outputRoot?: string
 }
 
-await Promise.all([
-  ...siteIndex.categories.map((category) => writeCategoryPage(siteIndex, category)),
-  ...siteIndex.articles.map((article) => writeArticlePage(siteIndex, article)),
-])
+export interface GenerateStaticPagesResult {
+  articleCount: number
+  categoryCount: number
+}
 
-console.log(`Generated ${siteIndex.categories.length} category page(s) and ${siteIndex.articles.length} article page(s).`)
+export async function generateStaticPages({ contentRoot = 'content', outputRoot = 'dist' }: GenerateStaticPagesOptions = {}): Promise<GenerateStaticPagesResult> {
+  const contentIndex = await scanContent(contentRoot)
+  const publishedArticles = contentIndex.articles.filter(isPublishedArticle)
+  const siteIndex: StaticSiteIndex = {
+    articles: publishedArticles,
+    categories: buildCategories(publishedArticles, contentIndex.categoryMetadata),
+    categoryMetadata: contentIndex.categoryMetadata,
+  }
 
-async function writeCategoryPage(index: StaticSiteIndex, category: CategoryRecord): Promise<void> {
+  await Promise.all([
+    ...siteIndex.categories.map((category) => writeCategoryPage(siteIndex, category, outputRoot)),
+    ...siteIndex.articles.map((article) => writeArticlePage(siteIndex, article, outputRoot)),
+  ])
+
+  return {
+    articleCount: siteIndex.articles.length,
+    categoryCount: siteIndex.categories.length,
+  }
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
+  const result = await generateStaticPages()
+  console.log(`Generated ${result.categoryCount} category page(s) and ${result.articleCount} article page(s).`)
+}
+
+async function writeCategoryPage(index: StaticSiteIndex, category: CategoryRecord, outputRoot: string): Promise<void> {
   const childCategories = index.categories.filter((candidate) => isDirectChild(category.path, candidate.path))
   const articles = index.articles.filter((article) => isSamePath(article.categoryPath, category.path))
   const descendantArticles = index.articles.filter((article) => startsWithPath(article.categoryPath, category.path))
@@ -65,10 +86,10 @@ async function writeCategoryPage(index: StaticSiteIndex, category: CategoryRecor
     `,
   })
 
-  await writeDistFile(categoryUrl, html)
+  await writeDistFile(outputRoot, categoryUrl, html)
 }
 
-async function writeArticlePage(index: StaticSiteIndex, article: ArticlePageRecord): Promise<void> {
+async function writeArticlePage(index: StaticSiteIndex, article: ArticlePageRecord, outputRoot: string): Promise<void> {
   const categoryName = categoryNameFor(index, article.categoryPath)
   const html = renderPage({
     title: `${article.title} · Scroll Vessel`,
@@ -98,7 +119,7 @@ async function writeArticlePage(index: StaticSiteIndex, article: ArticlePageReco
     `,
   })
 
-  await writeDistFile(article.url, html)
+  await writeDistFile(outputRoot, article.url, html)
 }
 
 function renderPage({ title, description, body }: { title: string; description: string; body: string }): string {
@@ -257,12 +278,12 @@ function categoryUrlFor(path: string[]): string {
   return `/${path.join('/')}/index.html`
 }
 
-function outputPathFor(url: string): string {
-  return join('dist', url.replace(/^\//, ''))
+function outputPathFor(outputRoot: string, url: string): string {
+  return join(outputRoot, url.replace(/^\//, ''))
 }
 
-async function writeDistFile(url: string, html: string): Promise<void> {
-  const filePath = outputPathFor(url)
+async function writeDistFile(outputRoot: string, url: string, html: string): Promise<void> {
+  const filePath = outputPathFor(outputRoot, url)
   await mkdir(dirname(filePath), { recursive: true })
   await writeFile(filePath, html, 'utf8')
 }
