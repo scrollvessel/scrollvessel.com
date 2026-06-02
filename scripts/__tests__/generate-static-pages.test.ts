@@ -69,4 +69,38 @@ Demo body
     expect(articleHtml).toContain('href="#"')
     expect(articleHtml).not.toContain('href="javascript:')
   })
+
+  it('renders markdown tables and article-relative images safely', async () => {
+    const { contentRoot, outputRoot } = await createWorkspace()
+    await writeJson(contentRoot, 'translations/martinfowler/meta.json', { categoryName: 'Martin Fowler Blog' })
+    await writeMarkdown(contentRoot, 'translations/martinfowler/article.md', `---
+title: Markdown Fixture
+description: Markdown rendering fixture
+createdAt: 2026-06-01
+updatedAt: 2026-06-02
+author: Fixture Author
+lang: zh-CN
+---
+
+| Phase | Output |
+|---|---|
+| Spec | Markdown |
+
+![Workflow diagram](3.jpg)
+![Unsafe image](javascript:alert(1))
+`)
+    await writeFile(join(contentRoot, 'translations/martinfowler/3.jpg'), 'fixture image bytes')
+
+    await generateStaticPages({ contentRoot, outputRoot })
+
+    const articleHtml = await readFile(join(outputRoot, 'translations/martinfowler/article.html'), 'utf8')
+
+    expect(articleHtml).toContain('<table>')
+    expect(articleHtml).toContain('<th>Phase</th>')
+    expect(articleHtml).toContain('<td>Markdown</td>')
+    expect(articleHtml).toContain('<img src="./3.jpg" alt="Workflow diagram"')
+    expect(articleHtml).toContain('<img src="#" alt="Unsafe image"')
+    expect(articleHtml).not.toContain('src="javascript:')
+    expect(existsSync(join(outputRoot, 'translations/martinfowler/3.jpg'))).toBe(true)
+  })
 })

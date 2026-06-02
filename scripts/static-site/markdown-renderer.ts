@@ -1,25 +1,23 @@
+import MarkdownIt from 'markdown-it'
+import type Token from 'markdown-it/lib/token.mjs'
+
+export interface MarkdownRenderOptions {
+  assetBasePath?: string
+}
+
 export class MarkdownRenderer {
-  render(source: string): string {
-    const blocks = source.trim().split(/\n{2,}/)
+  render(source: string, options: MarkdownRenderOptions = {}): string {
+    const markdown = new MarkdownIt({
+      html: false,
+      linkify: false,
+      typographer: false,
+    })
 
-    return blocks
-      .map((block) => {
-        const trimmed = block.trim()
-        if (!trimmed) return ''
-        if (trimmed.startsWith('### ')) return `<h3>${this.renderInline(trimmed.slice(4))}</h3>`
-        if (trimmed.startsWith('## ')) return `<h2>${this.renderInline(trimmed.slice(3))}</h2>`
-        if (trimmed.startsWith('# ')) return `<h2>${this.renderInline(trimmed.slice(2))}</h2>`
-        if (trimmed.startsWith('- ')) return `<ul>${trimmed.split('\n').map((line) => `<li>${this.renderInline(line.replace(/^-\s+/, ''))}</li>`).join('')}</ul>`
-        if (/^```/.test(trimmed)) return `<pre><code>${escapeHtml(trimmed.replace(/^```[a-zA-Z]*\n?/, '').replace(/```$/, ''))}</code></pre>`
-        return `<p>${this.renderInline(trimmed.replace(/\n/g, ' '))}</p>`
-      })
-      .join('\n')
-  }
+    markdown.validateLink = () => true
+    markdown.renderer.rules.link_open = (tokens, index, renderOptions, env, self) => renderLinkOpen(tokens, index, renderOptions, env, self)
+    markdown.renderer.rules.image = (tokens, index) => renderImage(tokens[index], options.assetBasePath ?? './')
 
-  private renderInline(source: string): string {
-    return escapeHtml(source)
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label: string, href: string) => `<a href="${safeHref(href)}">${label}</a>`)
-      .replace(/`([^`]+)`/g, '<code>$1</code>')
+    return markdown.render(source)
   }
 }
 
@@ -36,18 +34,52 @@ export function escapeAttribute(value: string): string {
   return escapeHtml(value)
 }
 
+function renderLinkOpen(tokens: Token[], index: number, options: unknown, env: unknown, self: { renderToken: (tokens: Token[], index: number, options: unknown) => string }): string {
+  const token = tokens[index]
+  const hrefIndex = token.attrIndex('href')
+  if (hrefIndex >= 0) {
+    const href = token.attrs?.[hrefIndex]?.[1] ?? ''
+    token.attrs![hrefIndex] = ['href', safeHref(href)]
+  }
+
+  return self.renderToken(tokens, index, options)
+}
+
+function renderImage(token: Token, assetBasePath: string): string {
+  const rawSrc = token.attrGet('src') ?? ''
+  const src = safeImageSrc(rawSrc, assetBasePath)
+  const alt = token.content
+  const title = token.attrGet('title')
+  const titleAttribute = title ? ` title="${escapeAttribute(title)}"` : ''
+
+  return `<img src="${src}" alt="${escapeAttribute(alt)}"${titleAttribute}>`
+}
+
 function safeHref(raw: string): string {
   const trimmed = raw.trim()
-  if (
+  if (!trimmed || !isSafeUrl(trimmed)) return '#'
+
+  return escapeAttribute(trimmed)
+}
+
+function safeImageSrc(raw: string, assetBasePath: string): string {
+  const trimmed = raw.trim()
+  if (!trimmed || !isSafeUrl(trimmed)) return '#'
+  if (/^[a-z]+:/i.test(trimmed) || trimmed.startsWith('/') || trimmed.startsWith('#')) return escapeAttribute(trimmed)
+  if (trimmed.startsWith('./') || trimmed.startsWith('../')) return escapeAttribute(trimmed)
+
+  return escapeAttribute(`${assetBasePath}${trimmed}`)
+}
+
+function isSafeUrl(raw: string): boolean {
+  const trimmed = raw.trim()
+  return (
     trimmed.startsWith('/') ||
     trimmed.startsWith('#') ||
     trimmed.startsWith('./') ||
     trimmed.startsWith('../') ||
+    /^[^:/?#]+(?:[/?#].*)?$/i.test(trimmed) ||
     /^https?:\/\//i.test(trimmed) ||
     /^mailto:/i.test(trimmed)
-  ) {
-    return escapeAttribute(trimmed)
-  }
-
-  return '#'
+  )
 }

@@ -50,6 +50,7 @@ externalLinks?: Array<{
 
 - `categoryName` 是分类展示名的单一权威，首页、分类页和导航不得在页面代码中硬编码分类名称。
 - 访问路径仍由目录和文件名派生，文章 URL 以 `.html` 结束，目录索引使用 `/目录/index.html`。
+- 文章正文引用的同目录图片等静态资源与 Markdown 文件放在同一目录；构建复制规则由 [`../architectures/static-markdown-content.md`](../architectures/static-markdown-content.md) 维护。
 
 ## 结构化数据
 

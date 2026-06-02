@@ -1,18 +1,12 @@
 ---
 title: Claude Code 推出动态工作流
-description: 介绍 Claude Code 动态工作流如何通过并行子代理处理复杂工程任务、迁移、审计和高风险验证。
+description: 来自于Claude Code 5月28日发布的blog，介绍 Claude Code 动态工作流如何通过并行子代理处理复杂工程任务、迁移、审计和高风险验证。
 createdAt: 2026-05-28
 updatedAt: 2026-06-02
 author: Anthropic
 lang: zh-CN
 tags: [Claude Code, AI 编程, 动态工作流]
 ---
-
-# Claude Code 推出动态工作流
-
->  来自于Claude Code 5月28日发布的blog
-
-> 动态工作流让 Claude Code 可以在一次任务中调度数十到数百个并行子代理，处理更复杂、更长周期的工程问题，并在结果交到你手上之前完成交叉验证。
 
 今天，我们在 Claude Code 中推出**动态工作流**。借助它，Claude 可以端到端地承担更具挑战性的任务：过去往往需要按季度规划的工作，现在有机会在几天内完成。
 

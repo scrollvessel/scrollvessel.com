@@ -74,7 +74,7 @@ export class ArticlePageRenderer {
           <a class="route-link" href="${escapeAttribute(SiteRoute.category(article.categoryPath).toString())}">返回所属分类</a>
         </header>
         <div class="prose">
-          ${this.markdownRenderer.render(article.body)}
+          ${this.markdownRenderer.render(article.body, { assetBasePath: './' })}
         </div>
       </article>
     `

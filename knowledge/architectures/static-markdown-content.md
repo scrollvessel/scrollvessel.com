@@ -29,7 +29,9 @@
 构建层负责：
 
 - 解析 Front Matter，字段规则引用 [`../domains/article-frontmatter.md`](../domains/article-frontmatter.md)。
-- 渲染 Markdown。
+- 使用成熟 Markdown 引擎渲染正文，至少覆盖标题、段落、链接、图片、引用、列表、代码块、分隔线和表格。
+- 渲染 Markdown 时禁用原始 HTML 注入，并过滤链接与图片 URL 的危险协议。
+- 生成静态文章页时复制文章同目录的非 Markdown 资源，保证正文中的相对图片路径在 `dist/` 中可访问。
 - 生成标题锚点和 TOC 数据。
 - 计算阅读时间和字数。
 - 生成分类层级和文章数量数据；分类文章数量默认统计该分类及全部子分类下的聚合文章数。
