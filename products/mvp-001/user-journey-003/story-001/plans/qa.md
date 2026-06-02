@@ -11,7 +11,7 @@
 ## 验证命令
 
 - `pnpm exec tsc --noEmit`：通过。
-- `pnpm test`：通过，1 个 TypeScript 测试文件、11 个测试通过。
+- `pnpm test`：通过，1 个 TypeScript 测试文件、15 个测试通过。
 - `pnpm validate:content`：通过，`tsx scripts/validate-content.ts` 输出 `Validated 1 article(s).`。
 - `pnpm build`：通过，构建前内容校验通过，Vite 生产构建成功。
 

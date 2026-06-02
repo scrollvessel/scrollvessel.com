@@ -67,8 +67,19 @@ Body
     })
   })
 
-  it('creates stable URLs and category context from file paths', async () => {
+  it('creates stable URLs and aggregated category context from file paths', async () => {
     const root = await createContentRoot()
+    await writeMarkdown(root, 'engineering/intro.md', `---
+title: Engineering Intro
+description: Engineering intro
+createdAt: 2026-05-30
+updatedAt: 2026-05-30
+author: Neil Wang
+lang: zh-CN
+---
+
+Body
+`)
     await writeMarkdown(root, 'engineering/backend/api-design.md', `---
 title: API Design
 description: API article
@@ -80,17 +91,30 @@ lang: zh-CN
 
 Body
 `)
+    await writeMarkdown(root, 'engineering/frontend/ui-design.md', `---
+title: UI Design
+description: UI article
+createdAt: 2026-05-30
+updatedAt: 2026-05-30
+author: Neil Wang
+lang: zh-CN
+---
+
+Body
+`)
 
     const result = await scanContent(root)
+    const apiArticle = result.articles.find((article) => article.relativePath === 'engineering/backend/api-design.md')
 
-    expect(result.articles[0]).toMatchObject({
+    expect(apiArticle).toMatchObject({
       relativePath: 'engineering/backend/api-design.md',
       url: '/engineering/backend/api-design',
       categoryPath: ['engineering', 'backend'],
     })
     expect(result.categories).toEqual([
-      { path: ['engineering'], articleCount: 0 },
+      { path: ['engineering'], articleCount: 3 },
       { path: ['engineering', 'backend'], articleCount: 1 },
+      { path: ['engineering', 'frontend'], articleCount: 1 },
     ])
   })
 
@@ -128,6 +152,86 @@ Body
           url: 'https://example.com/zhihu',
         },
       ],
+    })
+  })
+
+  it('accepts CRLF front matter delimiters and a closing delimiter at EOF', async () => {
+    const root = await createContentRoot()
+    await writeMarkdown(
+      root,
+      'engineering/crlf.md',
+      '---\r\ntitle: CRLF Article\r\ndescription: CRLF article\r\ncreatedAt: 2026-05-30\r\nupdatedAt: 2026-05-30\r\nauthor: Neil Wang\r\nlang: zh-CN\r\n---',
+    )
+
+    const result = await scanContent(root)
+
+    expect(result.articles[0]).toMatchObject({
+      title: 'CRLF Article',
+      body: '',
+    })
+  })
+
+  it('fails when tags entries are not non-empty strings', async () => {
+    const root = await createContentRoot()
+    await writeMarkdown(root, 'engineering/object-tags.md', `---
+title: Object Tags
+description: Object tags
+createdAt: 2026-05-30
+updatedAt: 2026-05-30
+author: Neil Wang
+lang: zh-CN
+tags:
+  - name: content
+---
+
+Body
+`)
+
+    await expect(scanContent(root)).rejects.toMatchObject({
+      name: 'ContentValidationError',
+      issues: [expect.objectContaining({ field: 'tags', reason: 'type' })],
+    })
+  })
+
+  it('fails when inline tags contain an empty entry', async () => {
+    const root = await createContentRoot()
+    await writeMarkdown(root, 'engineering/empty-tag.md', `---
+title: Empty Tag
+description: Empty tag
+createdAt: 2026-05-30
+updatedAt: 2026-05-30
+author: Neil Wang
+lang: zh-CN
+tags: [content, ""]
+---
+
+Body
+`)
+
+    await expect(scanContent(root)).rejects.toMatchObject({
+      name: 'ContentValidationError',
+      issues: [expect.objectContaining({ field: 'tags', reason: 'type' })],
+    })
+  })
+
+  it('fails when inline tags contain non-string scalar entries', async () => {
+    const root = await createContentRoot()
+    await writeMarkdown(root, 'engineering/numeric-tag.md', `---
+title: Numeric Tag
+description: Numeric tag
+createdAt: 2026-05-30
+updatedAt: 2026-05-30
+author: Neil Wang
+lang: zh-CN
+tags: [123]
+---
+
+Body
+`)
+
+    await expect(scanContent(root)).rejects.toMatchObject({
+      name: 'ContentValidationError',
+      issues: [expect.objectContaining({ field: 'tags', reason: 'type' })],
     })
   })
 

@@ -11,7 +11,7 @@
 
 ## 当前状态
 
-实现完成，待审查。
+已完成，审查通过。
 
 ## 目标
 
@@ -567,6 +567,10 @@ Body
    ```
 
    预期：现有测试通过。
+
+### 审查后计划调整
+
+独立审查后接受分类计数语义调整：任务 5 中父分类 `articleCount: 0` 的初始示例已不再作为最终语义，最终实现遵循 [`../../../../../knowledge/architectures/static-markdown-content.md`](../../../../../knowledge/architectures/static-markdown-content.md)，父分类文章数量统计该分类及全部子分类下的聚合文章数。
 
 ### 任务 6：测试并实现 draft、demo、externalLinks 内容事实
 

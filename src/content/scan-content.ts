@@ -106,12 +106,9 @@ function buildCategories(articles: ArticleRecord[]): CategoryRecord[] {
     for (let index = 1; index <= article.categoryPath.length; index += 1) {
       const path = article.categoryPath.slice(0, index)
       const key = path.join('/')
-      counts.set(key, { path, articleCount: 0 })
-    }
-    const leafKey = article.categoryPath.join('/')
-    const leaf = counts.get(leafKey)
-    if (leaf) {
-      leaf.articleCount += 1
+      const category = counts.get(key) ?? { path, articleCount: 0 }
+      category.articleCount += 1
+      counts.set(key, category)
     }
   }
 

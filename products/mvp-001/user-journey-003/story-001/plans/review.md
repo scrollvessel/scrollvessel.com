@@ -10,7 +10,7 @@
 
 ## 当前状态
 
-已通过。
+已通过；已采纳独立审查反馈。
 
 ## 检查项
 
@@ -22,16 +22,19 @@
 
 ## 必须修复
 
-已修复：Front Matter 曾可覆盖 `sourcePath`、`relativePath`、`url`、`categoryPath` 和 `body` 等构建层派生字段。现已调整为构建层派生字段保持权威，并增加回归测试。
+- 已修复：Front Matter 曾可覆盖 `sourcePath`、`relativePath`、`url`、`categoryPath` 和 `body` 等构建层派生字段。现已调整为构建层派生字段保持权威，并增加回归测试。
+- 已修复：Front Matter 分隔符解析兼容 CRLF、无正文和结尾分隔符位于 EOF 的合法内容。
+- 已修复：`tags` 按领域权威校验为非空字符串数组，拒绝对象数组、空字符串项和非字符串标量项等错误结构。
+- 已修复：分类 `articleCount` 明确为聚合计数，父分类包含全部子分类文章数量。
 
 ## 建议修复
 
-后续增强：真实日历日期校验、`tags` 元素非空字符串校验可在内容渲染或发布策略故事中继续扩展。
+后续增强：真实日历日期校验可在内容渲染或发布策略故事中继续扩展。
 
 ## 复验 / 复审
 
 - `pnpm exec tsc --noEmit`：通过。
-- `pnpm test`：通过，1 个 TypeScript 测试文件、11 个测试通过。
+- `pnpm test`：通过，1 个 TypeScript 测试文件、15 个测试通过。
 - `pnpm validate:content`：通过，`tsx scripts/validate-content.ts` 输出 `Validated 1 article(s).`。
 - `pnpm build`：通过，构建前内容校验通过，Vite 生产构建成功。
 - 代码审查：无剩余 Critical 或 Important 阻塞项。

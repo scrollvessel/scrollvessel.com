@@ -6,13 +6,13 @@
 
 ## 当前状态
 
-- 状态：实现完成，待审查
-- 最近更新：2026-06-01
+- 状态：已完成，审查通过
+- 最近更新：2026-06-02
 
 ## 运行状态
 
 - `pnpm exec tsc --noEmit`：通过。
-- `pnpm test`：通过，1 个 TypeScript 测试文件、11 个测试通过。
+- `pnpm test`：通过，1 个 TypeScript 测试文件、15 个测试通过。
 - `pnpm validate:content`：通过，`tsx scripts/validate-content.ts` 输出 `Validated 1 article(s).`。
 - `pnpm build`：通过，构建前内容校验通过，Vite 生产构建成功。
 
@@ -24,4 +24,4 @@
 
 ## 下一步
 
-进入代码审查和复验。
+当前故事已完成，可进入下一个内容渲染或文章页路由故事规划。

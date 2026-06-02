@@ -4,7 +4,7 @@ const booleanFields = ['featured', 'draft', 'demo'] as const
 const externalLinkFields = ['platform', 'label', 'url'] as const
 
 type ScalarFrontMatterValue = string | number | boolean | null
-type FrontMatterValue = ScalarFrontMatterValue | string[] | FrontMatterObject[]
+type FrontMatterValue = ScalarFrontMatterValue | ScalarFrontMatterValue[] | FrontMatterObject[]
 type FrontMatterObject = Record<string, ScalarFrontMatterValue>
 
 type FrontMatterData = Record<string, FrontMatterValue>
@@ -48,21 +48,24 @@ export class ContentValidationError extends Error {
 }
 
 export function parseFrontMatter(source: string, filePath: string): ParsedFrontMatter {
-  if (!source.startsWith('---\n')) {
+  const normalizedSource = source.replace(/\r\n/g, '\n')
+  if (!normalizedSource.startsWith('---\n')) {
     throw new ContentValidationError([
       { filePath, field: 'frontMatter', reason: 'missing', fix: 'Add YAML front matter delimited by ---.' },
     ])
   }
 
-  const endIndex = source.indexOf('\n---\n', 4)
-  if (endIndex === -1) {
+  const delimiterMatch = normalizedSource.slice(4).match(/\n---(?:\n|$)/)
+  if (!delimiterMatch || delimiterMatch.index === undefined) {
     throw new ContentValidationError([
       { filePath, field: 'frontMatter', reason: 'unterminated', fix: 'Close front matter with ---.' },
     ])
   }
 
-  const raw = source.slice(4, endIndex)
-  const body = source.slice(endIndex + 5)
+  const endIndex = delimiterMatch.index + 4
+  const delimiterEndIndex = endIndex + delimiterMatch[0].length
+  const raw = normalizedSource.slice(4, endIndex)
+  const body = normalizedSource.slice(delimiterEndIndex)
   const data = parseYamlSubset(raw, filePath)
   validateFrontMatter(data, filePath)
   return { data, body }
@@ -141,15 +144,14 @@ function parseListBlock(lines: string[], startIndex: number, filePath: string): 
   return { value: items, endIndex: index - 1 }
 }
 
-function parseValue(value: string): ScalarFrontMatterValue | string[] {
+function parseValue(value: string): ScalarFrontMatterValue | ScalarFrontMatterValue[] {
   const trimmed = value.trim()
   if (trimmed === '[]') return []
   if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
     return trimmed
       .slice(1, -1)
       .split(',')
-      .map((item) => item.trim().replace(/^["']|["']$/g, ''))
-      .filter(Boolean)
+      .map((item) => parseScalarValue(item))
   }
   return parseScalarValue(value)
 }
@@ -194,8 +196,8 @@ function validateFrontMatter(data: FrontMatterData, filePath: string): void {
     }
   }
 
-  if (data.tags !== undefined && !Array.isArray(data.tags)) {
-    issues.push({ filePath, field: 'tags', reason: 'type', fix: 'tags must be an array.' })
+  if (data.tags !== undefined) {
+    validateTags(data.tags, filePath, issues)
   }
 
   if (data.externalLinks !== undefined) {
@@ -204,6 +206,12 @@ function validateFrontMatter(data: FrontMatterData, filePath: string): void {
 
   if (issues.length > 0) {
     throw new ContentValidationError(issues)
+  }
+}
+
+function validateTags(tags: FrontMatterValue, filePath: string, issues: ContentValidationIssue[]): void {
+  if (!Array.isArray(tags) || tags.some((tag) => typeof tag !== 'string' || tag.trim() === '')) {
+    issues.push({ filePath, field: 'tags', reason: 'type', fix: 'tags must be an array of non-empty strings.' })
   }
 }
 
