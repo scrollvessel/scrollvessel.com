@@ -32,18 +32,18 @@ export interface HomepageModelData {
 }
 
 export class HomepageModel {
-  private readonly articles: HomepageArticle[]
+  private readonly articles: HomepageArticleCollection
   private readonly categoryNameCatalog: CategoryNameCatalog
 
   constructor(private readonly data: HomepageModelData) {
-    this.articles = data.articles.filter(isHomepageArticle)
+    this.articles = new HomepageArticleCollection(data.articles.filter(isHomepageArticle))
     this.categoryNameCatalog = new CategoryNameCatalog(data.categoryMetadata)
   }
 
   topCategories(): HomepageCategoryNode[] {
     const topMap = new Map<string, MutableCategoryNode>()
 
-    for (const article of this.articles) {
+    for (const article of this.articles.all()) {
       const [topSlug, childSlug] = article.categoryPath
       if (!topSlug || !childSlug) continue
 
@@ -62,19 +62,35 @@ export class HomepageModel {
   }
 
   featuredArticles(): HomepageArticle[] {
-    return this.articles.filter((article) => article.featured === true).sort(compareNewest).slice(0, 3)
+    return this.articles.featured()
   }
 
   latestArticles(): HomepageArticle[] {
-    return [...this.articles].sort(compareNewest).slice(0, 3)
+    return this.articles.latest()
   }
 
   allArticles(): HomepageArticle[] {
-    return [...this.articles]
+    return this.articles.all()
   }
 
   allCategories(): HomepageCategoryNode[] {
     return this.topCategories()
+  }
+}
+
+class HomepageArticleCollection {
+  constructor(private readonly articles: HomepageArticle[]) {}
+
+  featured(): HomepageArticle[] {
+    return this.articles.filter((article) => article.featured === true).sort(compareNewest).slice(0, 3)
+  }
+
+  latest(): HomepageArticle[] {
+    return [...this.articles].sort(compareNewest).slice(0, 3)
+  }
+
+  all(): HomepageArticle[] {
+    return [...this.articles]
   }
 }
 
