@@ -7,6 +7,7 @@
 ## 当前知识
 
 - [`scroll-vessel-experience.md`](scroll-vessel-experience.md)：Scroll Vessel 的首页、Atlas、分类页、文章页和导航体验标准。
+- [`homepage-control-deck.html`](homepage-control-deck.html)：首页老旧羊皮纸书页 / 单色黄色航海图的可复用视觉概念稿，强调无显式边框的整屏纸张质感、默认两层分类海图、聚焦展开交互示意、编辑式文字层级和地图标注式文字入口。
 - [`atlas-nautical-map.md`](atlas-nautical-map.md)：Atlas 航海星图隐喻、信息结构、交互和可访问性规则。
 
 ## 当前标准

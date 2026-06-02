@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Scroll Vessel 首页羊皮纸航海书页概念稿</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f6e4ad;
+      --paper-warm: #efd18a;
+      --paper-aged: #d5a852;
+      --ink: #2f210f;
+      --ink-soft: rgba(47, 33, 15, 0.72);
+      --ink-faint: rgba(47, 33, 15, 0.18);
+      --hairline: rgba(47, 33, 15, 0.32);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Crimson Pro", "Noto Serif SC", Georgia, serif;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 249, 214, 0.45), transparent 18rem),
+        radial-gradient(circle at 76% 72%, rgba(127, 79, 24, 0.12), transparent 22rem),
+        repeating-linear-gradient(92deg, rgba(47, 33, 15, 0.02) 0 1px, transparent 1px 13px),
+        repeating-linear-gradient(4deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 17px),
+        linear-gradient(135deg, #f9e9b7 0%, var(--paper) 46%, var(--paper-warm) 72%, #d6a74f 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .book {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: clamp(28px, 5vw, 72px) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 14% 24%, rgba(81, 45, 13, 0.1) 0 0.18rem, transparent 0.22rem),
+        radial-gradient(circle at 88% 18%, rgba(81, 45, 13, 0.08) 0 0.14rem, transparent 0.2rem),
+        radial-gradient(circle at 72% 88%, rgba(81, 45, 13, 0.1) 0 0.22rem, transparent 0.28rem);
+      mix-blend-mode: multiply;
+    }
+
+    .page::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 50% -8%, rgba(255, 250, 218, 0.34), transparent 24rem),
+        radial-gradient(ellipse at 50% 108%, rgba(74, 43, 12, 0.08), transparent 24rem);
+      mix-blend-mode: multiply;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: baseline;
+      margin-bottom: clamp(38px, 6vw, 70px);
+      font-family: "Cinzel", ui-serif, serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .brand {
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      color: var(--ink-soft);
+    }
+
+    .nav a,
+    .map-link {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .nav a::after,
+    .map-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 8px;
+      border-bottom: 1px solid currentColor;
+      opacity: 0.35;
+    }
+
+    .hero {
+      display: grid;
+      gap: clamp(34px, 5vw, 64px);
+    }
+
+    .intro {
+      max-width: 920px;
+    }
+
+    .overline {
+      margin: 0 0 18px;
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 1040px;
+      font-family: "Cormorant Garamond", "Noto Serif SC", Georgia, serif;
+      font-size: clamp(52px, 8.6vw, 112px);
+      line-height: 0.88;
+      letter-spacing: -0.055em;
+      font-weight: 700;
+    }
+
+    .lead {
+      max-width: 650px;
+      margin: 28px 0 0;
+      color: var(--ink-soft);
+      font-size: clamp(18px, 2vw, 23px);
+      line-height: 1.82;
+    }
+
+    .routes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 32px;
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .chart {
+      min-height: clamp(760px, 72vw, 940px);
+      position: relative;
+      isolation: isolate;
+    }
+
+    .chart svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .compass {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 148px;
+      height: 148px;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-align: center;
+    }
+
+    .map-title {
+      position: absolute;
+      left: 50%;
+      top: 6%;
+      transform: translateX(-50%);
+      width: min(680px, 92%);
+      text-align: center;
+    }
+
+    .map-title p {
+      max-width: none;
+      margin-top: 12px;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .point {
+      position: absolute;
+      min-height: 44px;
+      padding-left: 18px;
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .point::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--ink);
+      transform: rotate(45deg);
+      background: rgba(47, 33, 15, 0.08);
+    }
+
+    .point strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .point em {
+      display: block;
+      font-style: normal;
+      color: rgba(47, 33, 15, 0.58);
+      font-size: 13px;
+    }
+
+    .point.parent {
+      max-width: 220px;
+      font-size: 15px;
+    }
+
+    .point.parent::before {
+      width: 11px;
+      height: 11px;
+      background: rgba(47, 33, 15, 0.14);
+    }
+
+    .point.child {
+      max-width: 180px;
+      font-size: 13px;
+      color: rgba(47, 33, 15, 0.66);
+    }
+
+    .point.selected {
+      color: var(--ink);
+    }
+
+    .point.selected::before {
+      background: rgba(47, 33, 15, 0.2);
+      box-shadow: 0 0 0 6px rgba(47, 33, 15, 0.06);
+    }
+
+    .point.child::before {
+      width: 6px;
+      height: 6px;
+      top: 0.7em;
+      border-color: rgba(47, 33, 15, 0.62);
+    }
+
+    .practice { left: 7%; top: 24%; }
+    .practice-build { left: 4%; top: 38%; }
+    .practice-quality { left: 19%; top: 42%; }
+    .frontend { right: 7%; top: 25%; }
+    .frontend-vue { right: 22%; top: 41%; }
+    .frontend-static { right: 4%; top: 39%; }
+    .knowledge { left: 10%; bottom: 20%; }
+    .knowledge-index { left: 3%; bottom: 8%; }
+    .knowledge-authority { left: 22%; bottom: 7%; }
+    .ai { right: 12%; bottom: 20%; }
+    .ai-agent { right: 24%; bottom: 8%; }
+    .ai-tooling { right: 4%; bottom: 7%; }
+
+    .focus-map {
+      position: absolute;
+      left: 50%;
+      bottom: 7%;
+      width: min(420px, 46%);
+      min-height: 172px;
+      padding: 18px 22px;
+      color: var(--ink-soft);
+      background:
+        radial-gradient(ellipse at 24% 22%, rgba(255, 250, 218, 0.24), transparent 7rem),
+        rgba(246, 228, 173, 0.34);
+      box-shadow:
+        inset 0 1px 0 rgba(47, 33, 15, 0.2),
+        inset 0 -1px 0 rgba(47, 33, 15, 0.14);
+      transform: translateX(-50%);
+    }
+
+    .focus-map .label {
+      margin-bottom: 10px;
+    }
+
+    .focus-map strong {
+      display: block;
+      color: var(--ink);
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .focus-map p {
+      margin: 8px 0 12px;
+      font-size: 14px;
+      line-height: 1.58;
+    }
+
+    .focus-branches {
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .focus-branches a {
+      min-height: 32px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border-top: 1px solid rgba(47, 33, 15, 0.14);
+      padding-top: 8px;
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: 1.08fr 1fr 1fr;
+      gap: clamp(28px, 4.5vw, 58px);
+      margin-top: clamp(52px, 8vw, 92px);
+      padding-top: 28px;
+      border-top: 1px solid var(--hairline);
+    }
+
+    .section {
+      min-height: 150px;
+      position: relative;
+    }
+
+    .section::before {
+      content: attr(data-issue);
+      display: block;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(47, 33, 15, 0.24);
+      color: rgba(47, 33, 15, 0.58);
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .label {
+      margin-bottom: 12px;
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 11px;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .section h2 {
+      margin: 0 0 12px;
+      font-family: "Cormorant Garamond", "Noto Serif SC", Georgia, serif;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+    }
+
+    .section p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    .dek {
+      min-height: 78px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(47, 33, 15, 0.18);
+    }
+
+    .article-list {
+      display: grid;
+      gap: 0;
+      margin-top: 18px;
+    }
+
+    .article {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 14px;
+      padding: 16px 0;
+      border-top: 1px solid rgba(47, 33, 15, 0.18);
+    }
+
+    .article:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .article::before {
+      content: attr(data-folio);
+      color: rgba(47, 33, 15, 0.46);
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+
+    .article-title {
+      display: inline;
+      font-family: "Cormorant Garamond", "Noto Serif SC", Georgia, serif;
+      font-size: 22px;
+      line-height: 1.12;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      background-image: linear-gradient(currentColor, currentColor);
+      background-position: 0 100%;
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      margin-top: 8px;
+      color: rgba(47, 33, 15, 0.58);
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .category-list {
+      display: grid;
+      gap: 0;
+      margin-top: 18px;
+    }
+
+    .category,
+    .subcategory {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: baseline;
+      min-height: 34px;
+      padding: 8px 0;
+      border-top: 1px solid rgba(47, 33, 15, 0.14);
+    }
+
+    .category:first-child { border-top: 0; }
+
+    .category::before,
+    .subcategory::before {
+      content: attr(data-folio);
+      min-width: 28px;
+      color: rgba(47, 33, 15, 0.42);
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    .category strong {
+      font-family: "Cormorant Garamond", "Noto Serif SC", Georgia, serif;
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .category span,
+    .subcategory span:last-child {
+      color: rgba(47, 33, 15, 0.58);
+      font-size: 13px;
+    }
+
+    .subcategory {
+      padding-left: 28px;
+      color: rgba(47, 33, 15, 0.66);
+      font-size: 14px;
+    }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 28px;
+      margin-top: 20px;
+      font-family: "Cinzel", ui-serif, serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .note {
+      margin-top: 38px;
+      padding-top: 18px;
+      border-top: 1px solid var(--hairline);
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    a:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 5px;
+    }
+
+    @media (hover: hover) {
+      .nav a:hover,
+      .map-link:hover {
+        color: var(--ink);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .book { width: min(100% - 18px, 1180px); margin: 9px auto; }
+      .page { min-height: calc(100vh - 18px); padding: 26px; }
+      .nav { flex-direction: column; margin-bottom: 48px; }
+      .chart { min-height: 760px; }
+      .map-title { top: 4%; }
+      .practice { left: 3%; top: 22%; }
+      .practice-build { left: 2%; top: 34%; }
+      .practice-quality { left: 20%; top: 38%; }
+      .frontend { right: 3%; top: 23%; }
+      .frontend-vue { right: 22%; top: 38%; }
+      .frontend-static { right: 2%; top: 36%; }
+      .knowledge { left: 4%; bottom: 20%; }
+      .knowledge-index { left: 2%; bottom: 8%; }
+      .knowledge-authority { left: 20%; bottom: 7%; }
+      .ai { right: 4%; bottom: 20%; }
+      .ai-agent { right: 22%; bottom: 8%; }
+      .ai-tooling { right: 2%; bottom: 7%; }
+      .focus-map { bottom: 29%; width: min(380px, 54%); }
+      .sections { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      h1 { font-size: clamp(44px, 15vw, 68px); }
+      .lead { font-size: 17px; }
+      .chart { min-height: 1040px; }
+      .map-title { position: static; transform: none; width: auto; margin-bottom: 18px; text-align: left; }
+      .chart svg { top: 86px; height: calc(100% - 86px); }
+      .compass { top: 52%; width: 112px; height: 112px; font-size: 12px; }
+      .point { max-width: 152px; font-size: 13px; }
+      .point.child { font-size: 12px; }
+      .practice { left: 0; top: 20%; }
+      .practice-build { left: 0; top: 30%; }
+      .practice-quality { left: 34%; top: 34%; }
+      .frontend { right: 0; top: 21%; }
+      .frontend-vue { right: 34%; top: 35%; }
+      .frontend-static { right: 0; top: 32%; }
+      .knowledge { left: 0; bottom: 26%; }
+      .knowledge-index { left: 0; bottom: 14%; }
+      .knowledge-authority { left: 34%; bottom: 10%; }
+      .ai { right: 0; bottom: 25%; }
+      .ai-agent { right: 34%; bottom: 12%; }
+      .ai-tooling { right: 0; bottom: 11%; }
+      .focus-map { left: 0; right: 0; bottom: 36%; width: auto; min-height: 0; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="book">
+    <article class="page">
+      <div class="content" id="content">
+        <nav class="nav" aria-label="主要导航">
+          <a class="brand" href="#">卷书成船 / Scroll Vessel</a>
+          <div class="nav-links">
+            <a href="#atlas-route">Atlas</a>
+            <a href="#featured-route">Featured</a>
+            <a href="#latest-route">Latest</a>
+            <a href="#directions">Directions</a>
+          </div>
+        </nav>
+
+        <section class="hero" aria-labelledby="homepage-title">
+          <div class="intro">
+            <p class="overline">Aged parchment · Editorial nautical chart</p>
+            <h1 id="homepage-title">沿着书页上的海图，寻找可沉淀的工程实践。</h1>
+            <p class="lead">Scroll Vessel 是持续筛选、结构化组织和长期维护的技术内容航线图。首页先展开一张两层分类海图；点击航点时，海图像镜头推进一样聚焦并展开下一层。</p>
+            <div class="routes" aria-label="首页主要入口">
+              <a class="map-link" href="#atlas-route">按分类浏览</a>
+              <a class="map-link" href="#featured-route">查看精选</a>
+              <a class="map-link" href="#latest-route">查看最新</a>
+            </div>
+          </div>
+
+          <aside class="chart" aria-label="首页分类海图概念">
+            <svg viewBox="0 0 1180 820" aria-hidden="true">
+              <defs>
+                <pattern id="waves" width="42" height="21" patternUnits="userSpaceOnUse">
+                  <path d="M0 10 C10 2 21 19 31 10 C36 6 39 6 42 10" fill="none" stroke="rgba(47,33,15,.11)" stroke-width="1" />
+                </pattern>
+              </defs>
+              <rect x="0" y="0" width="1180" height="820" fill="url(#waves)" opacity="0.56" />
+              <circle cx="590" cy="405" r="248" fill="none" stroke="rgba(47,33,15,.18)" />
+              <circle cx="590" cy="405" r="170" fill="none" stroke="rgba(47,33,15,.14)" />
+              <circle cx="590" cy="405" r="92" fill="none" stroke="rgba(47,33,15,.1)" />
+              <path d="M590 132 L590 690 M220 405 L960 405" stroke="rgba(47,33,15,.12)" />
+              <path d="M590 200 L621 405 L590 610 L559 405 Z" fill="rgba(47,33,15,.018)" stroke="rgba(47,33,15,.38)" />
+              <path d="M382 405 L590 375 L798 405 L590 435 Z" fill="rgba(47,33,15,.012)" stroke="rgba(47,33,15,.3)" />
+              <path d="M590 405 C452 328 340 260 178 226" fill="none" stroke="rgba(47,33,15,.56)" stroke-width="1.55" stroke-dasharray="7 9" />
+              <path d="M590 405 C742 332 856 270 1010 234" fill="none" stroke="rgba(47,33,15,.52)" stroke-width="1.5" stroke-dasharray="7 9" />
+              <path d="M590 405 C458 492 350 590 220 684" fill="none" stroke="rgba(47,33,15,.48)" stroke-width="1.35" stroke-dasharray="3 8" />
+              <path d="M590 405 C728 494 838 604 962 692" fill="none" stroke="rgba(47,33,15,.44)" stroke-width="1.25" stroke-dasharray="3 8" />
+              <path d="M178 226 C150 300 132 360 118 442 M178 226 C258 314 318 350 398 382" fill="none" stroke="rgba(47,33,15,.24)" />
+              <path d="M1010 234 C900 330 840 356 760 384 M1010 234 C1044 300 1062 354 1072 432" fill="none" stroke="rgba(47,33,15,.24)" />
+              <path d="M220 684 C154 626 110 580 76 520 M220 684 C316 626 384 588 468 546" fill="none" stroke="rgba(47,33,15,.22)" />
+              <path d="M962 692 C846 618 786 574 718 522 M962 692 C1040 634 1092 584 1120 532" fill="none" stroke="rgba(47,33,15,.22)" />
+              <path d="M246 260 L266 270 M326 305 L346 316 M430 362 L448 372 M746 366 L764 356 M838 316 L856 306 M932 268 L950 258 M292 626 L310 614 M390 568 L408 556 M754 548 L770 560 M854 614 L872 626" stroke="rgba(47,33,15,.38)" stroke-width="1" />
+            </svg>
+            <div class="map-title">
+              <div class="label">Classification chart</div>
+              <p>默认只露出当前视窗的两层航点；选择某个子类后，海图聚焦到该区域并继续展开下一层。</p>
+            </div>
+            <div class="compass">Scroll<br />Vessel</div>
+            <a class="point parent practice" href="#atlas-route"><strong>工程实践</strong>12 篇<em>发布 / 构建 / 质量</em></a>
+            <a class="point child practice-build" href="#atlas-route"><strong>发布与构建</strong>CI、构建、部署<em>5 篇</em></a>
+            <a class="point child practice-quality" href="#atlas-route"><strong>质量守门</strong>测试、校验、回归<em>7 篇</em></a>
+            <a class="point parent frontend" href="#atlas-route"><strong>前端架构</strong>8 篇<em>Vue / 静态站 / 路由</em></a>
+            <a class="point child frontend-vue" href="#atlas-route"><strong>Vue 工程</strong>组件、状态、组合式<em>3 篇</em></a>
+            <a class="point child selected frontend-static" href="#atlas-route"><strong>静态站点</strong>内容索引、路由生成<em>5 篇</em></a>
+            <div class="focus-map" aria-label="点击静态站点后的聚焦展开示意">
+              <div class="label">Focused route · after selection</div>
+              <strong>静态站点</strong>
+              <p>镜头推进到选中航点，旧节点退到纸面后景，并展开下一层子航线。</p>
+              <div class="focus-branches">
+                <a href="#"><span>内容索引生成</span><span>2 篇</span></a>
+                <a href="#"><span>静态路由生成</span><span>2 篇</span></a>
+                <a href="#"><span>构建期校验</span><span>1 篇</span></a>
+              </div>
+            </div>
+            <a class="point parent knowledge" href="#atlas-route"><strong>知识工程</strong>6 篇<em>目录 / 索引 / 单一权威</em></a>
+            <a class="point child knowledge-index" href="#atlas-route"><strong>目录索引</strong>信息架构、检索入口<em>3 篇</em></a>
+            <a class="point child knowledge-authority" href="#atlas-route"><strong>单一权威</strong>引用、去重、演进<em>3 篇</em></a>
+            <a class="point parent ai" href="#atlas-route"><strong>AI 开发</strong>5 篇<em>Agent / 提示词 / 工具链</em></a>
+            <a class="point child ai-agent" href="#atlas-route"><strong>Agent 实践</strong>任务编排、审查、记忆<em>2 篇</em></a>
+            <a class="point child ai-tooling" href="#atlas-route"><strong>工具链</strong>CLI、MCP、自动化<em>3 篇</em></a>
+          </aside>
+        </section>
+
+        <section class="sections" aria-label="首页探索入口">
+          <section class="section" id="atlas-route" data-issue="Index · charted categories">
+            <div class="label">Atlas route</div>
+            <h2>按分类航行</h2>
+            <p class="dek">海图给空间感；这里像目录页一样给出当前两层，方便快速扫读和跳转。</p>
+            <div class="category-list" aria-label="示例分类层级">
+              <a class="category" data-folio="01" href="#"><strong>工程实践</strong><span>12 篇</span></a>
+              <a class="subcategory" data-folio="1A" href="#"><span>发布与构建</span><span>5 篇</span></a>
+              <a class="subcategory" data-folio="1B" href="#"><span>质量守门</span><span>7 篇</span></a>
+              <a class="category" data-folio="02" href="#"><strong>前端架构</strong><span>8 篇</span></a>
+              <a class="subcategory" data-folio="2A" href="#"><span>Vue 工程</span><span>3 篇</span></a>
+              <a class="subcategory" data-folio="2B" href="#"><span>静态站点</span><span>5 篇</span></a>
+              <a class="category" data-folio="03" href="#"><strong>知识工程</strong><span>6 篇</span></a>
+              <a class="subcategory" data-folio="3A" href="#"><span>目录索引</span><span>3 篇</span></a>
+              <a class="subcategory" data-folio="3B" href="#"><span>单一权威</span><span>3 篇</span></a>
+              <a class="category" data-folio="04" href="#"><strong>AI 开发</strong><span>5 篇</span></a>
+              <a class="subcategory" data-folio="4A" href="#"><span>Agent 实践</span><span>2 篇</span></a>
+              <a class="subcategory" data-folio="4B" href="#"><span>工具链</span><span>3 篇</span></a>
+            </div>
+          </section>
+          <section class="section" id="featured-route" data-issue="Editor’s selection · kept pieces">
+            <div class="label">Curated route</div>
+            <h2>精选文章</h2>
+            <p class="dek">像编辑部选刊一样，只把值得沉淀、值得回看的文章放到这里。</p>
+            <div class="article-list" aria-label="示例精选文章">
+              <article class="article" data-folio="F1">
+                <div>
+                  <a class="article-title" href="#">从一次发布事故看前端内容校验的边界</a>
+                  <div class="meta"><span>工程实践</span><span>2026.05.18</span><span>12 分钟</span></div>
+                </div>
+              </article>
+              <article class="article" data-folio="F2">
+                <div>
+                  <a class="article-title" href="#">把 Markdown 目录树变成可维护的知识航线</a>
+                  <div class="meta"><span>知识工程</span><span>2026.04.26</span><span>9 分钟</span></div>
+                </div>
+              </article>
+            </div>
+          </section>
+          <section class="section" id="latest-route" data-issue="Recent dispatch · new notes">
+            <div class="label">Recent route</div>
+            <h2>最新文章</h2>
+            <p class="dek">给回访读者看的近期来信；保持轻量、直接，不抢走海图主视觉。</p>
+            <div class="article-list" aria-label="示例最新文章">
+              <article class="article" data-folio="N1">
+                <div>
+                  <a class="article-title" href="#">Vue 静态站点中的内容索引生成策略</a>
+                  <div class="meta"><span>前端架构</span><span>2026.06.01</span><span>7 分钟</span></div>
+                </div>
+              </article>
+              <article class="article" data-folio="N2">
+                <div>
+                  <a class="article-title" href="#">如何为技术文章设计稳定的分类上下文</a>
+                  <div class="meta"><span>内容系统</span><span>2026.05.29</span><span>10 分钟</span></div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <section class="section" id="directions" style="margin-top:34px" aria-label="主题方向">
+          <div class="label">Directions</div>
+          <h2>主题方向</h2>
+          <p>顶层分类作为书页海图上的航向标记出现，只做导向，不替代 Atlas 的层级表达。</p>
+          <div class="topics">
+            <a class="map-link" href="#">工程实践 · 发布、构建、质量</a>
+            <a class="map-link" href="#">前端架构 · Vue、静态站、路由</a>
+            <a class="map-link" href="#">知识工程 · 目录、索引、单一权威</a>
+            <a class="map-link" href="#">AI 开发 · Agent、提示词、工具链</a>
+          </div>
+          <p class="note">视觉原则：用整页羊皮纸纹理、淡墨航线和编辑式文字层级建立书本纸张感；海图下方列表应像旧杂志目录和编辑选刊，不做现代按钮、厚边框卡片、玻璃拟态或棕色外框装饰。</p>
+        </section>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
