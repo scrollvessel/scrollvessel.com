@@ -1,3 +1,4 @@
+export { buildCategories } from './content-records.js'
 export { scanContent } from './scan-content.js'
 export type { ArticleRecord, CategoryMetadataRecord, CategoryRecord, ContentIndex } from './scan-content.js'
 export { ContentValidationError, parseFrontMatter } from './frontmatter.js'

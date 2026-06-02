@@ -68,6 +68,14 @@ export class HomepageModel {
   latestArticles(): HomepageArticle[] {
     return [...this.articles].sort(compareNewest).slice(0, 3)
   }
+
+  allArticles(): HomepageArticle[] {
+    return [...this.articles]
+  }
+
+  allCategories(): HomepageCategoryNode[] {
+    return this.topCategories()
+  }
 }
 
 class CategoryNameCatalog {

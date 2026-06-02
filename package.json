@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "validate:content": "tsx scripts/validate-content.ts",
-    "build": "pnpm validate:content && vite build",
+    "build": "pnpm validate:content && vite build && tsx scripts/generate-static-pages.ts",
     "preview": "vite preview",
     "prepare": "lefthook install --force",
     "test": "vitest run"

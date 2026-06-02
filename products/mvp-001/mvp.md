@@ -47,7 +47,7 @@ MVP 001 落实 [`../../knowledge/domains/scroll-vessel.md`](../../knowledge/doma
 - Atlas 分类地图页：数据驱动展示分类层级和文章数量，作为核心创意页面。
 - 分类页：顶部有创意视觉头部；主体先展示子分类入口，再展示当前目录文章。
 - 文章页：渲染 Markdown 正文、代码高亮、标题锚点、TOC 数据、metadata、tags、阅读分钟数和字数、同步发布外链、平台化分享、上一篇/下一篇、返回所属分类入口。
-- 404 页：有创意但清晰引导回首页或 Atlas。
+- 404 页：有创意但清晰引导回首页；具体体验引用 [`../../knowledge/uis/scroll-vessel-experience.md`](../../knowledge/uis/scroll-vessel-experience.md)。
 - `sitemap.xml`。
 - 全文 `rss.xml`。
 

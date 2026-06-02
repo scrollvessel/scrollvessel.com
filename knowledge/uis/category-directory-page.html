@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>分类目录页概念稿 · Scroll Vessel</title>
+    <style>
+      :root {
+        --paper: #f6e4ad;
+        --paper-warm: #efd18a;
+        --ink: #2f210f;
+        --ink-soft: rgba(47, 33, 15, 0.72);
+        --hairline: rgba(47, 33, 15, 0.24);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 18% 18%, rgba(255, 249, 214, 0.45), transparent 18rem),
+          linear-gradient(135deg, #f9e9b7 0%, var(--paper) 48%, var(--paper-warm) 100%);
+        font-family: 'Crimson Pro', 'Noto Serif SC', Georgia, serif;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .shell {
+        width: min(1040px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 36px 0 64px;
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 56px;
+        color: var(--ink-soft);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav a,
+      .trail a,
+      .route-link {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+      }
+
+      .hero {
+        position: relative;
+        border-bottom: 1px solid var(--hairline);
+        padding-bottom: 30px;
+      }
+
+      .hero::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: -1px;
+        width: min(360px, 52%);
+        border-bottom: 1px solid rgba(47, 33, 15, 0.42);
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--ink-soft);
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .trail {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+        margin-bottom: 18px;
+        color: var(--ink-soft);
+        font-size: 14px;
+      }
+
+      h1 {
+        max-width: 860px;
+        margin: 0;
+        font-size: clamp(3.25rem, 8vw, 6.25rem);
+        line-height: 0.9;
+        letter-spacing: -0.055em;
+      }
+
+      .hero p:not(.eyebrow) {
+        max-width: 720px;
+        color: var(--ink-soft);
+        font-size: 18px;
+        line-height: 1.75;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 44px;
+        margin-top: 38px;
+      }
+
+      .panel {
+        border-top: 1px solid var(--hairline);
+        padding-top: 18px;
+      }
+
+      .panel h2 {
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 4vw, 3.25rem);
+        line-height: 0.95;
+        letter-spacing: -0.045em;
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .list a {
+        display: grid;
+        min-height: 44px;
+        gap: 6px;
+        padding: 12px 0;
+      }
+
+      .list li + li {
+        border-top: 1px solid rgba(47, 33, 15, 0.12);
+      }
+
+      .list strong {
+        width: fit-content;
+        background-image: linear-gradient(currentcolor, currentcolor);
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 1px;
+        font-size: 23px;
+        line-height: 1.12;
+      }
+
+      .list span,
+      .empty {
+        color: var(--ink-soft);
+        line-height: 1.65;
+      }
+
+      .wide {
+        grid-column: 1 / -1;
+      }
+
+      .route-link {
+        margin-top: 20px;
+        color: var(--ink-soft);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 760px) {
+        .nav,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          flex-direction: column;
+        }
+
+        .wide {
+          grid-column: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="nav" aria-label="主要导航">
+        <a href="/">卷书成船 / Scroll Vessel</a>
+        <a href="/">Home</a>
+      </nav>
+
+      <header class="hero">
+        <p class="eyebrow">Category route</p>
+        <nav class="trail" aria-label="分类路径">
+          <a href="#">工程实践</a><span>/</span><a href="#">发布与构建</a>
+        </nav>
+        <h1>发布与构建</h1>
+        <p>分类页像旧编辑部目录页：保留纸面细线和标题层级，但不要给每一行都压上密集下划线。</p>
+        <a class="route-link" href="#">返回上级分类</a>
+      </header>
+
+      <main class="grid">
+        <section class="panel">
+          <h2>子分类</h2>
+          <p class="empty">暂无子分类，可直接浏览当前分类文章。</p>
+        </section>
+
+        <section class="panel">
+          <h2>当前目录文章</h2>
+          <ul class="list">
+            <li><a href="#"><strong>从一次发布事故看前端发布审查</strong><span>构建、校验和回滚检查 · 2026-05-23</span></a></li>
+          </ul>
+        </section>
+
+        <section class="panel wide">
+          <h2>全部文章</h2>
+          <ul class="list">
+            <li><a href="#"><strong>从一次发布事故看前端发布审查</strong><span>用一次演示事故复盘前端发布前的构建、校验和回滚检查。</span></a></li>
+            <li><a href="#"><strong>内容校验的边界应该停在哪里</strong><span>把内容校验放在事实边界，避免页面层重复维护规则。</span></a></li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
