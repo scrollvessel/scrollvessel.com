@@ -6,11 +6,12 @@
 
 ## 当前状态
 
-未开始。
+部分完成；当前仅验证 demo 内容合法性，首页实现后的构建和浏览器验证待执行。
 
 ## 验证命令
 
-- `pnpm build`：未运行。
+- `pnpm validate:content`：通过，Validated 9 article(s)。
+- `pnpm build`：未运行，待实现后执行。
 
 ## 浏览器 / Playwright 验证
 
