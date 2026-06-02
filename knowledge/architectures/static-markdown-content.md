@@ -34,3 +34,9 @@
 - 计算阅读时间和字数。
 - 生成分类层级和文章数量数据。
 - 生成 SEO 和订阅产物，质量标准引用 [`../qas/content-site-quality.md`](../qas/content-site-quality.md)。
+
+## 实现约束
+
+- 内容构建代码优先使用 TypeScript，并通过类型检查进入验证链路。
+- 在 Node ESM 与 TypeScript 共同使用时，源码中的相对导入保留运行时可解析的 `.js` 后缀。
+- 内容索引中的派生字段，例如 `sourcePath`、`relativePath`、`url`、`categoryPath` 和 `body`，由构建层生成并保持权威，不允许 Front Matter 覆盖。

@@ -11,7 +11,7 @@
 
 ## 当前状态
 
-已分析，待实现。
+实现完成，待审查。
 
 ## 目标
 
@@ -33,11 +33,13 @@
 
 ## 文件结构
 
-- 修改 `package.json`：增加 `test` 脚本和 Vitest 开发依赖。
-- 创建 `src/content/frontmatter.js`：解析 Front Matter、校验字段和生成可定位错误。
-- 创建 `src/content/scan-content.js`：扫描内容目录、生成 URL、分类上下文和内容源记录。
-- 创建 `src/content/index.js`：导出内容构建边界 API。
-- 创建 `src/content/__tests__/scan-content.test.js`：覆盖 [`../../../../../knowledge/qas/chains/content-source-chain.md`](../../../../../knowledge/qas/chains/content-source-chain.md) 的节点 01-11。
+- 修改 `package.json`：增加 `test`、`validate:content` 脚本和 TypeScript/Vitest 开发依赖。
+- 创建 `tsconfig.json`：提供严格 TypeScript 类型检查配置。
+- 创建 `src/content/frontmatter.ts`：解析 Front Matter、校验字段和生成可定位错误。
+- 创建 `src/content/scan-content.ts`：扫描内容目录、生成 URL、分类上下文和内容源记录。
+- 创建 `src/content/index.ts`：导出内容构建边界 API。
+- 创建 `src/content/__tests__/scan-content.test.ts`：覆盖 [`../../../../../knowledge/qas/chains/content-source-chain.md`](../../../../../knowledge/qas/chains/content-source-chain.md) 的节点 01-11。
+- 创建 `scripts/validate-content.ts`：提供构建前内容校验入口。
 
 ## 不做事项
 
@@ -101,7 +103,7 @@
 
 **文件**
 
-- 创建：`src/content/__tests__/scan-content.test.js`
+- 创建：`src/content/__tests__/scan-content.test.ts`
 
 **步骤**
 
@@ -112,7 +114,7 @@
    import { join } from 'node:path'
    import { tmpdir } from 'node:os'
    import { describe, expect, it } from 'vitest'
-   import { scanContent } from '../scan-content.js'
+   import { scanContent } from '../scan-content.ts'
 
    async function createContentRoot() {
      return mkdtemp(join(tmpdir(), 'scroll-vessel-content-'))
@@ -156,10 +158,10 @@ Body
 2. 运行测试，确认失败来自模块不存在：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
-   预期：失败，提示找不到 `../scan-content.js` 或 `scanContent`。
+   预期：失败，提示找不到 `../scan-content.ts` 或 `scanContent`。
 
 ### 任务 3：实现 Front Matter 解析与字段校验
 
@@ -167,12 +169,12 @@ Body
 
 **文件**
 
-- 创建：`src/content/frontmatter.js`
-- 创建：`src/content/scan-content.js`
+- 创建：`src/content/frontmatter.ts`
+- 创建：`src/content/scan-content.ts`
 
 **步骤**
 
-1. 创建 `src/content/frontmatter.js`：
+1. 创建 `src/content/frontmatter.ts`：
 
    ```js
    const requiredFields = ['title', 'description', 'createdAt', 'updatedAt', 'author', 'lang']
@@ -286,11 +288,11 @@ Body
    }
    ```
 
-2. 创建最小 `src/content/scan-content.js`：
+2. 创建最小 `src/content/scan-content.ts`：
 
    ```js
    import { readFile } from 'node:fs/promises'
-   import { parseFrontMatter } from './frontmatter.js'
+   import { parseFrontMatter } from './frontmatter.ts'
 
    export async function scanContent(contentRoot) {
      const filePath = `${contentRoot}/engineering/missing-title.md`
@@ -303,7 +305,7 @@ Body
 3. 运行测试：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
    预期：刚才的必填字段失败测试通过。
@@ -314,8 +316,8 @@ Body
 
 **文件**
 
-- 修改：`src/content/__tests__/scan-content.test.js`
-- 修改：`src/content/scan-content.js`
+- 修改：`src/content/__tests__/scan-content.test.ts`
+- 修改：`src/content/scan-content.ts`
 
 **步骤**
 
@@ -352,17 +354,17 @@ Body
 2. 运行测试，确认失败来自扫描实现硬编码：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
    预期：新增测试失败。
 
-3. 替换 `src/content/scan-content.js` 为递归扫描实现：
+3. 替换 `src/content/scan-content.ts` 为递归扫描实现：
 
    ```js
    import { readdir, readFile } from 'node:fs/promises'
    import { extname, relative, sep } from 'node:path'
-   import { parseFrontMatter } from './frontmatter.js'
+   import { parseFrontMatter } from './frontmatter.ts'
 
    export async function scanContent(contentRoot) {
      const markdownFiles = await findMarkdownFiles(contentRoot)
@@ -415,7 +417,7 @@ Body
 4. 运行测试：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
    预期：现有测试通过。
@@ -426,9 +428,9 @@ Body
 
 **文件**
 
-- 修改：`src/content/__tests__/scan-content.test.js`
-- 修改：`src/content/scan-content.js`
-- 创建：`src/content/index.js`
+- 修改：`src/content/__tests__/scan-content.test.ts`
+- 修改：`src/content/scan-content.ts`
+- 创建：`src/content/index.ts`
 
 **步骤**
 
@@ -466,17 +468,17 @@ Body
 2. 运行测试，确认失败来自缺少 `categories`：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
    预期：新增测试失败。
 
-3. 在 `src/content/scan-content.js` 中增加分类索引：
+3. 在 `src/content/scan-content.ts` 中增加分类索引：
 
    ```js
    import { readdir, readFile } from 'node:fs/promises'
    import { extname, relative, sep } from 'node:path'
-   import { parseFrontMatter } from './frontmatter.js'
+   import { parseFrontMatter } from './frontmatter.ts'
 
    export async function scanContent(contentRoot) {
      const markdownFiles = await findMarkdownFiles(contentRoot)
@@ -551,17 +553,17 @@ Body
    }
    ```
 
-4. 创建 `src/content/index.js`：
+4. 创建 `src/content/index.ts`：
 
    ```js
-   export { scanContent } from './scan-content.js'
-   export { ContentValidationError, parseFrontMatter } from './frontmatter.js'
+   export { scanContent } from './scan-content.ts'
+   export { ContentValidationError, parseFrontMatter } from './frontmatter.ts'
    ```
 
 5. 运行测试：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
    预期：现有测试通过。
@@ -572,9 +574,9 @@ Body
 
 **文件**
 
-- 修改：`src/content/__tests__/scan-content.test.js`
-- 修改：`src/content/frontmatter.js`
-- 修改：`src/content/scan-content.js`
+- 修改：`src/content/__tests__/scan-content.test.ts`
+- 修改：`src/content/frontmatter.ts`
+- 修改：`src/content/scan-content.ts`
 
 **步骤**
 
@@ -613,12 +615,12 @@ Body
 2. 运行测试，确认失败来自 `demo` 类型未校验或字段未按预期保留：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
    预期：新增测试失败或通过；若通过，继续下一步补校验。
 
-3. 在 `src/content/frontmatter.js` 中把 `demo` 加入布尔字段校验：
+3. 在 `src/content/frontmatter.ts` 中把 `demo` 加入布尔字段校验：
 
    ```js
    for (const field of ['featured', 'draft', 'demo']) {
@@ -631,7 +633,7 @@ Body
 4. 运行测试：
 
    ```bash
-   pnpm test -- src/content/__tests__/scan-content.test.js
+   pnpm test -- src/content/__tests__/scan-content.test.ts
    ```
 
    预期：所有内容扫描测试通过。
@@ -644,7 +646,7 @@ Body
 
 - 创建：`content/demo/hello-scroll-vessel.md`
 - 修改：`package.json`
-- 创建：`scripts/validate-content.js`
+- 创建：`scripts/validate-content.ts`
 
 **步骤**
 
@@ -668,10 +670,10 @@ Body
    This demo article validates content scanning and Front Matter checks.
    ```
 
-2. 创建 `scripts/validate-content.js`：
+2. 创建 `scripts/validate-content.ts`：
 
    ```js
-   import { scanContent } from '../src/content/index.js'
+   import { scanContent } from '../src/content/index.ts'
 
    try {
      const result = await scanContent('content')
@@ -691,7 +693,7 @@ Body
    {
      "scripts": {
        "dev": "vite",
-       "validate:content": "node scripts/validate-content.js",
+       "validate:content": "node scripts/validate-content.ts",
        "build": "pnpm validate:content && vite build",
        "preview": "vite preview",
        "prepare": "lefthook install --force",
@@ -793,7 +795,7 @@ Body
 3. 提交实现：
 
    ```bash
-   git add package.json pnpm-lock.yaml src/content scripts/validate-content.js content/demo/hello-scroll-vessel.md products/mvp-001/user-journey-003/story-001/plans/qa.md products/mvp-001/user-journey-003/story-001/plans/progress.md
+   git add package.json pnpm-lock.yaml src/content scripts/validate-content.ts content/demo/hello-scroll-vessel.md products/mvp-001/user-journey-003/story-001/plans/qa.md products/mvp-001/user-journey-003/story-001/plans/progress.md
    git commit -m "$(cat <<'EOF'
    feat(content): 校验 Markdown 内容源
 
@@ -802,17 +804,22 @@ Body
    )"
    ```
 
+## TypeScript 迁移说明
+
+实际实现已按项目知识标准迁移为 TypeScript：内容管线、测试和构建前校验入口均使用 `.ts` 文件；Node ESM 运行时导入保留 `.js` 后缀；`pnpm validate:content` 通过 `tsx scripts/validate-content.ts` 执行；验证链路纳入 `pnpm exec tsc --noEmit`。
+
 ## 验证命令
 
+- `pnpm exec tsc --noEmit`
 - `pnpm test`
 - `pnpm validate:content`
 - `pnpm build`
 
 ## 风险和回滚
 
-- 风险：本故事引入 `vitest` 后会更新 `pnpm-lock.yaml`。回滚时需同时回滚 `package.json` 和锁文件。
-- 风险：简化 YAML 解析只覆盖 MVP Front Matter 子集；如果后续需要嵌套 `externalLinks` 对象，应在后续故事中引入成熟 YAML parser 或扩展解析器。
-- 回滚：移除 `src/content/`、`scripts/validate-content.js`、demo 内容文件，并还原 `package.json` 与 `pnpm-lock.yaml`。
+- 风险：本故事引入 `typescript`、`tsx`、`vitest` 后会更新 `pnpm-lock.yaml`。回滚时需同时回滚 `package.json` 和锁文件。
+- 风险：简化 YAML 解析只覆盖当前 MVP Front Matter 子集，包括一层对象数组；复杂 YAML 特性仍需在后续故事中引入成熟 YAML parser 或扩展解析器。
+- 回滚：移除 `src/content/`、`scripts/validate-content.ts`、demo 内容文件，并还原 `package.json` 与 `pnpm-lock.yaml`。
 
 ## 完成标准
 

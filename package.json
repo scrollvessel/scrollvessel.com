@@ -6,9 +6,11 @@
   "packageManager": "pnpm@10.12.1",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "validate:content": "tsx scripts/validate-content.ts",
+    "build": "pnpm validate:content && vite build",
     "preview": "vite preview",
-    "prepare": "lefthook install --force"
+    "prepare": "lefthook install --force",
+    "test": "vitest run"
   },
   "dependencies": {
     "@vitejs/plugin-vue": "latest",
@@ -19,8 +21,12 @@
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
     "@tailwindcss/postcss": "latest",
+    "@types/node": "latest",
     "autoprefixer": "latest",
     "lefthook": "^2.1.8",
-    "tailwindcss": "latest"
+    "tailwindcss": "latest",
+    "tsx": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
   }
 }
