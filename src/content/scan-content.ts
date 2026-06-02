@@ -1,20 +1,9 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { extname, join, relative, sep } from 'node:path'
+import { buildCategories, toArticleRecord, type ArticleRecord, type CategoryRecord } from './content-records.js'
 import { ContentValidationError, type ContentValidationIssue, parseFrontMatter } from './frontmatter.js'
 
-export interface ArticleRecord {
-  sourcePath: string
-  relativePath: string
-  url: string
-  categoryPath: string[]
-  body: string
-  [key: string]: unknown
-}
-
-export interface CategoryRecord {
-  path: string[]
-  articleCount: number
-}
+export type { ArticleRecord, CategoryRecord } from './content-records.js'
 
 export interface ContentIndex {
   articles: ArticleRecord[]
@@ -30,7 +19,7 @@ export async function scanContent(contentRoot: string): Promise<ContentIndex> {
     const source = await readFile(filePath, 'utf8')
     const { data, body } = parseFrontMatter(source, filePath)
     const relativePath = normalizePath(relative(contentRoot, filePath))
-    const article = toArticleRecord(data, body, filePath, relativePath)
+    const article = toArticleRecord({ body, data, relativePath, sourcePath: filePath })
     const duplicatePath = urls.get(article.url)
 
     if (duplicatePath) {
@@ -79,40 +68,6 @@ async function findMarkdownFiles(directory: string, contentRoot: string): Promis
   }
 
   return files.sort()
-}
-
-function toArticleRecord(data: Record<string, unknown>, body: string, sourcePath: string, relativePath: string): ArticleRecord {
-  const parts = relativePath.split('/')
-  const fileName = parts.at(-1) ?? ''
-  const slug = fileName.replace(/\.md$/, '')
-  const categoryPath = parts.slice(0, -1)
-  const urlParts = slug === 'index' ? categoryPath : [...categoryPath, slug]
-  const url = `/${urlParts.join('/')}`
-
-  return {
-    ...data,
-    sourcePath,
-    relativePath,
-    url,
-    categoryPath,
-    body,
-  }
-}
-
-function buildCategories(articles: ArticleRecord[]): CategoryRecord[] {
-  const counts = new Map<string, CategoryRecord>()
-
-  for (const article of articles) {
-    for (let index = 1; index <= article.categoryPath.length; index += 1) {
-      const path = article.categoryPath.slice(0, index)
-      const key = path.join('/')
-      const category = counts.get(key) ?? { path, articleCount: 0 }
-      category.articleCount += 1
-      counts.set(key, category)
-    }
-  }
-
-  return [...counts.values()].sort((a, b) => a.path.join('/').localeCompare(b.path.join('/')))
 }
 
 function normalizePath(path: string): string {
