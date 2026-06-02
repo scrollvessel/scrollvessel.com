@@ -15,6 +15,13 @@ async function writeMarkdown(root: string, relativePath: string, body: string): 
   return filePath
 }
 
+async function writeJson(root: string, relativePath: string, data: unknown): Promise<string> {
+  const filePath = join(root, relativePath)
+  await mkdir(dirname(filePath), { recursive: true })
+  await writeFile(filePath, JSON.stringify(data), 'utf8')
+  return filePath
+}
+
 describe('scanContent', () => {
   it('fails with file and field when required front matter is missing', async () => {
     const root = await createContentRoot()
@@ -108,13 +115,43 @@ Body
 
     expect(apiArticle).toMatchObject({
       relativePath: 'engineering/backend/api-design.md',
-      url: '/engineering/backend/api-design',
+      url: '/engineering/backend/api-design.html',
       categoryPath: ['engineering', 'backend'],
     })
     expect(result.categories).toEqual([
-      { path: ['engineering'], articleCount: 3 },
-      { path: ['engineering', 'backend'], articleCount: 1 },
-      { path: ['engineering', 'frontend'], articleCount: 1 },
+      { path: ['engineering'], articleCount: 3, categoryName: 'engineering' },
+      { path: ['engineering', 'backend'], articleCount: 1, categoryName: 'backend' },
+      { path: ['engineering', 'frontend'], articleCount: 1, categoryName: 'frontend' },
+    ])
+  })
+
+  it('uses category metadata from directory meta files as display authority', async () => {
+    const root = await createContentRoot()
+    await writeJson(root, 'engineering/meta.json', { categoryName: '工程实践' })
+    await writeJson(root, 'engineering/backend/meta.json', { categoryName: '后端工程' })
+    await writeMarkdown(root, 'engineering/backend/api-design.md', `---
+title: API Design
+description: API article
+createdAt: 2026-05-30
+updatedAt: 2026-05-30
+author: Neil Wang
+lang: zh-CN
+---
+
+Body
+`)
+
+    const result = await scanContent(root)
+
+    expect(result.categoryMetadata).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ path: ['engineering'], categoryName: '工程实践' }),
+        expect.objectContaining({ path: ['engineering', 'backend'], categoryName: '后端工程' }),
+      ]),
+    )
+    expect(result.categories).toEqual([
+      { path: ['engineering'], articleCount: 1, categoryName: '工程实践' },
+      { path: ['engineering', 'backend'], articleCount: 1, categoryName: '后端工程' },
     ])
   })
 
@@ -258,9 +295,31 @@ Body
     expect(result.articles[0]).toMatchObject({
       sourcePath: expect.stringContaining('derived-fields.md'),
       relativePath: 'engineering/derived-fields.md',
-      url: '/engineering/derived-fields',
+      url: '/engineering/derived-fields.html',
       categoryPath: ['engineering'],
       body: '\nBody\n',
+    })
+  })
+
+  it('fails when category metadata misses categoryName', async () => {
+    const root = await createContentRoot()
+    await writeJson(root, 'engineering/meta.json', {})
+
+    await expect(scanContent(root)).rejects.toMatchObject({
+      name: 'ContentValidationError',
+      issues: [expect.objectContaining({ field: 'categoryName', reason: 'required' })],
+    })
+  })
+
+  it('fails when category metadata is not valid JSON', async () => {
+    const root = await createContentRoot()
+    const filePath = join(root, 'engineering/meta.json')
+    await mkdir(dirname(filePath), { recursive: true })
+    await writeFile(filePath, '{', 'utf8')
+
+    await expect(scanContent(root)).rejects.toMatchObject({
+      name: 'ContentValidationError',
+      issues: [expect.objectContaining({ field: 'categoryMetadata', reason: 'type' })],
     })
   })
 
@@ -270,6 +329,7 @@ Body
     await expect(scanContent(root)).resolves.toEqual({
       articles: [],
       categories: [],
+      categoryMetadata: [],
     })
   })
 
@@ -288,7 +348,7 @@ Body
     })
   })
 
-  it('fails when two markdown files resolve to the same URL', async () => {
+  it('keeps sibling articles and directory index pages on distinct html URLs', async () => {
     const root = await createContentRoot()
     await writeMarkdown(root, 'engineering.md', `---
 title: Engineering
@@ -313,15 +373,9 @@ lang: zh-CN
 Body
 `)
 
-    await expect(scanContent(root)).rejects.toMatchObject({
-      name: 'ContentValidationError',
-      issues: [
-        expect.objectContaining({
-          field: 'url',
-          reason: 'duplicate',
-        }),
-      ],
-    })
+    const result = await scanContent(root)
+
+    expect(result.articles.map((article) => article.url).sort()).toEqual(['/engineering.html', '/engineering/index.html'])
   })
 
   it('fails with representative type and semantic validation issues', async () => {

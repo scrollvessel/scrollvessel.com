@@ -1,24 +1,41 @@
 import { readdir, readFile } from 'node:fs/promises'
-import { extname, join, relative, sep } from 'node:path'
-import { buildCategories, toArticleRecord, type ArticleRecord, type CategoryRecord } from './content-records.js'
+import { basename, extname, join, relative, sep } from 'node:path'
+import {
+  buildCategories,
+  toArticleRecord,
+  toCategoryMetadataRecord,
+  type ArticleRecord,
+  type CategoryMetadataRecord,
+  type CategoryRecord,
+} from './content-records.js'
 import { ContentValidationError, type ContentValidationIssue, parseFrontMatter } from './frontmatter.js'
 
-export type { ArticleRecord, CategoryRecord } from './content-records.js'
+export type { ArticleRecord, CategoryMetadataRecord, CategoryRecord } from './content-records.js'
 
 export interface ContentIndex {
   articles: ArticleRecord[]
   categories: CategoryRecord[]
+  categoryMetadata: CategoryMetadataRecord[]
 }
 
 export async function scanContent(contentRoot: string): Promise<ContentIndex> {
-  const markdownFiles = await findMarkdownFiles(contentRoot, contentRoot)
+  const contentFiles = await findContentFiles(contentRoot, contentRoot)
   const articles: ArticleRecord[] = []
+  const categoryMetadata: CategoryMetadataRecord[] = []
   const urls = new Map<string, string>()
 
-  for (const filePath of markdownFiles) {
+  for (const filePath of contentFiles) {
+    const relativePath = normalizePath(relative(contentRoot, filePath))
+
+    if (isCategoryMetadataFile(filePath)) {
+      const metadata = toCategoryMetadataRecord({ data: await readCategoryMetadata(filePath), relativePath, sourcePath: filePath })
+      validateCategoryMetadata(metadata)
+      categoryMetadata.push(metadata)
+      continue
+    }
+
     const source = await readFile(filePath, 'utf8')
     const { data, body } = parseFrontMatter(source, filePath)
-    const relativePath = normalizePath(relative(contentRoot, filePath))
     const article = toArticleRecord({ body, data, relativePath, sourcePath: filePath })
     const duplicatePath = urls.get(article.url)
 
@@ -39,11 +56,12 @@ export async function scanContent(contentRoot: string): Promise<ContentIndex> {
 
   return {
     articles,
-    categories: buildCategories(articles),
+    categories: buildCategories(articles, categoryMetadata),
+    categoryMetadata,
   }
 }
 
-async function findMarkdownFiles(directory: string, contentRoot: string): Promise<string[]> {
+async function findContentFiles(directory: string, contentRoot: string): Promise<string[]> {
   let entries
   try {
     entries = await readdir(directory, { withFileTypes: true })
@@ -61,13 +79,56 @@ async function findMarkdownFiles(directory: string, contentRoot: string): Promis
   for (const entry of entries) {
     const fullPath = join(directory, entry.name)
     if (entry.isDirectory()) {
-      files.push(...(await findMarkdownFiles(fullPath, contentRoot)))
-    } else if (entry.isFile() && extname(entry.name) === '.md') {
+      files.push(...(await findContentFiles(fullPath, contentRoot)))
+    } else if (entry.isFile() && (extname(entry.name) === '.md' || entry.name === 'meta.json')) {
       files.push(fullPath)
     }
   }
 
   return files.sort()
+}
+
+async function readCategoryMetadata(filePath: string): Promise<unknown> {
+  try {
+    return JSON.parse(await readFile(filePath, 'utf8'))
+  } catch (error) {
+    throw new ContentValidationError([
+      {
+        filePath,
+        field: 'categoryMetadata',
+        reason: 'type',
+        fix: error instanceof Error ? error.message : 'Use valid JSON.',
+      },
+    ])
+  }
+}
+
+function validateCategoryMetadata(metadata: CategoryMetadataRecord): void {
+  if (metadata.path.length === 0) {
+    throw new ContentValidationError([
+      {
+        filePath: metadata.sourcePath,
+        field: 'categoryName',
+        reason: 'semantic',
+        fix: 'Place meta.json inside a category directory.',
+      },
+    ])
+  }
+
+  if (!metadata.categoryName) {
+    throw new ContentValidationError([
+      {
+        filePath: metadata.sourcePath,
+        field: 'categoryName',
+        reason: 'required',
+        fix: 'Add a non-empty categoryName string.',
+      },
+    ])
+  }
+}
+
+function isCategoryMetadataFile(filePath: string): boolean {
+  return basename(filePath) === 'meta.json'
 }
 
 function normalizePath(path: string): string {

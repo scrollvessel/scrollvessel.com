@@ -38,6 +38,19 @@ externalLinks?: Array<{
 - `externalLinks` 表示同一文章同步发布到外部平台的链接，例如微信公众号、知乎等。
 - `externalLinks` 不强制校验完整字段；渲染时展示可用字段。
 
+## 目录元数据
+
+分类目录的展示事实维护在同级 `meta.json`：
+
+```json
+{
+  "categoryName": "分类展示名"
+}
+```
+
+- `categoryName` 是分类展示名的单一权威，首页、分类页和导航不得在页面代码中硬编码分类名称。
+- 访问路径仍由目录和文件名派生，文章 URL 以 `.html` 结束，目录索引使用 `/目录/index.html`。
+
 ## 结构化数据
 
 Front Matter 只维护内容事实。Article JSON-LD、Open Graph 和其他结构化数据由构建层根据内容事实生成。
