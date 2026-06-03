@@ -16,6 +16,8 @@ export class MarkdownRenderer {
     markdown.validateLink = () => true
     markdown.renderer.rules.link_open = (tokens, index, renderOptions, env, self) => renderLinkOpen(tokens, index, renderOptions, env, self)
     markdown.renderer.rules.image = (tokens, index) => renderImage(tokens[index], options.assetBasePath ?? './')
+    markdown.renderer.rules.table_open = () => '<div class="table-scroll" tabindex="0"><table>'
+    markdown.renderer.rules.table_close = () => '</table></div>'
 
     return markdown.render(source)
   }

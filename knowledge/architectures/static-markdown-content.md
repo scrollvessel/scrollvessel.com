@@ -30,6 +30,7 @@
 
 - 解析 Front Matter，字段规则引用 [`../domains/article-frontmatter.md`](../domains/article-frontmatter.md)。
 - 使用成熟 Markdown 引擎渲染正文，至少覆盖标题、段落、链接、图片、引用、列表、代码块、分隔线和表格。
+- Markdown 表格应由构建层包裹在可横向滚动的容器中；当视口宽度小于表格内容宽度时，保持表格列宽并允许左右滑动。
 - 渲染 Markdown 时禁用原始 HTML 注入，并过滤链接与图片 URL 的危险协议。
 - 生成静态文章页时复制文章同目录的非 Markdown 资源，保证正文中的相对图片路径在 `dist/` 中可访问。
 - 生成标题锚点和 TOC 数据。

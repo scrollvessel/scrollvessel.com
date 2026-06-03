@@ -111,7 +111,7 @@ lang: zh-CN
 
     const articleHtml = await readFile(join(outputRoot, 'translations/martinfowler/article.html'), 'utf8')
 
-    expect(articleHtml).toContain('<table>')
+    expect(articleHtml).toContain('<div class="table-scroll" tabindex="0"><table>')
     expect(articleHtml).toContain('<th>Phase</th>')
     expect(articleHtml).toContain('<td>Markdown</td>')
     expect(articleHtml).toContain('<img src="./3.jpg" alt="Workflow diagram"')

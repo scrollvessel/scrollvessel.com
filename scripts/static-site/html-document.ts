@@ -57,7 +57,8 @@ export class HtmlDocument {
       .prose blockquote p { margin: 0.65em 0; }
       .prose img { display: block; width: min(100%, 760px); height: auto; margin: 1.8em auto; border: 1px solid rgba(47, 33, 15, 0.18); box-shadow: 0 18px 48px rgba(47, 33, 15, 0.13); }
       .prose hr { margin: 2.2em auto; border: 0; border-top: 1px solid var(--hairline); }
-      .prose table { display: table; width: auto; max-width: 100%; margin: 1.6em auto; border-collapse: collapse; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+      .table-scroll { max-width: 100%; margin: 1.6em auto; overflow-x: auto; }
+      .prose table { display: table; width: max-content; min-width: 100%; border-collapse: collapse; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
       .prose th, .prose td { padding: 0.72em 0.9em; border-bottom: 1px solid rgba(47, 33, 15, 0.16); text-align: left; vertical-align: top; }
       .prose th { color: var(--ink); font-size: 0.82em; letter-spacing: 0.08em; text-transform: uppercase; }
       .prose tr:last-child td { border-bottom: 0; }
