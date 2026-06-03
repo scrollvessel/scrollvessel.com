@@ -62,13 +62,13 @@ export class ArticlePageRenderer {
           <nav class="trail" aria-label="文章分类路径">${renderCategoryTrail(this.index, article.categoryPath)}</nav>
           <h1 class="page-title">${escapeHtml(article.title)}</h1>
           <p>${escapeHtml(article.description)}</p>
+          ${renderTags(article.tags)}
           ${renderExternalLinks(article.externalLinks)}
           <dl class="metadata">
             <div><dt>作者</dt><dd>${escapeHtml(article.author)}</dd></div>
             <div><dt>创建</dt><dd>${escapeHtml(article.createdAt)}</dd></div>
             <div><dt>更新</dt><dd>${escapeHtml(article.updatedAt)}</dd></div>
             <div><dt>分类</dt><dd>${escapeHtml(categoryName)}</dd></div>
-            <div><dt>标签</dt><dd>${renderTags(article.tags)}</dd></div>
             <div><dt>字数</dt><dd>${wordCount(article.body)}</dd></div>
             <div><dt>阅读</dt><dd>${readingMinutes(article.body)} 分钟</dd></div>
           </dl>
@@ -116,9 +116,12 @@ function renderCategoryTrail(index: StaticSiteIndex, path: string[]): string {
 }
 
 function renderTags(tags: string[] | undefined): string {
-  if (!Array.isArray(tags) || tags.length === 0) return '未标注'
+  if (!Array.isArray(tags) || tags.length === 0) return ''
 
-  return tags.map((tag) => escapeHtml(tag)).join(' / ')
+  const items = tags.map((tag) => tag.trim()).filter((tag) => tag !== '').map((tag) => `<span>${escapeHtml(tag)}</span>`)
+  if (items.length === 0) return ''
+
+  return `<div class="article-tags" aria-label="文章标签">${items.join('')}</div>`
 }
 
 function renderExternalLinks(externalLinks: ArticlePageRecord['externalLinks']): string {
