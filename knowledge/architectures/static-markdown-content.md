@@ -32,6 +32,8 @@
 - 使用成熟 Markdown 引擎渲染正文，至少覆盖标题、段落、链接、图片、引用、列表、代码块、分隔线和表格。
 - Markdown 表格应由构建层包裹在可横向滚动的容器中；当视口宽度小于表格内容宽度时，保持表格列宽并允许左右滑动。
 - 渲染 Markdown 时禁用原始 HTML 注入，并过滤链接与图片 URL 的危险协议。
+- Markdown 渲染能力应通过 `scripts/static-site/markdown/features/` 下的具名能力对象注册；每个能力同时声明自己的 MarkdownIt 规则和能力专属 CSS，页面壳只负责注入能力输出的样式，不复制能力细节。
+- 静态页面片段应通过 `scripts/static-site/page/` 下的 `PageSection` 多态对象表达；页面渲染器只组合片段对象，不堆叠 `renderXxx` helper。
 - 生成静态文章页时复制文章同目录的非 Markdown 资源，保证正文中的相对图片路径在 `dist/` 中可访问。
 - 生成标题锚点和 TOC 数据。
 - 计算阅读时间和字数。

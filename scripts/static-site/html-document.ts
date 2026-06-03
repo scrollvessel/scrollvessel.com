@@ -1,14 +1,20 @@
 import { escapeAttribute, escapeHtml } from './markdown-renderer.js'
 
+export interface HtmlDocumentOptions {
+  extraStyles?: string
+  includeMermaidScript?: boolean
+}
+
 export class HtmlDocument {
   constructor(
     private readonly title: string,
     private readonly description: string,
     private readonly body: string,
+    private readonly options: HtmlDocumentOptions = {},
   ) {}
 
   render(): string {
-    const mermaidScript = this.body.includes('class="mermaid"') ? '<script type="module" src="/assets/static-mermaid.js"></script>' : ''
+    const mermaidScript = this.options.includeMermaidScript ? '<script type="module" src="/assets/static-mermaid.js"></script>' : ''
 
     return `<!doctype html>
 <html lang="zh-CN">
@@ -66,27 +72,14 @@ export class HtmlDocument {
       .prose h2 { margin-top: 2em; }
       .prose h3 { margin-top: 1.6em; font-size: 1.5rem; }
       .prose p { margin: 1.1em 0; }
-      .prose-external-link { display: inline-flex; align-items: baseline; gap: 0.18em; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 100%; background-repeat: no-repeat; background-size: 100% 1px; }
-      .prose-external-link::after { content: ''; display: inline-block; width: 0.92em; height: 0.92em; background: currentcolor; opacity: 0.72; transform: translateY(0.08em); clip-path: path('M9 7h8v8h-1.8V10.1l-7.9 7.9L6 16.7l7.9-7.9H9z'); }
       .prose ul, .prose ol { padding-left: 1.35em; }
       .prose blockquote { margin: 1.45em 0; border-left: 1px solid var(--hairline); padding: 0.1em 0 0.1em 1.1em; color: var(--ink-soft); }
       .prose blockquote p { margin: 0.65em 0; }
-      .image-figure { margin: 1.8em auto; text-align: center; }
-      .prose img { display: block; width: min(100%, 760px); height: auto; margin: 0 auto; border: 1px solid rgba(47, 33, 15, 0.18); box-shadow: 0 18px 48px rgba(47, 33, 15, 0.13); }
-      .image-figure figcaption { margin-top: 0.8em; color: var(--ink-soft); font-size: 13px; line-height: 1.6; text-align: center; }
       .prose hr { margin: 2.2em auto; border: 0; border-top: 1px solid var(--hairline); }
-      .table-scroll { max-width: 100%; margin: 1.6em auto; overflow-x: auto; }
-      .prose table { display: table; width: max-content; min-width: 100%; border-collapse: collapse; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
-      .prose th, .prose td { padding: 0.72em 0.9em; border-bottom: 1px solid rgba(47, 33, 15, 0.16); text-align: left; vertical-align: top; }
-      .prose th { color: var(--ink); font-size: 0.82em; letter-spacing: 0.08em; text-transform: uppercase; }
-      .prose tr:last-child td { border-bottom: 0; }
       .prose code { border-bottom: 1px solid rgba(47, 33, 15, 0.22); background: transparent; padding: 0 0.08em; font-size: 0.92em; }
       .prose pre { margin: 1.45em 0; overflow-x: auto; border-left: 1px solid var(--hairline); background: rgba(255, 249, 214, 0.28); padding: 1em 1.1em; white-space: pre-wrap; }
       .prose pre code { display: block; border: 0; background: transparent; padding: 0; font-size: 0.92em; line-height: 1.78; }
-      .prose pre.mermaid { border-left: 0; }
-      .prose .mermaid { margin: 1.8em auto; overflow-x: auto; background: transparent; padding: 1em 1.1em; color: var(--ink); text-align: center; white-space: pre; }
-      .prose .mermaid svg { background: transparent !important; }
-      .prose .mermaid .node rect, .prose .mermaid .node circle, .prose .mermaid .node ellipse, .prose .mermaid .node polygon, .prose .mermaid .node path, .prose .mermaid .cluster rect, .prose .mermaid .labelBkg, .prose .mermaid .edgeLabel, .prose .mermaid .edgeLabel p { background: transparent !important; fill: transparent !important; }
+      ${this.options.extraStyles ?? ''}
       :focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
       @media (max-width: 760px) { .site-nav { flex-direction: column; } .page-grid { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
