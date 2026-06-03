@@ -8,6 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/archivo':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/cormorant-garamond':
+        specifier: ^5.2.11
+        version: 5.2.11
+      '@fontsource/crimson-pro':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/noto-serif-sc':
+        specifier: ^5.2.9
+        version: 5.2.9
       '@vitejs/plugin-vue':
         specifier: latest
         version: 6.0.7(vite@8.0.14(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4))(vue@3.5.35(typescript@6.0.3))
@@ -327,6 +339,18 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@fontsource/archivo@5.2.8':
+    resolution: {integrity: sha512-Fc4yuMt85MmcYooUVpYHAJRJTymPv2+J9HsMP2f5mxR/0pIWgE2V5XfgNTavPpklX2rJFprdT36iE6Rr8ds9MA==}
+
+  '@fontsource/cormorant-garamond@5.2.11':
+    resolution: {integrity: sha512-5JjpN023lhA5soijgVT0BdRGzmlijm402ppjccMd6h+vRE0mX2lJnE+41UPfnlidrkV9/rCo1mf58WZlHnB0CA==}
+
+  '@fontsource/crimson-pro@5.2.8':
+    resolution: {integrity: sha512-t+cAoAswUKEReDPqDNWWSyAp7baZkKrtF6Ry0KrDZQHJCldS9pIbRH0n2hm1u4+SbIUI7c+nUS9yfK6rEhycTw==}
+
+  '@fontsource/noto-serif-sc@5.2.9':
+    resolution: {integrity: sha512-+wosdNmyrtRjnqJ/4A6i99jApm6ye34n8Nh7jUO3P/+6Hd1ZBY1gB9yGaI5jVxb56RS1lM2kTc0DzX1ifRO2MA==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1486,6 +1510,14 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.0':
     optional: true
+
+  '@fontsource/archivo@5.2.8': {}
+
+  '@fontsource/cormorant-garamond@5.2.11': {}
+
+  '@fontsource/crimson-pro@5.2.8': {}
+
+  '@fontsource/noto-serif-sc@5.2.9': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

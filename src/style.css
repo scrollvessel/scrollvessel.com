@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import '/fonts/scroll-vessel-fonts.css';
 
 :root {
   color-scheme: light;
@@ -36,7 +37,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Crimson Pro', 'Noto Serif SC', Georgia, serif;
+  font-family: 'ArchivoLetters', 'Crimson Pro', 'Noto Serif SC', Georgia, serif;
 }
 
 a {
@@ -49,11 +50,11 @@ button {
 }
 
 .font-display {
-  font-family: 'Cinzel', ui-serif, serif;
+  font-family: 'ArchivoLetters', 'Crimson Pro', ui-serif, serif;
 }
 
 .font-title {
-  font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  font-family: 'ArchivoLetters', 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
 }
 
 :focus-visible {

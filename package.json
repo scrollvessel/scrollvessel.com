@@ -6,13 +6,18 @@
   "packageManager": "pnpm@10.12.1",
   "scripts": {
     "dev": "pnpm build && vite preview",
+    "generate:fonts": "tsx scripts/generate-font-assets.ts",
     "validate:content": "tsx scripts/validate-content.ts",
-    "build": "pnpm validate:content && vite build && tsx scripts/generate-static-pages.ts",
+    "build": "pnpm generate:fonts && pnpm validate:content && vite build && tsx scripts/generate-static-pages.ts",
     "preview": "vite preview",
     "prepare": "lefthook install --force",
     "test": "vitest run"
   },
   "dependencies": {
+    "@fontsource/archivo": "^5.2.8",
+    "@fontsource/cormorant-garamond": "^5.2.11",
+    "@fontsource/crimson-pro": "^5.2.8",
+    "@fontsource/noto-serif-sc": "^5.2.9",
     "@vitejs/plugin-vue": "latest",
     "markdown-it": "^14.2.0",
     "vite": "latest",

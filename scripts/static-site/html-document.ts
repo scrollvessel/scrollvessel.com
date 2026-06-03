@@ -15,11 +15,12 @@ export class HtmlDocument {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="${escapeAttribute(this.description)}" />
     <title>${escapeHtml(this.title)}</title>
+    <link rel="stylesheet" href="/fonts/scroll-vessel-fonts.css" />
     <style>
       :root { color-scheme: light; --paper: #f6e4ad; --paper-warm: #efd18a; --ink: #2f210f; --ink-soft: rgba(47, 33, 15, 0.72); --hairline: rgba(47, 33, 15, 0.28); }
       * { box-sizing: border-box; }
       html { min-height: 100%; scroll-behavior: smooth; }
-      body { min-height: 100%; margin: 0; color: var(--ink); background: radial-gradient(circle at 18% 18%, rgba(255, 249, 214, 0.45), transparent 18rem), linear-gradient(135deg, #f9e9b7 0%, var(--paper) 48%, var(--paper-warm) 100%); font-family: 'Crimson Pro', 'Noto Serif SC', Georgia, serif; }
+      body { min-height: 100%; margin: 0; color: var(--ink); background: radial-gradient(circle at 18% 18%, rgba(255, 249, 214, 0.45), transparent 18rem), linear-gradient(135deg, #f9e9b7 0%, var(--paper) 48%, var(--paper-warm) 100%); font-family: 'ArchivoLetters', 'Crimson Pro', 'Noto Serif SC', Georgia, serif; }
       a { color: inherit; text-decoration: none; }
       .shell { width: min(1040px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 56px; }
       .site-nav { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 52px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
