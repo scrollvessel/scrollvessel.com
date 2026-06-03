@@ -3,7 +3,7 @@ import type { HomepageCategoryNode } from '../homepage-model'
 
 defineProps<{
   category: HomepageCategoryNode
-  kind: 'parent' | 'child'
+  kind: 'parent' | 'child' | 'grandchild'
   selected?: boolean
 }>()
 
@@ -16,7 +16,7 @@ const emit = defineEmits<{
   <a v-if="kind === 'parent'" :class="['chart-point parent', category.position]" :href="category.url">
     <strong>{{ category.label }}</strong>{{ category.count }} 篇<em>{{ category.description }}</em>
   </a>
-  <button v-else :class="['chart-point child text-left', category.position, { selected }]" type="button" @click="emit('select', category.slug)">
+  <button v-else :class="['chart-point text-left', kind, category.position, { selected }]" type="button" @click="emit('select', category.slug)">
     <strong>{{ category.label }}</strong>{{ category.description }}<em>{{ category.count }} 篇</em>
   </button>
 </template>

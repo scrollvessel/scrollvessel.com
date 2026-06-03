@@ -8,6 +8,8 @@ export class HtmlDocument {
   ) {}
 
   render(): string {
+    const mermaidScript = this.body.includes('class="mermaid"') ? '<script type="module" src="/assets/static-mermaid.js"></script>' : ''
+
     return `<!doctype html>
 <html lang="zh-CN">
   <head>
@@ -77,6 +79,10 @@ export class HtmlDocument {
       .prose code { border-bottom: 1px solid rgba(47, 33, 15, 0.22); background: transparent; padding: 0 0.08em; font-size: 0.92em; }
       .prose pre { margin: 1.45em 0; overflow-x: auto; border-left: 1px solid var(--hairline); background: rgba(255, 249, 214, 0.28); padding: 1em 1.1em; white-space: pre-wrap; }
       .prose pre code { display: block; border: 0; background: transparent; padding: 0; font-size: 0.92em; line-height: 1.78; }
+      .prose pre.mermaid { border-left: 0; }
+      .prose .mermaid { margin: 1.8em auto; overflow-x: auto; background: transparent; padding: 1em 1.1em; color: var(--ink); text-align: center; white-space: pre; }
+      .prose .mermaid svg { background: transparent !important; }
+      .prose .mermaid .node rect, .prose .mermaid .node circle, .prose .mermaid .node ellipse, .prose .mermaid .node polygon, .prose .mermaid .node path, .prose .mermaid .cluster rect, .prose .mermaid .labelBkg, .prose .mermaid .edgeLabel, .prose .mermaid .edgeLabel p { background: transparent !important; fill: transparent !important; }
       :focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
       @media (max-width: 760px) { .site-nav { flex-direction: column; } .page-grid { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
@@ -90,6 +96,7 @@ export class HtmlDocument {
       </nav>
       ${this.body}
     </div>
+    ${mermaidScript}
   </body>
 </html>
 `

@@ -20,6 +20,7 @@
     "@fontsource/noto-serif-sc": "^5.2.9",
     "@vitejs/plugin-vue": "latest",
     "markdown-it": "^14.2.0",
+    "mermaid": "^11.15.0",
     "vite": "latest",
     "vue": "latest"
   },

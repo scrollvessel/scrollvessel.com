@@ -44,18 +44,7 @@ export class HomepageModel {
     const topMap = new Map<string, MutableCategoryNode>()
 
     for (const article of this.articles.all()) {
-      const [topSlug, childSlug] = article.categoryPath
-      if (!topSlug || !childSlug) continue
-
-      const top = ensureCategory(topMap, topSlug, [topSlug], this.categoryNameCatalog, 'parent', topMap.size)
-      if (!top) continue
-
-      const child = ensureCategory(top.childrenMap, childSlug, [topSlug, childSlug], this.categoryNameCatalog, 'child', top.childrenMap.size)
-      if (!child) continue
-
-      top.count += 1
-      child.count += 1
-      child.articles.push(article)
+      addArticleToCategoryTree(topMap, article, this.categoryNameCatalog)
     }
 
     return [...topMap.values()].map((category) => category.toNode())
@@ -136,12 +125,32 @@ class MutableCategoryNode {
   }
 }
 
+function addArticleToCategoryTree(topMap: Map<string, MutableCategoryNode>, article: HomepageArticle, names: CategoryNameCatalog): void {
+  const visiblePath = article.categoryPath.slice(0, 3)
+  if (visiblePath.length === 0) return
+
+  let childrenMap = topMap
+  let parent: MutableCategoryNode | null = null
+
+  for (const slug of visiblePath) {
+    const path = parent ? [...parent.path, slug] : [slug]
+    const category = ensureCategory(childrenMap, slug, path, names, layerFor(path.length), childrenMap.size)
+    if (!category) return
+
+    category.count += 1
+    parent = category
+    childrenMap = category.childrenMap
+  }
+
+  parent?.articles.push(article)
+}
+
 function ensureCategory(
   map: Map<string, MutableCategoryNode>,
   slug: string,
   path: string[],
   names: CategoryNameCatalog,
-  layer: 'parent' | 'child',
+  layer: CategoryLayer,
   index: number,
 ): MutableCategoryNode | null {
   const category = map.get(slug)
@@ -155,13 +164,22 @@ function ensureCategory(
   return next
 }
 
-function positionFor(layer: 'parent' | 'child', index: number): string {
+type CategoryLayer = 'parent' | 'child' | 'grandchild'
+
+function layerFor(depth: number): CategoryLayer {
+  if (depth === 1) return 'parent'
+  if (depth === 2) return 'child'
+  return 'grandchild'
+}
+
+function positionFor(layer: CategoryLayer, index: number): string {
   if (layer === 'parent') return `parent-slot-${(index % 4) + 1}`
-  return `child-slot-${(index % 8) + 1}`
+  if (layer === 'child') return `child-slot-${(index % 8) + 1}`
+  return `grandchild-slot-${(index % 8) + 1}`
 }
 
 export function buildFocusedRouteItems(categories: HomepageCategoryNode[], selectedSlug: string): FocusedRouteItem[] {
-  const selected = categories.flatMap((category) => category.children).find((category) => category.slug === selectedSlug)
+  const selected = selectableCategories(categories).find((category) => category.slug === selectedSlug)
   if (!selected) return []
 
   return selected.articles.slice(0, 3).map((article) => ({
@@ -172,7 +190,16 @@ export function buildFocusedRouteItems(categories: HomepageCategoryNode[], selec
 }
 
 export function firstChildSlug(categories: HomepageCategoryNode[]): string {
-  return categories.flatMap((category) => category.children).at(0)?.slug ?? ''
+  return selectableCategories(categories).at(0)?.slug ?? ''
+}
+
+function selectableCategories(categories: HomepageCategoryNode[]): HomepageCategoryNode[] {
+  return categories.flatMap((category) => deepestVisibleCategories(category))
+}
+
+function deepestVisibleCategories(category: HomepageCategoryNode): HomepageCategoryNode[] {
+  if (category.children.length === 0) return [category]
+  return category.children.flatMap((child) => deepestVisibleCategories(child))
 }
 
 function toCategoryUrl(path: string[]): string {

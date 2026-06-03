@@ -16,6 +16,7 @@ export class MarkdownRenderer {
     markdown.validateLink = () => true
     markdown.renderer.rules.link_open = (tokens, index, renderOptions, env, self) => renderLinkOpen(tokens, index, renderOptions, env, self)
     markdown.renderer.rules.image = (tokens, index) => renderImage(tokens[index], options.assetBasePath ?? './')
+    markdown.renderer.rules.fence = (tokens, index) => renderFence(tokens[index])
     markdown.renderer.rules.table_open = () => '<div class="table-scroll" tabindex="0"><table>'
     markdown.renderer.rules.table_close = () => '</table></div>'
 
@@ -55,6 +56,14 @@ function renderImage(token: Token, assetBasePath: string): string {
   const titleAttribute = title ? ` title="${escapeAttribute(title)}"` : ''
 
   return `<img src="${src}" alt="${escapeAttribute(alt)}"${titleAttribute}>`
+}
+
+function renderFence(token: Token): string {
+  if (token.info.trim().split(/\s+/)[0] === 'mermaid') {
+    return `<pre class="mermaid">${escapeHtml(token.content)}</pre>`
+  }
+
+  return `<pre><code>${escapeHtml(token.content)}</code></pre>`
 }
 
 function safeHref(raw: string): string {

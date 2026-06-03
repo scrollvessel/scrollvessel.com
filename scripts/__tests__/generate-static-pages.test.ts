@@ -106,6 +106,11 @@ lang: zh-CN
 
 ![Workflow diagram](3.jpg)
 ![Unsafe image](javascript:alert(1))
+
+\`\`\`mermaid
+flowchart LR
+  A[Input] --> B[Output]
+\`\`\`
 `)
     await writeFile(join(contentRoot, 'translations/martinfowler/3.jpg'), 'fixture image bytes')
 
@@ -118,6 +123,14 @@ lang: zh-CN
     expect(articleHtml).toContain('<td>Markdown</td>')
     expect(articleHtml).toContain('<img src="./3.jpg" alt="Workflow diagram"')
     expect(articleHtml).toContain('<img src="#" alt="Unsafe image"')
+    expect(articleHtml).toContain('<pre class="mermaid">flowchart LR')
+    expect(articleHtml).toContain('A[Input] --&gt; B[Output]')
+    expect(articleHtml).toContain('.prose pre.mermaid { border-left: 0; }')
+    expect(articleHtml).toContain('.prose .mermaid { margin: 1.8em auto; overflow-x: auto; background: transparent;')
+    expect(articleHtml).not.toContain('.prose .mermaid { margin: 1.8em auto; overflow-x: auto; border-left:')
+    expect(articleHtml).toContain('.prose .mermaid svg { background: transparent !important; }')
+    expect(articleHtml).toContain('.prose .mermaid .node rect')
+    expect(articleHtml).toContain('<script type="module" src="/assets/static-mermaid.js"></script>')
     expect(articleHtml).not.toContain('src="javascript:')
     expect(existsSync(join(outputRoot, 'translations/martinfowler/3.jpg'))).toBe(true)
   })
