@@ -62,6 +62,7 @@ export class ArticlePageRenderer {
           <nav class="trail" aria-label="文章分类路径">${renderCategoryTrail(this.index, article.categoryPath)}</nav>
           <h1>${escapeHtml(article.title)}</h1>
           <p>${escapeHtml(article.description)}</p>
+          ${renderExternalLinks(article.externalLinks)}
           <dl class="metadata">
             <div><dt>作者</dt><dd>${escapeHtml(article.author)}</dd></div>
             <div><dt>创建</dt><dd>${escapeHtml(article.createdAt)}</dd></div>
@@ -118,6 +119,38 @@ function renderTags(tags: string[] | undefined): string {
   if (!Array.isArray(tags) || tags.length === 0) return '未标注'
 
   return tags.map((tag) => escapeHtml(tag)).join(' / ')
+}
+
+function renderExternalLinks(externalLinks: ArticlePageRecord['externalLinks']): string {
+  if (!Array.isArray(externalLinks)) return ''
+
+  const links = externalLinks
+    .filter((link) => typeof link.label === 'string' && link.label.trim() !== '' && typeof link.url === 'string' && link.url.trim() !== '')
+    .map((link) => renderExternalLink(link))
+
+  if (links.length === 0) return ''
+
+  return `<nav class="external-links" aria-label="外部链接">${links.join('')}</nav>`
+}
+
+function renderExternalLink(link: NonNullable<ArticlePageRecord['externalLinks']>[number]): string {
+  const platform = typeof link.platform === 'string' ? link.platform.trim().toLowerCase() : ''
+  const label = typeof link.label === 'string' ? link.label.trim() : ''
+  const url = typeof link.url === 'string' ? link.url.trim() : ''
+
+  return `<a class="external-link" href="${escapeAttribute(url)}" target="_blank" rel="noopener noreferrer"><span class="external-link-icon" aria-hidden="true">${svgIconForPlatform(platform)}</span><span>${escapeHtml(label)}</span></a>`
+}
+
+function svgIconForPlatform(platform: string): string {
+  if (platform === 'source') return svgIcon('<path d="M8 12h8M12 8l4 4-4 4"/>')
+  if (platform === 'wechat') return svgIcon('<path d="M8.5 9.5c-2.8 0-5 1.8-5 4 0 1.2.7 2.3 1.8 3l-.5 1.8 2.1-1.1c.5.1 1 .2 1.6.2 2.8 0 5-1.8 5-4s-2.2-4-5-4z"/><path d="M13 6c3.1 0 5.5 1.9 5.5 4.4 0 1.3-.7 2.5-1.9 3.3l.5 1.9-2.2-1.1-.9.1"/><path d="M7.2 13.3h.1M10 13.3h.1"/>')
+  if (platform === 'zhihu') return svgIcon('<path d="M6 5h7v14H6zM10 5v14M15 5h3l-3 7h4l-4 7"/>')
+
+  return svgIcon('<path d="M9 7h8v8M17 7 7 17"/>')
+}
+
+function svgIcon(paths: string): string {
+  return `<svg class="external-link-svg" viewBox="0 0 24 24" role="img" focusable="false">${paths}</svg>`
 }
 
 function wordCount(source: string): number {

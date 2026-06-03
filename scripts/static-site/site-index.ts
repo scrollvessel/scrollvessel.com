@@ -1,5 +1,11 @@
 import { buildCategories, type ArticleRecord, type CategoryMetadataRecord, type CategoryRecord } from '../../src/content/index.js'
 
+export interface ArticleExternalLink {
+  platform?: string | null
+  label?: string | null
+  url?: string | null
+}
+
 export interface ArticlePageRecord extends ArticleRecord {
   title: string
   description: string
@@ -8,6 +14,7 @@ export interface ArticlePageRecord extends ArticleRecord {
   author: string
   lang: string
   tags?: string[]
+  externalLinks?: ArticleExternalLink[]
 }
 
 export class StaticSiteIndex {

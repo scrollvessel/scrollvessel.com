@@ -35,8 +35,10 @@ externalLinks?: Array<{
 - `draft: true` 表示文章只在开发环境可见，生产环境不发布。
 - `demo: true` 表示文章是用于 UI、内容结构或构建链路验证的演示内容，不代表正式发布内容。
 - `cover` 可作为列表页图片和分享预览图。
-- `externalLinks` 表示同一文章同步发布到外部平台的链接，例如微信公众号、知乎等。
-- `externalLinks` 不强制校验完整字段；渲染时展示可用字段。
+- `externalLinks` 表示同一文章同步发布到外部平台或原文来源的链接，例如原文、微信公众号、知乎等。
+- `externalLinks` 按数组顺序在文章头部逐个渲染；展示文案使用 `label`，链接目标使用 `url`。
+- `externalLinks.platform` 用于选择图标；`source` 固定表示原文来源，`wechat` 表示微信公众号，`zhihu` 表示知乎，未知平台使用通用外链图标。
+- `externalLinks` 不强制校验完整字段；渲染时只展示具备可用 `label` 和 `url` 的条目。
 
 ## 目录元数据
 

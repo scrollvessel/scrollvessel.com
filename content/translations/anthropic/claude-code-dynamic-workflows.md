@@ -6,6 +6,13 @@ updatedAt: 2026-06-02
 author: Anthropic
 lang: zh-CN
 tags: [Claude Code, AI 编程, 动态工作流]
+externalLinks:
+  - platform: source
+    label: 原文
+    url: https://claude.com/blog/introducing-dynamic-workflows-in-claude-code
+  - platform: wechat
+    label: 微信公众号
+    url: https://mp.weixin.qq.com/s/fUCLAfHhU4fSW95mMmG57w
 ---
 
 今天，我们在 Claude Code 中推出**动态工作流**。借助它，Claude 可以端到端地承担更具挑战性的任务：过去往往需要按季度规划的工作，现在有机会在几天内完成。

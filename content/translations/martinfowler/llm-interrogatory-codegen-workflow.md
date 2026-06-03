@@ -6,6 +6,13 @@ updatedAt: 2026-06-02
 author: Martin Fowler Blog
 lang: zh-CN
 tags: [LLM, 代码生成, 需求访谈]
+externalLinks:
+  - platform: source
+    label: 原文
+    url: https://martinfowler.com/bliki/InterrogatoryLLM.html
+  - platform: wechat
+    label: 微信公众号
+    url: https://mp.weixin.qq.com/s/eVfOJdYLjAygqLYNeqqV_g
 ---
 
 很多人第一次用 LLM 写代码时，都会直接说：“帮我做一个应用。”结果通常并不稳定：代码能生成，但需求被猜错，边界没说清，测试也缺失。

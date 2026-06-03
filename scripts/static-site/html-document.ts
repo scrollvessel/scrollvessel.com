@@ -27,6 +27,10 @@ export class HtmlDocument {
       .eyebrow { margin: 0 0 12px; color: var(--ink-soft); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; }
       .trail { display: flex; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 18px; color: var(--ink-soft); font-size: 14px; }
       .trail a, .site-nav a, .route-link { display: inline-flex; min-height: 44px; align-items: center; }
+      .external-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 4px; }
+      .external-link { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; border: 1px solid var(--hairline); border-radius: 999px; padding: 0 14px; background: rgba(255, 249, 214, 0.22); color: var(--ink); }
+      .external-link-icon { display: inline-grid; width: 1.45em; height: 1.45em; place-items: center; border: 1px solid rgba(47, 33, 15, 0.2); border-radius: 50%; line-height: 1; }
+      .external-link-svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
       h1 { margin: 0; font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; letter-spacing: -0.055em; }
       h2 { margin: 0 0 16px; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 0.95; letter-spacing: -0.045em; }
       .page-hero p:not(.eyebrow) { color: var(--ink-soft); font-size: 18px; line-height: 1.75; }
