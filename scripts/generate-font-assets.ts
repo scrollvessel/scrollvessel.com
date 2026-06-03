@@ -2,7 +2,6 @@ import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 const outputRoot = 'public/fonts'
-const archivoRange = 'U+0020-002F, U+003A-0040, U+0041-005A, U+005B-0060, U+0061-007A, U+007B-007E'
 const latinRange = 'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD'
 
 interface FontFile {
@@ -20,7 +19,7 @@ for (const weight of [400, 600, 700]) {
   await copyFontFile({ packageName: 'archivo', fileName: `archivo-latin-${weight}-normal.woff2` })
   await copyFontFile({ packageName: 'crimson-pro', fileName: `crimson-pro-latin-${weight}-normal.woff2` })
 
-  fontFaces.push(fontFace({ family: 'ArchivoLetters', fileName: `archivo-latin-${weight}-normal.woff2`, weight, unicodeRange: archivoRange }))
+  fontFaces.push(fontFace({ family: 'Archivo', fileName: `archivo-latin-${weight}-normal.woff2`, weight, unicodeRange: latinRange }))
   fontFaces.push(fontFace({ family: 'Crimson Pro', fileName: `crimson-pro-latin-${weight}-normal.woff2`, weight, unicodeRange: latinRange }))
 }
 

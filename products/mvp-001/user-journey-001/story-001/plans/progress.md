@@ -6,8 +6,8 @@
 
 ## 当前状态
 
-- 状态：实现完成，分类元数据和组件化修复已复验
-- 最近更新：2026-06-02 完成首页入口 Vue/Tailwind 实现，通过验证；修复实现审查发现的链接锚点、内容派生复用、减少动态效果和响应式宽度问题；随后补充 `content/**/meta.json` 分类元数据权威，拆分首页领域模型、组件和样式，并将海图布局槽位改为中性命名。
+- 状态：实现完成，字体系统调整已复验
+- 最近更新：2026-06-03 将字体系统调整为 [`knowledge/uis/scroll-vessel-experience.md`](../../../../../knowledge/uis/scroll-vessel-experience.md) 定义的混合编辑部风格。
 
 ## 运行状态
 
@@ -21,6 +21,8 @@
 - 替换 `src/App.vue` 初始 hello 页面，实现首页入口、两层分类海图、聚焦展开示意、精选文章、最新文章和主题方向。
 - 更新 `src/style.css`，实现羊皮纸书页背景、淡墨海图节点和旧杂志目录 / 编辑选刊样式。
 - 修复实现审查发现的问题：补齐页面内锚点落点、抽出内容记录纯函数供扫描层和首页复用、补充 reduced-motion 规则、修正 Tailwind `calc()` 宽度表达。
+- 更新字体实施计划和代码：按 [`knowledge/uis/scroll-vessel-experience.md`](../../../../../knowledge/uis/scroll-vessel-experience.md) 的字体系统标准，将代码中的 `ArchivoLetters` 改为真实 `Archivo` 字体族，并移除 Archivo 专用字符过滤。
+- 验证：`pnpm generate:fonts`、`pnpm test`、`pnpm build` 通过；本地浏览器预览确认 body/display/heading 的 computed font-family 符合预期。
 
 ## 下一步
 

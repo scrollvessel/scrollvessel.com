@@ -83,6 +83,7 @@ content/
 5. 样式实现
    - 优先使用 Tailwind CSS。
    - 必要时在 `src/style.css` 定义少量全局纸张纹理、字体族和可复用基础层。
+   - 字体系统遵循 [`knowledge/uis/scroll-vessel-experience.md`](../../../../../knowledge/uis/scroll-vessel-experience.md) 的混合编辑部字体标准。
    - 不引入现代按钮、厚边框卡片、玻璃拟态、多色霓虹或棕色外框装饰。
    - 保持移动端无横向滚动，主要入口点击区域不小于 44px。
 

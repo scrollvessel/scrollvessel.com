@@ -37,7 +37,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'ArchivoLetters', 'Crimson Pro', 'Noto Serif SC', Georgia, serif;
+  font-family: 'Archivo', 'Noto Serif SC', system-ui, sans-serif;
 }
 
 a {
@@ -50,11 +50,11 @@ button {
 }
 
 .font-display {
-  font-family: 'ArchivoLetters', 'Crimson Pro', ui-serif, serif;
+  font-family: 'Archivo', system-ui, sans-serif;
 }
 
 .font-title {
-  font-family: 'ArchivoLetters', 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
 }
 
 :focus-visible {

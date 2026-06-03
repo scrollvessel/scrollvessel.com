@@ -26,7 +26,7 @@ export class HtmlDocument {
       :root { color-scheme: light; --paper: #f6e4ad; --paper-warm: #efd18a; --ink: #2f210f; --ink-soft: rgba(47, 33, 15, 0.72); --hairline: rgba(47, 33, 15, 0.28); }
       * { box-sizing: border-box; }
       html { min-height: 100%; scroll-behavior: smooth; }
-      body { min-height: 100%; margin: 0; color: var(--ink); background: radial-gradient(circle at 18% 18%, rgba(255, 249, 214, 0.45), transparent 18rem), linear-gradient(135deg, #f9e9b7 0%, var(--paper) 48%, var(--paper-warm) 100%); font-family: 'ArchivoLetters', 'Crimson Pro', 'Noto Serif SC', Georgia, serif; }
+      body { min-height: 100%; margin: 0; color: var(--ink); background: radial-gradient(circle at 18% 18%, rgba(255, 249, 214, 0.45), transparent 18rem), linear-gradient(135deg, #f9e9b7 0%, var(--paper) 48%, var(--paper-warm) 100%); font-family: 'Archivo', 'Noto Serif SC', system-ui, sans-serif; }
       a { color: inherit; text-decoration: none; }
       .shell { width: min(1040px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0 56px; }
       .site-nav { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 52px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
@@ -49,10 +49,10 @@ export class HtmlDocument {
       .list li + li { border-top: 1px solid rgba(47,33,15,.12); }
       .list strong { width: fit-content; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 100%; background-repeat: no-repeat; background-size: 100% 1px; font-size: 22px; line-height: 1.12; }
       .list span, .empty { color: var(--ink-soft); line-height: 1.65; }
-      .metadata { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 22px 0; color: var(--ink-soft); }
-      .metadata div { min-width: 96px; }
-      .metadata dt { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
-      .metadata dd { margin: 4px 0 0; color: var(--ink); }
+      .metadata { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 18px; margin: 22px 0; color: var(--ink-soft); }
+      .metadata div { display: grid; grid-template-rows: 18px auto; min-width: 96px; align-content: start; }
+      .metadata dt { font-size: 11px; line-height: 18px; letter-spacing: 0.12em; text-transform: uppercase; }
+      .metadata dd { margin: 4px 0 0; color: var(--ink); line-height: 1.25; }
       .route-link { display: inline-flex; min-height: 44px; align-items: center; }
       .reader { }
       .prose { margin-top: 34px; font-size: 18px; line-height: 1.86; }
