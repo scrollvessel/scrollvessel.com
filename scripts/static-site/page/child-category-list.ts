@@ -9,7 +9,7 @@ export class ChildCategoryList implements PageSection {
   render(): string {
     if (this.categories.length === 0) return '<p class="empty">暂无子分类，可直接浏览当前分类文章。</p>'
 
-    return `<ul class="list">${this.categories
+    return `<ul class="list child-category-list">${this.categories
       .map(
         (category) => `<li><a href="${escapeAttribute(SiteRoute.category(category.path).toString())}"><strong>${escapeHtml(category.categoryName)}</strong><span>${category.articleCount} 篇文章</span></a></li>`,
       )
