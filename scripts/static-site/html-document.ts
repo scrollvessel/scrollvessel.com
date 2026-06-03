@@ -34,6 +34,7 @@ export class HtmlDocument {
       .eyebrow { margin: 0 0 12px; color: var(--ink-soft); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; }
       .trail { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; margin-bottom: 18px; color: var(--ink-soft); font-size: 14px; line-height: 1; }
       .trail a, .trail span { display: inline-flex; min-height: 44px; align-items: center; }
+      .route-link { width: fit-content; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 calc(50% + 0.7em); background-repeat: no-repeat; background-size: 100% 1px; }
       .site-nav a, .route-link { display: inline-flex; min-height: 44px; align-items: center; }
       .external-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 4px; }
       .external-link { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; border: 1px solid var(--hairline); border-radius: 999px; padding: 0 14px; background: rgba(255, 249, 214, 0.22); color: var(--ink); }

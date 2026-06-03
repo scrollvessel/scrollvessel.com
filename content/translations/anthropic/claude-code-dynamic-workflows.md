@@ -8,7 +8,7 @@ lang: zh-CN
 tags: [Claude Code, AI 编程, 动态工作流]
 externalLinks:
   - platform: source
-    label: 原文
+    label: 查看原文
     url: https://claude.com/blog/introducing-dynamic-workflows-in-claude-code
   - platform: wechat
     label: 微信公众号

@@ -8,7 +8,7 @@ lang: zh-CN
 tags: [LLM, 代码生成, 需求访谈]
 externalLinks:
   - platform: source
-    label: 原文
+    label: 查看原文
     url: https://martinfowler.com/bliki/InterrogatoryLLM.html
   - platform: wechat
     label: 微信公众号
