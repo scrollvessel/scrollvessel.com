@@ -21,20 +21,20 @@ export class CategoryPageRenderer {
       <header class="page-hero">
         <p class="eyebrow">Category route</p>
         <nav class="trail" aria-label="分类路径">${renderCategoryTrail(this.index, category.path)}</nav>
-        <h1>${escapeHtml(category.categoryName)}</h1>
+        <h1 class="page-title">${escapeHtml(category.categoryName)}</h1>
         <p>${category.articleCount} 篇文章沉淀在这条航线中。</p>
       </header>
       <main class="page-grid">
         <section class="panel" aria-labelledby="child-categories-title">
-          <h2 id="child-categories-title">子分类</h2>
+          <h2 id="child-categories-title" class="panel-title">子分类</h2>
           ${renderChildCategories(childCategories)}
         </section>
         <section class="panel" aria-labelledby="category-articles-title">
-          <h2 id="category-articles-title">当前目录文章</h2>
+          <h2 id="category-articles-title" class="panel-title">当前目录文章</h2>
           ${renderArticleList(articles, '当前目录暂无直属文章，可继续查看子分类。')}
         </section>
         <section class="panel wide" aria-labelledby="descendant-articles-title">
-          <h2 id="descendant-articles-title">全部文章</h2>
+          <h2 id="descendant-articles-title" class="panel-title">全部文章</h2>
           ${renderArticleList(descendantArticles, '当前分类暂无文章。')}
         </section>
       </main>
@@ -60,7 +60,7 @@ export class ArticlePageRenderer {
         <header class="page-hero">
           <p class="eyebrow">Article dispatch</p>
           <nav class="trail" aria-label="文章分类路径">${renderCategoryTrail(this.index, article.categoryPath)}</nav>
-          <h1>${escapeHtml(article.title)}</h1>
+          <h1 class="page-title">${escapeHtml(article.title)}</h1>
           <p>${escapeHtml(article.description)}</p>
           ${renderExternalLinks(article.externalLinks)}
           <dl class="metadata">

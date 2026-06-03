@@ -32,14 +32,16 @@ export class HtmlDocument {
       .site-nav { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 52px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
       .page-hero { border-bottom: 1px solid var(--hairline); padding-bottom: 28px; }
       .eyebrow { margin: 0 0 12px; color: var(--ink-soft); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; }
-      .trail { display: flex; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 18px; color: var(--ink-soft); font-size: 14px; }
-      .trail a, .site-nav a, .route-link { display: inline-flex; min-height: 44px; align-items: center; }
+      .trail { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; margin-bottom: 18px; color: var(--ink-soft); font-size: 14px; line-height: 1; }
+      .trail a, .trail span { display: inline-flex; min-height: 44px; align-items: center; }
+      .site-nav a, .route-link { display: inline-flex; min-height: 44px; align-items: center; }
       .external-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 4px; }
       .external-link { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; border: 1px solid var(--hairline); border-radius: 999px; padding: 0 14px; background: rgba(255, 249, 214, 0.22); color: var(--ink); }
       .external-link-icon { display: inline-grid; width: 1.45em; height: 1.45em; place-items: center; border: 1px solid rgba(47, 33, 15, 0.2); border-radius: 50%; line-height: 1; }
       .external-link-svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
       h1 { margin: 0; font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; letter-spacing: -0.055em; }
       h2 { margin: 0 0 16px; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 0.95; letter-spacing: -0.045em; }
+      .page-title, .panel-title { font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif; }
       .page-hero p:not(.eyebrow) { color: var(--ink-soft); font-size: 18px; line-height: 1.75; }
       .page-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin-top: 36px; }
       .panel { border-top: 1px solid var(--hairline); padding-top: 18px; }
@@ -47,7 +49,7 @@ export class HtmlDocument {
       .list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
       .list a { display: grid; gap: 6px; min-height: 44px; padding: 12px 0; }
       .list li + li { border-top: 1px solid rgba(47,33,15,.12); }
-      .list strong { width: fit-content; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 100%; background-repeat: no-repeat; background-size: 100% 1px; font-size: 22px; line-height: 1.12; }
+      .list strong { width: fit-content; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 100%; background-repeat: no-repeat; background-size: 100% 1px; font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif; font-size: 22px; line-height: 1.12; }
       .list span, .empty { color: var(--ink-soft); line-height: 1.65; }
       .metadata { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 18px; margin: 22px 0; color: var(--ink-soft); }
       .metadata div { display: grid; grid-template-rows: 18px auto; min-width: 96px; align-content: start; }
