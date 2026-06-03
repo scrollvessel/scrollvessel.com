@@ -26,7 +26,7 @@ export class MutableHomepageCategoryNode {
     return {
       slug: this.slug,
       label: this.label,
-      description: children.length > 0 ? `${children.length} 个子航点` : `${this.count} 篇文章`,
+      description: children.length > 0 ? `${children.length} 个子主题` : `${this.count} 篇文章`,
       count: this.count,
       url: toCategoryUrl(this.path),
       position: this.position,

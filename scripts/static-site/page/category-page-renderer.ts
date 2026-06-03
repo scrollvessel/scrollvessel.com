@@ -18,10 +18,10 @@ export class CategoryPageRenderer {
     const route = SiteRoute.category(category.path)
     const body = `
       <header class="page-hero">
-        <p class="eyebrow">Category route</p>
+        <p class="eyebrow">Category</p>
         ${new CategoryTrail(this.index, category.path, '分类路径').render()}
         <h1 class="page-title">${escapeHtml(category.categoryName)}</h1>
-        <p>${category.articleCount} 篇文章沉淀在这条航线中。</p>
+        <p>这里收录 ${category.articleCount} 篇相关内容，你可以继续查看子分类或直接阅读文章。</p>
       </header>
       <main class="page-grid">
         <section class="panel" aria-labelledby="child-categories-title">
@@ -29,12 +29,12 @@ export class CategoryPageRenderer {
           ${new ChildCategoryList(childCategories).render()}
         </section>
         <section class="panel" aria-labelledby="category-articles-title">
-          <h2 id="category-articles-title" class="panel-title">当前目录文章</h2>
-          ${new ArticleList(articles, '当前目录暂无直属文章，可继续查看子分类。').render()}
+          <h2 id="category-articles-title" class="panel-title">本分类文章</h2>
+          ${new ArticleList(articles, '这个分类下暂无直属文章，可以继续查看子分类。').render()}
         </section>
         <section class="panel wide" aria-labelledby="descendant-articles-title">
-          <h2 id="descendant-articles-title" class="panel-title">全部文章</h2>
-          ${new ArticleList(descendantArticles, '当前分类暂无文章。').render()}
+          <h2 id="descendant-articles-title" class="panel-title">全部相关文章</h2>
+          ${new ArticleList(descendantArticles, '这个分类下暂无文章。').render()}
         </section>
       </main>
     `

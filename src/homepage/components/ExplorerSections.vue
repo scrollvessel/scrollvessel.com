@@ -16,22 +16,22 @@ defineProps<{
     <CategoryDirectorySection :categories="categories" />
     <ArticleListSection
       id="featured-route"
-      issue="Editor’s selection · kept pieces"
-      label="Curated route"
+      issue="Editor’s selection"
+      label="Featured"
       title="精选文章"
-      description="像编辑部选刊一样，只把值得沉淀、值得回看的文章放到这里。"
+      description="适合先读的文章，覆盖本站当前最重要的主题。"
       :articles="featuredArticles"
-      empty-message="暂无精选文章，仍可从分类海图继续探索。"
+      empty-message="暂无精选文章，可以先从主题分类进入。"
       folio-prefix="F"
     />
     <ArticleListSection
       id="latest-route"
-      issue="Recent dispatch · new notes"
-      label="Recent route"
+      issue="Recent notes"
+      label="Latest"
       title="最新文章"
-      description="给回访读者看的近期来信；保持轻量、直接，不抢走海图主视觉。"
+      description="最近更新的文章，适合回访时快速查看新增内容。"
       :articles="latestArticles"
-      empty-message="暂无最新文章，分类海图仍保持可用。"
+      empty-message="暂无最新文章，可以先从主题分类进入。"
       folio-prefix="N"
     />
   </section>

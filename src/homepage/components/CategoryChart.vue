@@ -37,12 +37,12 @@ function deepestVisibleCategories(category: HomepageCategoryNode): HomepageCateg
 </script>
 
 <template>
-  <aside class="chart relative min-h-245 isolation-isolate md:min-h-[clamp(760px,72vw,940px)]" aria-label="首页分类海图概念">
+  <aside class="chart relative min-h-245 isolation-isolate md:min-h-[clamp(760px,72vw,940px)]" aria-label="主题分类图">
     <ChartBackground />
 
     <div class="absolute left-1/2 top-0 w-[min(680px,92%)] -translate-x-1/2 text-center max-sm:static max-sm:w-auto max-sm:translate-x-0 max-sm:text-left">
-      <div class="label">Classification chart</div>
-      <p class="mt-3 text-base leading-[1.65] text-(--ink-soft)">默认最多露出当前视窗的三层航点；选择最深可见分类后，海图聚焦到该区域。</p>
+      <div class="label">Topic map</div>
+      <p class="mt-3 text-base leading-[1.65] text-(--ink-soft)">选择一个主题，查看它下面的文章和子主题。</p>
     </div>
 
     <div class="absolute left-1/2 top-1/2 grid size-32 -translate-x-1/2 -translate-y-1/2 place-items-center text-center font-display text-sm font-semibold uppercase tracking-[0.08em] md:size-36">

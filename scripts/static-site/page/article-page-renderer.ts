@@ -20,7 +20,7 @@ export class ArticlePageRenderer {
     const body = `
       <article class="reader">
         <header class="page-hero">
-          <p class="eyebrow">Article dispatch</p>
+          <p class="eyebrow">Article</p>
           ${new CategoryTrail(this.index, article.categoryPath, '文章分类路径').render()}
           <h1 class="page-title">${escapeHtml(article.title)}</h1>
           <p>${escapeHtml(article.description)}</p>

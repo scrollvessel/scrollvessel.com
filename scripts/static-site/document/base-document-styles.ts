@@ -30,10 +30,11 @@ export class BaseDocumentStyles {
       .panel { border-top: 1px solid var(--hairline); padding-top: 18px; }
       .wide { grid-column: 1 / -1; }
       .list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-      .list a { display: grid; gap: 6px; min-height: 44px; padding: 12px 0; }
+      .list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 16px; min-height: 44px; align-items: baseline; padding: 12px 0; }
       .list li + li { border-top: 1px solid rgba(47,33,15,.12); }
       .list strong { width: fit-content; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 100%; background-repeat: no-repeat; background-size: 100% 1px; font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif; font-size: 22px; line-height: 1.12; }
       .list span, .empty { color: var(--ink-soft); line-height: 1.65; }
+      .list a > span:last-child { min-width: 4em; text-align: right; white-space: nowrap; }
       .metadata { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 18px; margin: 22px 0; color: var(--ink-soft); }
       .metadata div { display: grid; grid-template-rows: 18px auto; min-width: 96px; align-content: start; }
       .metadata dt { font-size: 11px; line-height: 18px; letter-spacing: 0.12em; text-transform: uppercase; }

@@ -30,8 +30,11 @@
 
 .category-parent span,
 .category-child span:last-child {
+  min-width: 3em;
   color: rgba(47, 33, 15, 0.58);
   font-size: 13px;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .category-child {
