@@ -12,7 +12,7 @@ defineProps<{
 </script>
 
 <template>
-  <section class="sections mt-16 grid grid-cols-1 gap-10 border-t border-[var(--hairline)] pt-7 lg:grid-cols-[1.08fr_1fr_1fr] lg:gap-14" aria-label="首页探索入口">
+  <section class="sections mt-16 grid grid-cols-1 gap-10 border-t border-(--hairline) pt-7 lg:grid-cols-[1.08fr_1fr_1fr] lg:gap-14" aria-label="首页探索入口">
     <CategoryDirectorySection :categories="categories" />
     <ArticleListSection
       id="featured-route"

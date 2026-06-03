@@ -8,8 +8,8 @@ import {
 import { parseFrontMatter } from '../content/frontmatter'
 import { HomepageModel } from './homepage-model'
 
-const markdownModules = import.meta.glob('../../content/**/*.md', { eager: true, query: '?raw', import: 'default' })
-const metadataModules = import.meta.glob('../../content/**/meta.json', { eager: true, import: 'default' })
+const markdownModules = import.meta.glob<string>('../../content/**/*.md', { eager: true, query: '?raw', import: 'default' })
+const metadataModules = import.meta.glob<Record<string, unknown>>('../../content/**/meta.json', { eager: true, import: 'default' })
 
 export function loadHomepageModel(): HomepageModel {
   const articles = loadArticles()

@@ -143,7 +143,7 @@ function ensureCategory(
   names: CategoryNameCatalog,
   layer: 'parent' | 'child',
   index: number,
-): MutableCategoryNode {
+): MutableCategoryNode | null {
   const category = map.get(slug)
   if (category) return category
 

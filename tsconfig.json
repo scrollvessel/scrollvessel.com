@@ -9,7 +9,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "strict": true,
-    "types": ["node", "vitest"]
+    "types": ["node", "vitest", "vite/client"]
   },
   "include": ["src/**/*.ts", "scripts/**/*.ts", "vite.config.*"]
 }

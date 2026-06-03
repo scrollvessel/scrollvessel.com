@@ -17,8 +17,8 @@ const latestArticles = computed(() => viewModel.latestArticles())
 </script>
 
 <template>
-  <main class="page-shell min-h-dvh text-[var(--ink)]">
-    <article class="book mx-auto min-h-dvh w-[min(1180px,calc(100%_-_32px))] py-8 md:py-16">
+  <main class="page-shell min-h-dvh text-(--ink)">
+    <article class="book mx-auto min-h-dvh w-[min(1180px,calc(100%-32px))] py-8 md:py-16">
       <div class="relative z-10">
         <HomepageNav />
 
