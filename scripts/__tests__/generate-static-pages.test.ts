@@ -52,7 +52,7 @@ externalLinks:
 
 # Fixture Article
 
-[unsafe](javascript:alert(1)) and [safe](/topic/child/index.html)
+[unsafe](javascript:alert(1)) and [safe](/topic/child/index.html) and [external](https://example.com/reference)
 `)
     await writeMarkdown(contentRoot, 'demo/placeholder.md', `---
 title: Demo Placeholder
@@ -84,6 +84,11 @@ Demo body
     expect(articleHtml).toContain('href="https://example.com/original"')
     expect(articleHtml).toContain('target="_blank" rel="noopener noreferrer"')
     expect(articleHtml).toContain('href="/topic/child/index.html"')
+    expect(articleHtml).toContain('href="https://example.com/reference"')
+    expect(articleHtml).toContain('class="prose-external-link"')
+    expect(articleHtml).toContain('<a href="https://example.com/reference" class="prose-external-link" target="_blank" rel="noopener noreferrer">external</a>')
+    expect(articleHtml).toContain('.prose-external-link { display: inline-flex; align-items: baseline; gap: 0.18em; background-image: linear-gradient(currentcolor, currentcolor);')
+    expect(articleHtml).toContain('.prose-external-link::after')
     expect(articleHtml).toContain('href="#"')
     expect(articleHtml).not.toContain('href="javascript:')
   })
@@ -121,8 +126,11 @@ flowchart LR
     expect(articleHtml).toContain('<div class="table-scroll" tabindex="0"><table>')
     expect(articleHtml).toContain('<th>Phase</th>')
     expect(articleHtml).toContain('<td>Markdown</td>')
-    expect(articleHtml).toContain('<img src="./3.jpg" alt="Workflow diagram"')
-    expect(articleHtml).toContain('<img src="#" alt="Unsafe image"')
+    expect(articleHtml).toContain('<figure class="image-figure"><img src="./3.jpg" alt="Workflow diagram"><figcaption>图1 · Workflow diagram</figcaption></figure>')
+    expect(articleHtml).toContain('<figure class="image-figure"><img src="#" alt="Unsafe image"><figcaption>图2 · Unsafe image</figcaption></figure>')
+    expect(articleHtml).not.toContain('<p><figure')
+    expect(articleHtml).toContain('.image-figure { margin: 1.8em auto; text-align: center; }')
+    expect(articleHtml).toContain('.image-figure figcaption { margin-top: 0.8em; color: var(--ink-soft); font-size: 13px; line-height: 1.6; text-align: center; }')
     expect(articleHtml).toContain('<pre class="mermaid">flowchart LR')
     expect(articleHtml).toContain('A[Input] --&gt; B[Output]')
     expect(articleHtml).toContain('.prose pre.mermaid { border-left: 0; }')

@@ -12,10 +12,16 @@ export class MarkdownRenderer {
       linkify: false,
       typographer: false,
     })
+    let imageIndex = 0
 
     markdown.validateLink = () => true
     markdown.renderer.rules.link_open = (tokens, index, renderOptions, env, self) => renderLinkOpen(tokens, index, renderOptions, env, self)
-    markdown.renderer.rules.image = (tokens, index) => renderImage(tokens[index], options.assetBasePath ?? './')
+    markdown.renderer.rules.paragraph_open = (tokens, index) => (isImageOnlyParagraph(tokens, index) ? '' : '<p>')
+    markdown.renderer.rules.paragraph_close = (tokens, index) => (isImageOnlyParagraph(tokens, index - 2) ? '' : '</p>')
+    markdown.renderer.rules.image = (tokens, index) => {
+      imageIndex += 1
+      return renderImage(tokens[index], options.assetBasePath ?? './', imageIndex)
+    }
     markdown.renderer.rules.fence = (tokens, index) => renderFence(tokens[index])
     markdown.renderer.rules.table_open = () => '<div class="table-scroll" tabindex="0"><table>'
     markdown.renderer.rules.table_close = () => '</table></div>'
@@ -42,20 +48,34 @@ function renderLinkOpen(tokens: Token[], index: number, options: unknown, env: u
   const hrefIndex = token.attrIndex('href')
   if (hrefIndex >= 0) {
     const href = token.attrs?.[hrefIndex]?.[1] ?? ''
-    token.attrs![hrefIndex] = ['href', safeHref(href)]
+    const safe = safeHref(href)
+    token.attrs![hrefIndex] = ['href', safe]
+    if (isExternalHref(safe)) {
+      token.attrSet('class', 'prose-external-link')
+      token.attrSet('target', '_blank')
+      token.attrSet('rel', 'noopener noreferrer')
+    }
   }
 
   return self.renderToken(tokens, index, options)
 }
 
-function renderImage(token: Token, assetBasePath: string): string {
+function isImageOnlyParagraph(tokens: Token[], paragraphOpenIndex: number): boolean {
+  const inline = tokens[paragraphOpenIndex + 1]
+  if (!inline || inline.type !== 'inline' || !inline.children || inline.children.length === 0) return false
+
+  return inline.children.every((child) => child.type === 'image' || child.type === 'softbreak')
+}
+
+function renderImage(token: Token, assetBasePath: string, imageIndex: number): string {
   const rawSrc = token.attrGet('src') ?? ''
   const src = safeImageSrc(rawSrc, assetBasePath)
-  const alt = token.content
+  const alt = token.content.trim()
   const title = token.attrGet('title')
   const titleAttribute = title ? ` title="${escapeAttribute(title)}"` : ''
+  const caption = `图${imageIndex} · ${alt}`
 
-  return `<img src="${src}" alt="${escapeAttribute(alt)}"${titleAttribute}>`
+  return `<figure class="image-figure"><img src="${src}" alt="${escapeAttribute(alt)}"${titleAttribute}><figcaption>${escapeHtml(caption)}</figcaption></figure>`
 }
 
 function renderFence(token: Token): string {
@@ -71,6 +91,10 @@ function safeHref(raw: string): string {
   if (!trimmed || !isSafeUrl(trimmed)) return '#'
 
   return escapeAttribute(trimmed)
+}
+
+function isExternalHref(href: string): boolean {
+  return /^https?:\/\//i.test(href)
 }
 
 function safeImageSrc(raw: string, assetBasePath: string): string {

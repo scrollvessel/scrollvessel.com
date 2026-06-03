@@ -66,10 +66,14 @@ export class HtmlDocument {
       .prose h2 { margin-top: 2em; }
       .prose h3 { margin-top: 1.6em; font-size: 1.5rem; }
       .prose p { margin: 1.1em 0; }
+      .prose-external-link { display: inline-flex; align-items: baseline; gap: 0.18em; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 100%; background-repeat: no-repeat; background-size: 100% 1px; }
+      .prose-external-link::after { content: ''; display: inline-block; width: 0.92em; height: 0.92em; background: currentcolor; opacity: 0.72; transform: translateY(0.08em); clip-path: path('M9 7h8v8h-1.8V10.1l-7.9 7.9L6 16.7l7.9-7.9H9z'); }
       .prose ul, .prose ol { padding-left: 1.35em; }
       .prose blockquote { margin: 1.45em 0; border-left: 1px solid var(--hairline); padding: 0.1em 0 0.1em 1.1em; color: var(--ink-soft); }
       .prose blockquote p { margin: 0.65em 0; }
-      .prose img { display: block; width: min(100%, 760px); height: auto; margin: 1.8em auto; border: 1px solid rgba(47, 33, 15, 0.18); box-shadow: 0 18px 48px rgba(47, 33, 15, 0.13); }
+      .image-figure { margin: 1.8em auto; text-align: center; }
+      .prose img { display: block; width: min(100%, 760px); height: auto; margin: 0 auto; border: 1px solid rgba(47, 33, 15, 0.18); box-shadow: 0 18px 48px rgba(47, 33, 15, 0.13); }
+      .image-figure figcaption { margin-top: 0.8em; color: var(--ink-soft); font-size: 13px; line-height: 1.6; text-align: center; }
       .prose hr { margin: 2.2em auto; border: 0; border-top: 1px solid var(--hairline); }
       .table-scroll { max-width: 100%; margin: 1.6em auto; overflow-x: auto; }
       .prose table { display: table; width: max-content; min-width: 100%; border-collapse: collapse; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }

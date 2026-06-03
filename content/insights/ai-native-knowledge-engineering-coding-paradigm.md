@@ -95,9 +95,9 @@ flowchart TB
 
 我做了一个实践产品，叫 **MindFlow**，就是把这套方法论工程化。
 
-MindFlow 地址：`https://github.com/neil-wang-global/MindFlow`
+MindFlow 地址：[https://github.com/neil-wang-global/MindFlow](https://github.com/neil-wang-global/MindFlow)
 
-相关论文：`https://zenodo.org/records/18977748`
+相关论文：[https://zenodo.org/records/18977748](https://zenodo.org/records/18977748)
 
 MindFlow 的目标不是做一个“更会聊天”的 Agent，也不是给 Agent 加一组固定步骤。它试图解决的是：一个 AI 系统如何在长期原则约束下读取知识、识别任务、分析路径、执行计划、记录状态、反思结果，并把经验沉淀回知识与能力。
 
