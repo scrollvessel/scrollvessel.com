@@ -1,22 +1,17 @@
-import { readdir, readFile } from 'node:fs/promises'
-import { extname, join } from 'node:path'
+import { readFile } from 'node:fs/promises'
+import { RecursiveFileFinder } from '../../../scripts/file-system/recursive-file-finder.js'
 import { ContentValidationError } from '../frontmatter/content-validation-error.js'
+import { ContentFileSelectionRule } from './content-file-selection-rule.js'
 
 export class ContentFileSystem {
-  constructor(private readonly contentRoot: string) {}
+  constructor(
+    private readonly contentRoot: string,
+    private readonly finder = new RecursiveFileFinder(new ContentFileSelectionRule()),
+  ) {}
 
   async findContentFiles(): Promise<string[]> {
-    return this.findFiles(this.contentRoot)
-  }
-
-  async readText(filePath: string): Promise<string> {
-    return readFile(filePath, 'utf8')
-  }
-
-  private async findFiles(directory: string): Promise<string[]> {
-    let entries
     try {
-      entries = await readdir(directory, { withFileTypes: true })
+      return await this.finder.find(this.contentRoot)
     } catch (error) {
       if (isNodeError(error) && error.code === 'ENOENT') {
         throw new ContentValidationError([
@@ -25,19 +20,10 @@ export class ContentFileSystem {
       }
       throw error
     }
+  }
 
-    const files: string[] = []
-
-    for (const entry of entries) {
-      const fullPath = join(directory, entry.name)
-      if (entry.isDirectory()) {
-        files.push(...(await this.findFiles(fullPath)))
-      } else if (entry.isFile() && (extname(entry.name) === '.md' || entry.name === 'meta.json')) {
-        files.push(fullPath)
-      }
-    }
-
-    return files.sort()
+  async readText(filePath: string): Promise<string> {
+    return readFile(filePath, 'utf8')
   }
 }
 

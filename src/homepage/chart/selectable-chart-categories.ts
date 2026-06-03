@@ -1,26 +1,22 @@
 import type { HomepageCategoryNode } from '../homepage-model'
+import { VisibleCategoryLeaves } from '../model/visible-category-leaves'
 
 export class SelectableChartCategories {
-  private constructor(private readonly categories: HomepageCategoryNode[]) {}
+  private constructor(private readonly leaves: VisibleCategoryLeaves) {}
 
   static fromTree(categories: HomepageCategoryNode[]): SelectableChartCategories {
-    return new SelectableChartCategories(categories.flatMap((category) => deepestVisibleCategories(category)))
+    return new SelectableChartCategories(VisibleCategoryLeaves.fromTree(categories))
   }
 
   firstSlug(): string {
-    return this.categories.at(0)?.slug ?? ''
+    return this.leaves.firstSlug()
   }
 
   hasSlug(slug: string): boolean {
-    return this.categories.some((category) => category.slug === slug)
+    return this.leaves.hasSlug(slug)
   }
 
   labelFor(slug: string): string {
-    return this.categories.find((category) => category.slug === slug)?.label ?? ''
+    return this.leaves.labelFor(slug)
   }
-}
-
-function deepestVisibleCategories(category: HomepageCategoryNode): HomepageCategoryNode[] {
-  if (category.children.length === 0) return [category]
-  return category.children.flatMap((child) => deepestVisibleCategories(child))
 }

@@ -2,24 +2,14 @@
 import { computed } from 'vue'
 import Homepage from './homepage/Homepage.vue'
 import { loadHomepageModel } from './homepage/load-homepage-content'
+import { HomepageRouteRegistry } from './homepage/routing/homepage-route-registry'
+import { StaticRouteGuard } from './homepage/routing/static-route-guard'
 
-const homepage = loadHomepageModel()
-const knownPaths = new Set<string>(['/', '/index.html', '/404.html'])
-
-for (const article of homepage.allArticles()) {
-  knownPaths.add(article.url)
-}
-
-for (const category of homepage.allCategories()) {
-  knownPaths.add(category.url)
-}
-
+const routeGuard = new StaticRouteGuard(new HomepageRouteRegistry(loadHomepageModel()))
 const currentPath = window.location.pathname
-const shouldShowHomepage = computed(() => knownPaths.has(currentPath))
+const shouldShowHomepage = computed(() => routeGuard.allows(currentPath))
 
-if (!shouldShowHomepage.value) {
-  window.location.replace('/404.html')
-}
+routeGuard.redirectUnknown(currentPath)
 </script>
 
 <template>

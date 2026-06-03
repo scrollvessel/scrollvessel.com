@@ -41,6 +41,9 @@
 - 首页样式应按视觉职责拆到 `src/homepage/styles/`；`homepage.css` 只作为样式入口，不堆叠背景、海图、列表、响应式等细节。
 - 首页视图模型和构建期内容加载应拆到 `src/homepage/view-model/` 与 `src/homepage/loading/`；标签解析、文章项投影、Vite 内容路径和模块集合各自独立。
 - 首页交互状态应拆到 `src/homepage/chart/` 等领域目录；Vue 组件只绑定状态对象和渲染子组件，不内联选择集合和 watch 规则。
+- 首页中可复用的分类派生概念应沉淀到 `src/homepage/model/`，例如可见叶子分类集合；chart 和 view-model 只表达各自消费语义，不重复递归分类算法。
+- 首页静态路由判断应拆到 `src/homepage/routing/`；根组件只绑定路由守卫结果，不内联文章/分类 URL 注册规则。
+- 递归文件遍历应通过共享查找对象和选择规则表达；内容扫描与静态资源复制只声明各自文件选择规则，不重复目录遍历算法。
 - 静态站点索引应通过 `scripts/static-site/index/` 下的查询、过滤和路径匹配对象表达；`StaticSiteIndex` 只组合这些对象并暴露页面渲染所需查询。
 - 静态页面生成应拆到 `scripts/static-site/generation/`；顶层生成脚本只保留导出函数和 CLI 入口。
 - 字体资产生成应拆到 `scripts/font-assets/`；字体清单、字体面 CSS、文件复制、Noto 字体源和输出目录各自独立。
