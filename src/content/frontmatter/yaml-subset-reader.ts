@@ -1,10 +1,6 @@
 import { syntaxError } from './content-validation-error.js'
-import type { FrontMatterData, FrontMatterObject, ScalarFrontMatterValue } from './frontmatter-types.js'
-
-interface ListBlock {
-  value: FrontMatterObject[]
-  endIndex: number
-}
+import type { FrontMatterData, ScalarFrontMatterValue } from './frontmatter-types.js'
+import { YamlListBlockReader } from './yaml-list-block-reader.js'
 
 export class YamlSubsetReader {
   constructor(
@@ -27,7 +23,7 @@ export class YamlSubsetReader {
 
       const [, key, value] = match
       if (value === '') {
-        const block = this.parseListBlock(lines, index)
+        const block = new YamlListBlockReader(lines, index, this.filePath, this.parseScalarValue).read()
         if (block) {
           data[key] = block.value
           index = block.endIndex
@@ -42,50 +38,7 @@ export class YamlSubsetReader {
     return data
   }
 
-  private parseListBlock(lines: string[], startIndex: number): ListBlock | null {
-    const items: FrontMatterObject[] = []
-    let index = startIndex + 1
-
-    while (index < lines.length) {
-      const line = lines[index]
-      if (!line.trim()) {
-        index += 1
-        continue
-      }
-
-      const itemMatch = line.match(/^\s{2}-\s+([A-Za-z][A-Za-z0-9]*):\s*(.*)$/)
-      if (!itemMatch) break
-
-      const item: FrontMatterObject = { [itemMatch[1]]: this.parseScalarValue(itemMatch[2]) }
-      index += 1
-
-      while (index < lines.length) {
-        const childLine = lines[index]
-        if (!childLine.trim()) {
-          index += 1
-          continue
-        }
-
-        const childMatch = childLine.match(/^\s{4}([A-Za-z][A-Za-z0-9]*):\s*(.*)$/)
-        if (!childMatch) break
-        item[childMatch[1]] = this.parseScalarValue(childMatch[2])
-        index += 1
-      }
-
-      items.push(item)
-    }
-
-    if (items.length === 0) return null
-
-    const nextLine = lines[index]
-    if (nextLine && /^\s/.test(nextLine)) {
-      throw syntaxError(this.filePath, nextLine)
-    }
-
-    return { value: items, endIndex: index - 1 }
-  }
-
-  private parseValue(value: string): ScalarFrontMatterValue | ScalarFrontMatterValue[] {
+  private parseValue = (value: string): ScalarFrontMatterValue | ScalarFrontMatterValue[] => {
     const trimmed = value.trim()
     if (trimmed === '[]') return []
     if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
@@ -97,7 +50,7 @@ export class YamlSubsetReader {
     return this.parseScalarValue(value)
   }
 
-  private parseScalarValue(value: string): ScalarFrontMatterValue {
+  private parseScalarValue = (value: string): ScalarFrontMatterValue => {
     const trimmed = value.trim()
     if (trimmed === 'null' || trimmed === '~') return null
     if (trimmed === 'true') return true

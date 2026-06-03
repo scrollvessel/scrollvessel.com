@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { buildFocusedRouteItems, firstChildSlug, type HomepageCategoryNode } from '../homepage-model'
+import { computed } from 'vue'
+import { CategoryChartState } from '../chart/category-chart-state'
+import type { HomepageCategoryNode } from '../homepage-model'
 import ChartBackground from './ChartBackground.vue'
 import ChartPointList from './ChartPointList.vue'
 import FocusedRoutePanel from './FocusedRoutePanel.vue'
@@ -9,31 +10,7 @@ const props = defineProps<{
   categories: HomepageCategoryNode[]
 }>()
 
-const selectedCategory = ref(firstChildSlug(props.categories))
-
-watch(
-  () => props.categories,
-  (categories) => {
-    if (!selectableCategories(categories).some((category) => category.slug === selectedCategory.value)) {
-      selectedCategory.value = firstChildSlug(categories)
-    }
-  },
-)
-
-const selectedCategoryLabel = computed(() => {
-  return selectableCategories(props.categories).find((category) => category.slug === selectedCategory.value)?.label ?? ''
-})
-
-const focusedRouteItems = computed(() => buildFocusedRouteItems(props.categories, selectedCategory.value))
-
-function selectableCategories(categories: HomepageCategoryNode[]): HomepageCategoryNode[] {
-  return categories.flatMap((category) => deepestVisibleCategories(category))
-}
-
-function deepestVisibleCategories(category: HomepageCategoryNode): HomepageCategoryNode[] {
-  if (category.children.length === 0) return [category]
-  return category.children.flatMap((child) => deepestVisibleCategories(child))
-}
+const state = new CategoryChartState(computed(() => props.categories))
 </script>
 
 <template>
@@ -49,7 +26,7 @@ function deepestVisibleCategories(category: HomepageCategoryNode): HomepageCateg
       Scroll<br />Vessel
     </div>
 
-    <ChartPointList :categories="categories" :selected-category="selectedCategory" @select="selectedCategory = $event" />
-    <FocusedRoutePanel :selected-category-label="selectedCategoryLabel" :focused-route-items="focusedRouteItems" />
+    <ChartPointList :categories="categories" :selected-category="state.selectedCategory.value" @select="state.selectedCategory.value = $event" />
+    <FocusedRoutePanel :selected-category-label="state.selectedCategoryLabel.value" :focused-route-items="state.focusedRouteItems.value" />
   </aside>
 </template>
