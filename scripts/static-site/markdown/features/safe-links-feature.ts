@@ -1,4 +1,4 @@
-import type Token from 'markdown-it/lib/token.mjs'
+import type { RenderRule } from 'markdown-it/lib/renderer.mjs'
 import type { MarkdownFeature } from '../markdown-feature.js'
 import { isExternalHref, safeHref } from '../url-safety.js'
 
@@ -15,7 +15,7 @@ export function safeLinksFeature(): MarkdownFeature {
   }
 }
 
-function renderLinkOpen(tokens: Token[], index: number, options: unknown, env: unknown, self: { renderToken: (tokens: Token[], index: number, options: unknown) => string }): string {
+const renderLinkOpen: RenderRule = (tokens, index, options, _env, self) => {
   const token = tokens[index]
   const hrefIndex = token.attrIndex('href')
   if (hrefIndex >= 0) {

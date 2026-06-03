@@ -34,6 +34,13 @@
 - 渲染 Markdown 时禁用原始 HTML 注入，并过滤链接与图片 URL 的危险协议。
 - Markdown 渲染能力应通过 `scripts/static-site/markdown/features/` 下的具名能力对象注册；每个能力同时声明自己的 MarkdownIt 规则和能力专属 CSS，页面壳只负责注入能力输出的样式，不复制能力细节。
 - 静态页面片段应通过 `scripts/static-site/page/` 下的 `PageSection` 多态对象表达；页面渲染器只组合片段对象，不堆叠 `renderXxx` helper。
+- 静态 HTML 文档壳应通过 `scripts/static-site/document/` 下的小对象表达 head、body、scripts 和基础样式；`HtmlDocument` 只负责组合文档结构。
+- 内容 Front Matter、内容记录和扫描流程应按领域职责拆到 `src/content/frontmatter/`、`src/content/records/` 和 `src/content/scanning/`；旧入口只做兼容导出。
+- 首页内容模型应按文章集合、分类命名目录、分类树、分类节点和可选分类集合拆到 `src/homepage/model/`；`HomepageModel` 只作为用例协调对象。
+- 首页样式应按视觉职责拆到 `src/homepage/styles/`；`homepage.css` 只作为样式入口，不堆叠背景、海图、列表、响应式等细节。
+- 首页视图模型和构建期内容加载应拆到 `src/homepage/view-model/` 与 `src/homepage/loading/`；标签解析、文章项投影、Vite 内容路径和模块集合各自独立。
+- 静态站点索引应通过 `scripts/static-site/index/` 下的查询、过滤和路径匹配对象表达；`StaticSiteIndex` 只组合这些对象并暴露页面渲染所需查询。
+- 内容测试应按生产对象边界拆分，避免把 Front Matter、扫描、元数据和记录派生规则堆在一个大测试文件中。
 - 生成静态文章页时复制文章同目录的非 Markdown 资源，保证正文中的相对图片路径在 `dist/` 中可访问。
 - 生成标题锚点和 TOC 数据。
 - 计算阅读时间和字数。

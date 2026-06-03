@@ -1,0 +1,60 @@
+@media (max-width: 900px) {
+  .parent-slot-1 { left: 3%; top: 22%; }
+  .parent-slot-2 { right: 3%; top: 23%; }
+  .parent-slot-3 { left: 4%; bottom: 20%; }
+  .parent-slot-4 { right: 4%; bottom: 20%; }
+  .child-slot-1 { left: 2%; top: 34%; }
+  .child-slot-2 { left: 20%; top: 38%; }
+  .child-slot-3 { right: 22%; top: 38%; }
+  .child-slot-4 { right: 2%; top: 36%; }
+  .child-slot-5 { left: 2%; bottom: 8%; }
+  .child-slot-6 { left: 20%; bottom: 7%; }
+  .child-slot-7 { right: 22%; bottom: 8%; }
+  .child-slot-8 { right: 2%; bottom: 7%; }
+  .grandchild-slot-1 { left: 25%; top: 31%; }
+  .grandchild-slot-2 { left: 40%; top: 29%; }
+  .grandchild-slot-3 { right: 39%; top: 30%; }
+  .grandchild-slot-4 { right: 24%; top: 33%; }
+  .grandchild-slot-5 { left: 25%; bottom: 23%; }
+  .grandchild-slot-6 { left: 40%; bottom: 20%; }
+  .grandchild-slot-7 { right: 39%; bottom: 21%; }
+  .grandchild-slot-8 { right: 24%; bottom: 24%; }
+}
+
+@media (max-width: 560px) {
+  .chart svg {
+    top: 86px;
+    height: calc(100% - 86px);
+  }
+
+  .chart-point {
+    max-width: 152px;
+    font-size: 13px;
+  }
+
+  .chart-point.child,
+  .chart-point.grandchild {
+    font-size: 12px;
+  }
+
+  .parent-slot-1 { left: 0; top: 20%; }
+  .parent-slot-2 { right: 0; top: 21%; }
+  .parent-slot-3 { left: 0; bottom: 26%; }
+  .parent-slot-4 { right: 0; bottom: 25%; }
+  .child-slot-1 { left: 0; top: 30%; }
+  .child-slot-2 { left: 34%; top: 34%; }
+  .child-slot-3 { right: 34%; top: 35%; }
+  .child-slot-4 { right: 0; top: 32%; }
+  .child-slot-5 { left: 0; bottom: 14%; }
+  .child-slot-6 { left: 34%; bottom: 10%; }
+  .child-slot-7 { right: 34%; bottom: 12%; }
+  .child-slot-8 { right: 0; bottom: 11%; }
+  .grandchild-slot-1 { left: 18%; top: 42%; }
+  .grandchild-slot-2 { left: 37%; top: 43%; }
+  .grandchild-slot-3 { right: 37%; top: 44%; }
+  .grandchild-slot-4 { right: 18%; top: 42%; }
+  .grandchild-slot-5 { left: 18%; bottom: 28%; }
+  .grandchild-slot-6 { left: 37%; bottom: 24%; }
+  .grandchild-slot-7 { right: 37%; bottom: 25%; }
+  .grandchild-slot-8 { right: 18%; bottom: 28%; }
+}

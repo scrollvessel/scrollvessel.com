@@ -1,0 +1,22 @@
+.focus-map {
+  color: var(--ink-soft);
+  background:
+    radial-gradient(ellipse at 24% 22%, rgba(255, 250, 218, 0.24), transparent 7rem),
+    rgba(246, 228, 173, 0.34);
+  box-shadow:
+    inset 0 1px 0 rgba(47, 33, 15, 0.2),
+    inset 0 -1px 0 rgba(47, 33, 15, 0.14);
+}
+
+.focus-map strong {
+  display: block;
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+.focus-map p {
+  margin: 8px 0 12px;
+  font-size: 14px;
+  line-height: 1.58;
+}

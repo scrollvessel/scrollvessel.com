@@ -1,72 +1,39 @@
 import { buildCategories, type ArticleRecord, type CategoryMetadataRecord, type CategoryRecord } from '../../src/content/index.js'
+import type { ArticleExternalLink, ArticlePageRecord } from './index/article-page-record.js'
+import { CategoryQuery } from './index/category-query.js'
+import { PublishedArticleFilter } from './index/published-article-filter.js'
 
-export interface ArticleExternalLink {
-  platform?: string | null
-  label?: string | null
-  url?: string | null
-}
-
-export interface ArticlePageRecord extends ArticleRecord {
-  title: string
-  description: string
-  createdAt: string
-  updatedAt: string
-  author: string
-  lang: string
-  tags?: string[]
-  externalLinks?: ArticleExternalLink[]
-}
+export type { ArticleExternalLink, ArticlePageRecord } from './index/article-page-record.js'
 
 export class StaticSiteIndex {
+  private readonly query: CategoryQuery
+
   private constructor(
     readonly articles: ArticlePageRecord[],
     readonly categories: CategoryRecord[],
     readonly categoryMetadata: CategoryMetadataRecord[],
-  ) {}
+  ) {
+    this.query = new CategoryQuery(articles, categories, categoryMetadata)
+  }
 
   static fromContent(articles: ArticleRecord[], categoryMetadata: CategoryMetadataRecord[]): StaticSiteIndex {
-    const publishedArticles = articles.filter(isPublishedArticle)
+    const publishedArticles = PublishedArticleFilter.filter(articles)
     return new StaticSiteIndex(publishedArticles, buildCategories(publishedArticles, categoryMetadata), categoryMetadata)
   }
 
   childCategoriesOf(category: CategoryRecord): CategoryRecord[] {
-    return this.categories.filter((candidate) => isDirectChild(category.path, candidate.path))
+    return this.query.childCategoriesOf(category)
   }
 
   articlesIn(path: string[]): ArticlePageRecord[] {
-    return this.articles.filter((article) => isSamePath(article.categoryPath, path))
+    return this.query.articlesIn(path)
   }
 
   descendantArticlesIn(path: string[]): ArticlePageRecord[] {
-    return this.articles.filter((article) => startsWithPath(article.categoryPath, path))
+    return this.query.descendantArticlesIn(path)
   }
 
   categoryNameFor(path: string[]): string {
-    return this.categoryMetadata.find((metadata) => isSamePath(metadata.path, path))?.categoryName ?? path.at(-1) ?? ''
+    return this.query.categoryNameFor(path)
   }
-}
-
-function isPublishedArticle(article: ArticleRecord): article is ArticlePageRecord {
-  return (
-    article.draft !== true &&
-    !article.relativePath.startsWith('demo/') &&
-    typeof article.title === 'string' &&
-    typeof article.description === 'string' &&
-    typeof article.createdAt === 'string' &&
-    typeof article.updatedAt === 'string' &&
-    typeof article.author === 'string' &&
-    typeof article.lang === 'string'
-  )
-}
-
-function isDirectChild(parent: string[], child: string[]): boolean {
-  return child.length === parent.length + 1 && startsWithPath(child, parent)
-}
-
-function startsWithPath(path: string[], prefix: string[]): boolean {
-  return prefix.every((part, index) => path[index] === part)
-}
-
-function isSamePath(a: string[], b: string[]): boolean {
-  return a.length === b.length && startsWithPath(a, b)
 }

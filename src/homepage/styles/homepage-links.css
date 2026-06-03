@@ -1,0 +1,27 @@
+.nav-link,
+.map-link {
+  position: relative;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.nav-link::after,
+.map-link::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  left: 0;
+  border-bottom: 1px solid currentcolor;
+  opacity: 0.35;
+}
+
+.label {
+  margin-bottom: 0.75rem;
+  color: var(--ink-soft);
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}

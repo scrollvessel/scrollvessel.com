@@ -1,0 +1,30 @@
+.editor-section::before {
+  content: attr(data-issue);
+  display: block;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(47, 33, 15, 0.24);
+  padding-bottom: 8px;
+  color: rgba(47, 33, 15, 0.58);
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.editor-section h2 {
+  margin-bottom: 12px;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  font-size: clamp(2.125rem, 4vw, 3.375rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+}
+
+.dek {
+  min-height: 78px;
+  border-bottom: 1px solid rgba(47, 33, 15, 0.18);
+  padding-bottom: 18px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.72;
+}

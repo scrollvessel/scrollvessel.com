@@ -1,0 +1,85 @@
+.chart-point {
+  position: absolute;
+  min-height: 44px;
+  border: 0;
+  padding-left: 18px;
+  color: var(--ink-soft);
+  background: transparent;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+.chart-point::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--ink);
+  background: rgba(47, 33, 15, 0.08);
+  transform: rotate(45deg);
+}
+
+.chart-point strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.chart-point em {
+  display: block;
+  color: rgba(47, 33, 15, 0.58);
+  font-size: 13px;
+  font-style: normal;
+}
+
+.chart-point.parent {
+  max-width: 220px;
+  font-size: 15px;
+}
+
+.chart-point.parent::before {
+  width: 11px;
+  height: 11px;
+  background: rgba(47, 33, 15, 0.14);
+}
+
+.chart-point.child {
+  max-width: 180px;
+  font-size: 13px;
+  color: rgba(47, 33, 15, 0.66);
+}
+
+.chart-point.child::before {
+  top: 0.7em;
+  width: 6px;
+  height: 6px;
+  border-color: rgba(47, 33, 15, 0.62);
+}
+
+.chart-point.grandchild {
+  max-width: 160px;
+  font-size: 12px;
+  color: rgba(47, 33, 15, 0.58);
+}
+
+.chart-point.grandchild::before {
+  top: 0.75em;
+  width: 5px;
+  height: 5px;
+  border-color: rgba(47, 33, 15, 0.5);
+}
+
+.chart-point.selected {
+  color: var(--ink);
+}
+
+.chart-point.selected::before {
+  background: rgba(47, 33, 15, 0.2);
+  box-shadow: 0 0 0 6px rgba(47, 33, 15, 0.06);
+}

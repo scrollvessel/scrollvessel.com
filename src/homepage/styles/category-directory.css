@@ -1,0 +1,41 @@
+.category-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  min-height: 34px;
+  align-items: baseline;
+  gap: 12px;
+  border-top: 1px solid rgba(47, 33, 15, 0.14);
+  padding: 8px 0;
+}
+
+.category-row:first-child {
+  border-top: 0;
+}
+
+.category-row::before {
+  content: attr(data-folio);
+  min-width: 28px;
+  color: rgba(47, 33, 15, 0.42);
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.category-parent strong {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.category-parent span,
+.category-child span:last-child {
+  color: rgba(47, 33, 15, 0.58);
+  font-size: 13px;
+}
+
+.category-child {
+  padding-left: 28px;
+  color: rgba(47, 33, 15, 0.66);
+  font-size: 14px;
+}
