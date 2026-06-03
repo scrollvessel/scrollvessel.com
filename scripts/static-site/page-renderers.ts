@@ -72,7 +72,6 @@ export class ArticlePageRenderer {
             <div><dt>字数</dt><dd>${wordCount(article.body)}</dd></div>
             <div><dt>阅读</dt><dd>${readingMinutes(article.body)} 分钟</dd></div>
           </dl>
-          <a class="route-link" href="${escapeAttribute(SiteRoute.category(article.categoryPath).toString())}">返回所属分类</a>
         </header>
         <div class="prose">
           ${this.markdownRenderer.render(article.body, { assetBasePath: './' })}

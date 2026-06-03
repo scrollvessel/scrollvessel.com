@@ -36,11 +36,11 @@ export class HtmlDocument {
       .trail a, .trail span { display: inline-flex; min-height: 44px; align-items: center; }
       .route-link { width: fit-content; background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 calc(50% + 0.7em); background-repeat: no-repeat; background-size: 100% 1px; }
       .site-nav a, .route-link { display: inline-flex; min-height: 44px; align-items: center; }
-      .article-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 4px; }
-      .article-tags span { display: inline-flex; min-height: 32px; align-items: center; border: 1px solid rgba(47, 33, 15, 0.18); border-radius: 999px; padding: 0 12px; background: rgba(255, 249, 214, 0.2); color: var(--ink-soft); font-size: 13px; line-height: 1; }
-      .external-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 4px; }
-      .external-link { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; border: 1px solid var(--hairline); border-radius: 999px; padding: 0 14px; background: rgba(255, 249, 214, 0.22); color: var(--ink); transition: background-color 160ms ease, border-color 160ms ease; }
-      .external-link-icon { display: inline-grid; width: 1.45em; height: 1.45em; place-items: center; border: 1px solid rgba(47, 33, 15, 0.2); border-radius: 50%; line-height: 1; }
+      .article-tags { display: flex; flex-wrap: wrap; gap: 0 10px; margin: 14px 0 2px; color: var(--ink-soft); font-size: 13px; line-height: 1.6; }
+      .article-tags span + span::before { content: '·'; margin-right: 10px; color: rgba(47, 33, 15, 0.42); }
+      .external-links { display: flex; flex-wrap: wrap; gap: 0 22px; margin: 18px 0 4px; }
+      .external-link { display: inline-flex; min-height: 44px; width: fit-content; align-items: center; gap: 8px; color: var(--ink); background-image: linear-gradient(currentcolor, currentcolor); background-position: 0 calc(50% + 0.7em); background-repeat: no-repeat; background-size: 100% 1px; }
+      .external-link-icon { display: inline-flex; width: 1.1em; height: 1.1em; align-items: center; justify-content: center; color: var(--ink-soft); line-height: 1; }
       .external-link-svg { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
       h1 { margin: 0; font-size: clamp(3rem, 8vw, 6rem); line-height: 0.9; letter-spacing: -0.055em; }
       h2 { margin: 0 0 16px; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 0.95; letter-spacing: -0.045em; }
@@ -77,8 +77,6 @@ export class HtmlDocument {
       .prose code { border-bottom: 1px solid rgba(47, 33, 15, 0.22); background: transparent; padding: 0 0.08em; font-size: 0.92em; }
       .prose pre { margin: 1.45em 0; overflow-x: auto; border-left: 1px solid var(--hairline); background: rgba(255, 249, 214, 0.28); padding: 1em 1.1em; white-space: pre-wrap; }
       .prose pre code { display: block; border: 0; background: transparent; padding: 0; font-size: 0.92em; line-height: 1.78; }
-      @media (hover: hover) { .external-link:hover { border-color: rgba(47, 33, 15, 0.42); background: rgba(255, 249, 214, 0.42); } }
-      .external-link:focus-visible { border-color: rgba(47, 33, 15, 0.48); background: rgba(255, 249, 214, 0.42); }
       :focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
       @media (max-width: 760px) { .site-nav { flex-direction: column; } .page-grid { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
       @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }

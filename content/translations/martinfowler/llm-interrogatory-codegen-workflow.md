@@ -3,7 +3,7 @@ title: 访谈式 LLM：先问清楚，再写代码
 description: 梳理 Martin Fowler 所说的 Interrogatory LLM 模式，以及它如何把隐性知识转化为规格、计划和可执行的代码生成流程。
 createdAt: 2026-06-02
 updatedAt: 2026-06-02
-author: Martin Fowler Blog
+author: Martin Fowler
 lang: zh-CN
 tags: [LLM, 代码生成, 需求访谈]
 externalLinks:
