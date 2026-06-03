@@ -6,7 +6,7 @@ import MapLink from './MapLink.vue'
   <div class="max-w-5xl">
     <p class="mb-5 font-display text-xs font-semibold uppercase tracking-[0.18em]">Scroll Vessel · Engineering notes</p>
     <h1 id="homepage-title" class="max-w-6xl font-title text-[clamp(3.25rem,8.6vw,7rem)] font-bold leading-[0.88] tracking-[-0.055em]">
-      给技术读者的长期笔记和实践整理。
+      从技术、产品与系统视角出发，沉淀长期有效的洞见与实践
     </h1>
     <p class="mt-7 max-w-2xl text-[clamp(1.125rem,2vw,1.45rem)] leading-[1.82] text-[var(--ink-soft)]">
       这里收集软件工程、知识工程和 AI coding 相关的文章。你可以从主题分类进入，也可以直接查看精选和最新更新。
