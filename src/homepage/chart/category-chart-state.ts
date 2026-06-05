@@ -1,5 +1,6 @@
 import { computed, ref, watch, type Ref } from 'vue'
-import { buildFocusedRouteItems, type HomepageCategoryNode } from '../homepage-model'
+import type { HomepageCategoryNode } from '../homepage-model'
+import { HomepageCategorySelection } from '../model/homepage-category-selection'
 import { SelectableChartCategories } from './selectable-chart-categories'
 
 export class CategoryChartState {
@@ -8,9 +9,9 @@ export class CategoryChartState {
   readonly focusedRouteItems
 
   constructor(private readonly categories: Ref<HomepageCategoryNode[]>) {
-    this.selectedCategory = ref(SelectableChartCategories.fromTree(categories.value).firstSlug())
+    this.selectedCategory = ref(new HomepageCategorySelection(categories.value).firstSlug())
     this.selectedCategoryLabel = computed(() => this.selectableCategories().labelFor(this.selectedCategory.value))
-    this.focusedRouteItems = computed(() => buildFocusedRouteItems(this.categories.value, this.selectedCategory.value))
+    this.focusedRouteItems = computed(() => new HomepageCategorySelection(this.categories.value).focusedRouteItems(this.selectedCategory.value))
 
     watch(
       this.categories,

@@ -1,8 +1,7 @@
 import { CategoryNameCatalog } from './model/category-name-catalog'
 import { HomepageArticleCollection } from './model/homepage-article-collection'
 import { HomepageCategoryTree } from './model/homepage-category-tree'
-import { SelectableCategorySet } from './model/selectable-category-set'
-import type { FocusedRouteItem, HomepageArticle, HomepageCategoryNode, HomepageModelData } from './model/homepage-types'
+import type { HomepageArticle, HomepageCategoryNode, HomepageModelData } from './model/homepage-types'
 
 export type { FocusedRouteItem, HomepageArticle, HomepageCategoryNode, HomepageModelData } from './model/homepage-types'
 
@@ -42,10 +41,3 @@ export class HomepageModel {
   }
 }
 
-export function buildFocusedRouteItems(categories: HomepageCategoryNode[], selectedSlug: string): FocusedRouteItem[] {
-  return SelectableCategorySet.fromTree(categories).focusedRouteItems(selectedSlug)
-}
-
-export function firstChildSlug(categories: HomepageCategoryNode[]): string {
-  return SelectableCategorySet.fromTree(categories).firstSlug()
-}

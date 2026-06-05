@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { HomepageModel } from './homepage-model'
 
-describe('HomepageModel', () => {
+describe('homepage category metadata', () => {
   it('uses category metadata as display authority and ignores categories without metadata', () => {
     const model = new HomepageModel({
       categoryMetadata: [

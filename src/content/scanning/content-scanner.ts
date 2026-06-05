@@ -1,10 +1,10 @@
 import { relative } from 'node:path'
 import { buildCategories } from '../records/content-records.js'
-import type { ArticleRecord, CategoryMetadataRecord } from '../records/content-record-types.js'
 import { ArticleLoader } from './article-loader.js'
 import { CategoryMetadataLoader } from './category-metadata-loader.js'
 import { ContentFileSystem } from './content-file-system.js'
 import type { ContentIndex } from './content-index.js'
+import { ContentScanCollector } from './content-scan-collector.js'
 import { PathNormalizer } from './path-normalizer.js'
 import { UrlRegistry } from './url-registry.js'
 
@@ -22,26 +22,16 @@ export class ContentScanner {
 
   async scan(): Promise<ContentIndex> {
     const contentFiles = await this.fileSystem.findContentFiles()
-    const articles: ArticleRecord[] = []
-    const categoryMetadata: CategoryMetadataRecord[] = []
+    const collector = new ContentScanCollector(this.articleLoader, this.metadataLoader, this.urlRegistry)
 
     for (const filePath of contentFiles) {
-      const relativePath = PathNormalizer.normalize(relative(this.contentRoot, filePath))
-
-      if (this.metadataLoader.isMetadataFile(filePath)) {
-        categoryMetadata.push(await this.metadataLoader.load(filePath, relativePath))
-        continue
-      }
-
-      const article = await this.articleLoader.load(filePath, relativePath)
-      this.urlRegistry.register(article, relativePath)
-      articles.push(article)
+      await collector.collect(filePath, PathNormalizer.normalize(relative(this.contentRoot, filePath)))
     }
 
     return {
-      articles,
-      categories: buildCategories(articles, categoryMetadata),
-      categoryMetadata,
+      articles: collector.articles,
+      categories: buildCategories(collector.articles, collector.categoryMetadata),
+      categoryMetadata: collector.categoryMetadata,
     }
   }
 }

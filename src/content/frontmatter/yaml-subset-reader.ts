@@ -1,11 +1,15 @@
 import { syntaxError } from './content-validation-error.js'
 import type { FrontMatterData, ScalarFrontMatterValue } from './frontmatter-types.js'
+import { YamlInlineArrayReader } from './yaml-inline-array-reader.js'
 import { YamlListBlockReader } from './yaml-list-block-reader.js'
+import { YamlScalarValueReader } from './yaml-scalar-value-reader.js'
 
 export class YamlSubsetReader {
   constructor(
     private readonly raw: string,
     private readonly filePath: string,
+    private readonly scalarReader = new YamlScalarValueReader(),
+    private readonly inlineArrayReader = new YamlInlineArrayReader(scalarReader),
   ) {}
 
   read(): FrontMatterData {
@@ -39,23 +43,9 @@ export class YamlSubsetReader {
   }
 
   private parseValue = (value: string): ScalarFrontMatterValue | ScalarFrontMatterValue[] => {
-    const trimmed = value.trim()
-    if (trimmed === '[]') return []
-    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
-      return trimmed
-        .slice(1, -1)
-        .split(',')
-        .map((item) => this.parseScalarValue(item))
-    }
+    if (this.inlineArrayReader.canRead(value)) return this.inlineArrayReader.read(value)
     return this.parseScalarValue(value)
   }
 
-  private parseScalarValue = (value: string): ScalarFrontMatterValue => {
-    const trimmed = value.trim()
-    if (trimmed === 'null' || trimmed === '~') return null
-    if (trimmed === 'true') return true
-    if (trimmed === 'false') return false
-    if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed)
-    return trimmed.replace(/^["']|["']$/g, '')
-  }
+  private parseScalarValue = (value: string): ScalarFrontMatterValue => this.scalarReader.read(value)
 }

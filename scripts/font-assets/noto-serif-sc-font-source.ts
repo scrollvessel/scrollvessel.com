@@ -1,8 +1,9 @@
 import { readFile } from 'node:fs/promises'
 import type { FontFile } from './font-file.js'
 import type { FontFileCopier } from './font-file-copier.js'
+import type { FontSource } from './font-source.js'
 
-export class NotoSerifScFontSource {
+export class NotoSerifScFontSource implements FontSource {
   constructor(private readonly copier: FontFileCopier) {}
 
   async fontFaces(): Promise<string[]> {
