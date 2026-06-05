@@ -1,34 +1,21 @@
 import { escapeAttribute } from './escape.js'
+import { SafeUrl } from './safe-url.js'
 
 export function safeHref(raw: string): string {
-  const trimmed = raw.trim()
-  if (!trimmed || !isSafeUrl(trimmed)) return '#'
+  const url = new SafeUrl(raw)
+  if (!url.value() || !url.isSafe()) return '#'
 
-  return escapeAttribute(trimmed)
+  return escapeAttribute(url.value())
 }
 
 export function safeImageSrc(raw: string, assetBasePath: string): string {
-  const trimmed = raw.trim()
-  if (!trimmed || !isSafeUrl(trimmed)) return '#'
-  if (/^[a-z]+:/i.test(trimmed) || trimmed.startsWith('/') || trimmed.startsWith('#')) return escapeAttribute(trimmed)
-  if (trimmed.startsWith('./') || trimmed.startsWith('../')) return escapeAttribute(trimmed)
+  const url = new SafeUrl(raw)
+  if (!url.value() || !url.isSafe()) return '#'
+  if (url.hasProtocolOrRoot() || url.hasRelativePrefix()) return escapeAttribute(url.value())
 
-  return escapeAttribute(`${assetBasePath}${trimmed}`)
+  return escapeAttribute(`${assetBasePath}${url.value()}`)
 }
 
 export function isExternalHref(href: string): boolean {
-  return /^https?:\/\//i.test(href)
-}
-
-function isSafeUrl(raw: string): boolean {
-  const trimmed = raw.trim()
-  return (
-    trimmed.startsWith('/') ||
-    trimmed.startsWith('#') ||
-    trimmed.startsWith('./') ||
-    trimmed.startsWith('../') ||
-    /^[^:/?#]+(?:[/?#].*)?$/i.test(trimmed) ||
-    /^https?:\/\//i.test(trimmed) ||
-    /^mailto:/i.test(trimmed)
-  )
+  return new SafeUrl(href).isExternalHttp()
 }

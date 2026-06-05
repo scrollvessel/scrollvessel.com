@@ -31,12 +31,13 @@
 - 解析 Front Matter，字段规则引用 [`../domains/article-frontmatter.md`](../domains/article-frontmatter.md)。
 - 使用成熟 Markdown 引擎渲染正文，至少覆盖标题、段落、链接、图片、引用、列表、代码块、分隔线和表格。
 - Markdown 表格应由构建层包裹在可横向滚动的容器中；当视口宽度小于表格内容宽度时，保持表格列宽并允许左右滑动。
-- 渲染 Markdown 时禁用原始 HTML 注入，并过滤链接与图片 URL 的危险协议。
+- 渲染 Markdown 时禁用原始 HTML 注入，并通过 URL 安全值对象过滤链接与图片 URL 的危险协议；链接/图片 helper 只负责输出上下文转义和资源路径拼接。
 - Markdown 渲染能力应通过 `scripts/static-site/markdown/features/` 下的具名能力对象注册；每个能力同时声明自己的 MarkdownIt 规则和能力专属 CSS，页面壳只负责注入能力输出的样式，不复制能力细节。
 - 静态页面片段应通过 `scripts/static-site/page/` 下的 `PageSection` 多态对象表达；页面渲染器只组合片段对象，不堆叠 `renderXxx` helper。
 - 静态页面外链图标应通过注册表和 SVG 图标对象表达；新增平台图标只注册定义，不扩展 if/else 链。
 - 静态 HTML 文档壳应通过 `scripts/static-site/document/` 下的小对象表达 head、body、scripts 和基础样式；`HtmlDocument` 只负责组合文档结构。
 - 内容 Front Matter、内容记录和扫描流程应按领域职责拆到 `src/content/frontmatter/`、`src/content/records/` 和 `src/content/scanning/`；旧入口只做兼容导出。
+- 内容分类聚合应通过分类集合构建对象表达；入口函数只保留兼容委托，不内联索引构建循环。
 - Front Matter 校验规则应拆成 `src/content/frontmatter/rules/` 下的规则对象；解析器只组合 reader 与 validator，不内联字段规则细节。
 - YAML 子集解析应按顶层字段、inline array、scalar value 和 list block 分对象表达；顶层 reader 只负责字段流程，不内联值类型转换规则。
 - 首页内容模型应按文章集合、分类命名目录、分类树、分类节点和可选分类集合拆到 `src/homepage/model/`；`HomepageModel` 只作为用例协调对象。
@@ -48,12 +49,12 @@
 - 递归文件遍历应通过共享查找对象和选择规则表达；内容扫描与静态资源复制只声明各自文件选择规则，不重复目录遍历算法。
 - 内容扫描应拆出文件收集/分派对象；scanner 只协调文件系统、收集器和索引构建，不内联 metadata/article 分支载入细节。
 - 静态站点索引应通过 `scripts/static-site/index/` 下的查询、过滤和路径匹配对象表达；`StaticSiteIndex` 只组合这些对象并暴露页面渲染所需查询。
-- 静态页面生成应拆到 `scripts/static-site/generation/`；顶层生成脚本只保留导出函数和 CLI 入口。
+- 静态页面生成应拆到 `scripts/static-site/generation/`；页面写入和生成结果汇总分别由对象表达，顶层生成脚本只保留导出函数和 CLI 入口。
 - 字体资产生成应拆到 `scripts/font-assets/`；字体源通过 `FontSource` 多态对象表达，生成器只遍历字体源并写出结果，不内联具体字体家族规则。
 - 内容测试和静态生成测试应按生产对象边界拆分，避免把 Front Matter、扫描、元数据、记录派生和页面生成规则堆在一个大测试文件中。
 - 生成静态文章页时复制文章同目录的非 Markdown 资源，保证正文中的相对图片路径在 `dist/` 中可访问。
 - 生成标题锚点和 TOC 数据。
-- 计算阅读时间和字数。
+- 阅读字数和阅读时间应通过阅读指标对象计算，页面片段只消费指标结果，不内联统计算法。
 - 生成分类层级和文章数量数据；分类文章数量默认统计该分类及全部子分类下的聚合文章数。
 - 生成 SEO 和订阅产物，质量标准引用 [`../qas/content-site-quality.md`](../qas/content-site-quality.md)。
 

@@ -4,6 +4,8 @@ import { StaticSiteIndex } from '../site-index.js'
 import { ContentAssetCopier } from './content-asset-copier.js'
 import { RenderedPageCollection } from './rendered-page-collection.js'
 import type { GenerateStaticPagesOptions, GenerateStaticPagesResult } from './static-generation-result.js'
+import { StaticGenerationSummary } from './static-generation-summary.js'
+import { StaticPageWriter } from './static-page-writer.js'
 
 export class StaticPageGenerator {
   constructor(private readonly options: Required<GenerateStaticPagesOptions>) {}
@@ -12,15 +14,11 @@ export class StaticPageGenerator {
     const contentIndex = await scanContent(this.options.contentRoot)
     const siteIndex = StaticSiteIndex.fromContent(contentIndex.articles, contentIndex.categoryMetadata)
     const pages = new RenderedPageCollection(siteIndex).pages()
-    const writer = new DistWriter(this.options.outputRoot)
 
-    await Promise.all(pages.map((page) => writer.write(page.route, page.html)))
+    await new StaticPageWriter(new DistWriter(this.options.outputRoot)).writeAll(pages)
     await new ContentAssetCopier(this.options.contentRoot, this.options.outputRoot).copy()
 
-    return {
-      articleCount: siteIndex.articles.length,
-      categoryCount: siteIndex.categories.length,
-    }
+    return new StaticGenerationSummary(siteIndex).result()
   }
 }
 
